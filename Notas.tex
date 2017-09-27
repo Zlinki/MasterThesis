@@ -1,0 +1,433 @@
+\documentclass[12pt]{amsart}
+\usepackage{fullpage,url,amssymb,amsmath,graphicx}
+
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage {amsmath}
+\usepackage{amsthm}
+\usepackage {amssymb}
+
+
+%\usepackage{setspace}
+%\documentclass[12pt]{amsart}
+%\documentclass[letterpaper,10pt]{article}
+%\documentclass[letterpaper,12pt]{article}
+\setlength{\oddsidemargin}{0.15in} \setlength{\evensidemargin}{0cm}
+\setlength{\marginparwidth}{28mm}
+\setlength{\marginparsep}{28mm}
+\setlength{\marginparpush}{25mm}
+\setlength{\topmargin}{0in}
+\setlength{\headheight}{0pt}
+\setlength{\headsep}{15mm}    
+\setlength{\textheight}{21cm}
+\setlength{\textwidth}{6.0in}
+\setlength{\parskip}{4pt}
+
+\usepackage{amsmath}
+%\usepackage{amsthm}
+\usepackage {amssymb}
+%\usepackage {stmaryrd}
+\usepackage {graphicx,enumerate,booktabs}
+\usepackage {color, tikz}
+%\usepackage{graphics}
+\usepackage[all]{xy}
+%\usepackage{amsrefs}
+
+
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{theorem}[lemma]{Theorem}
+\newtheorem{propo}[lemma]{Proposition}
+\newtheorem{cor}[lemma]{Corollary}
+\newtheorem{conj}[lemma]{Conjecture}
+\newtheorem{claim}[lemma]{Claim}
+\newtheorem{claim*}{Claim}
+\newtheorem{remark}[lemma]{Remark}
+\newtheorem{quest}[lemma]{Question}
+\newtheorem{example}[lemma]{Example}
+
+
+\numberwithin{equation}{section}
+
+
+\newcommand{\Cox}{\operatorname{Cox}}
+\newcommand{\Pic}{\operatorname{Pic}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\diam}{\operatorname{diam}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Osh}{{\mathcal O}}
+\newcommand{\kk}{\kappa}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\C}{\operatorname{Cone}}
+\newcommand{\Sym}{\operatorname{Sym}}
+\newcommand{\AC}{\mathcal{AC}}
+\newcommand{\MC}{\mathcal{MC}}
+\newcommand{\V}{\mathcal{V}}
+\newcommand{\supp}{\operatorname{supp}}
+
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\EE}{\mathbb{E}}
+
+%\parindent = 0pt
+
+\newcommand{\mv}[1]{{\color{red} \sf $\clubsuit\clubsuit\clubsuit$ Mauricio: [#1]}}
+
+\newcommand{\ddr}[1]{{\color{blue} \sf $\clubsuit\clubsuit\clubsuit$ Daniel: [#1]}}
+
+
+\usepackage{tikz}
+
+\definecolor{cof}{RGB}{219,144,71}
+\definecolor{pur}{RGB}{186,146,162}
+\definecolor{greeo}{RGB}{91,173,69}
+\definecolor{greet}{RGB}{52,111,72}
+
+\begin{document}
+
+\section{Part 1}
+
+{\bf Problem (Robust PCA).} Find $(A^*, B^*)={\rm argmin} \gamma \|A|_1+\|B\|_*$
+subject to $A+B=C$ where $C$ is a given matrix. Here $\|B\|_*=\sum \sigma_i(B)$
+where $\sigma_i(B)$ are the square roots of the eigenvalues of the matrix $B^tB$.
+
+\begin{lemma} The nuclear norm has the following properties:
+\begin{enumerate}
+\item It is a semidefinitely representable function
+\item It is the dual of the spectral norm. 
+\item Evaluation of the nuclear norm can be done via a semidefinite programming problem.
+\[\sup_Y Tr(X^tY) \text{ subject to}
+\left(
+\begin{array}{cc}
+I_n & Y\\
+Y^t & I_m\\
+\end{array}
+\right)\succeq 0
+\] 
+
+
+\item The dual of this problem is:
+\[
+\inf{\rm Tr}(Z) \text{ subject to }Z=\left(
+\begin{array}{cc}
+Z_{11} & \frac{X}{2}\\
+\frac{X}{2} & Z_{22}\\
+\end{array}
+\right)\succeq 0
+\]
+
+\end{enumerate}
+\end{lemma}
+\begin{proof} We will:
+\begin{enumerate}
+\item Prove that the spectral norm $\|Y\|$ is SDR. We use the notation $\|Y\|$ to denote the spectral norm.
+\item Compute the dual of the spectral norm and prove that it IS the nuclear norm. 
+\end{enumerate}
+
+
+Recall that $\|Y\|=\min t$ such that 
+\[\left(
+\begin{array}{cc}
+tI_n & Y\\
+Y^t & tI_n\\
+\end{array}
+\right)\succeq 0
+\]
+Obviously $\|A\|_2\leq t$ if and only if $A^tA\preceq t^2I$. The {\bf Schur complement} of the above matrix is $S=tI-Y^t(tI)^{-1}Y=tI-\frac{1}{t}A^tA$ so the claim follows by the Schur complement Lemma. We have in fact proven that the spectral norm is a semidefinitely representable function.
+
+
+Recall that if $\|\cdot\|$ is a norm we define its dual norm $\|x\|_d:=\sup_{\|y\|\leq 1} \langle x,y\rangle$ (properties: involutive and $|\langle x,y\rangle\leq \|x\|\|y\|_d$). 
+
+{\bf Obs.} The dual norm of the spectral norm is equal to the sum of the singular values.
+{\bf proof.} It is true that the equalities $\|Y\|=\|\Sigma\|$ and $\|Y\|_d=\|\Sigma\|_d$ hold where $\Sigma$ is the diagonal matrix of the singular values of $Y$. As a result $\|\Sigma\|_d=\sup_{\|Z\|\leq 1} Tr(\Sigma^tZ)$. Choosing $Y=Id$ we see that $\|Y\|_d\geq Tr(\Sigma)=\|Y\|_*$ Moreover, if a matrix $Z$ satisfies $\|Z\|\leq 1$ then $|Z_{11}|\leq \|Ze_1\|_2\leq \|Z\|\leq 1$. As a result $Tr(\Sigma^tZ)\leq Tr(\Sigma)$ proving the claim.
+
+$(3)$ Given a matrix $X$ we compute $\|X\|_d$ as:
+\[\sup_Y Tr(X^tY) \text{ subject to}
+\left(
+\begin{array}{cc}
+I_n & Y\\
+Y^t & I_m\\
+\end{array}
+\right)\succeq 0
+\] 
+
+We compute the Lagrangian dual and obtain the problem above. Strong duality holds because Slater's constraints are satisfied (since there is a point in the strict interior of our cone). 
+\end{proof}
+
+As a result we can formulate the robust PCA optimization problem
+{\bf Problem (Robust PCA).} Find $(A^*, B^*)={\rm argmin} \gamma \|A|_1+\|B\|_*$
+subject to $A+B=C$ where $C$ is a given matrix. Here $\|B\|_*=\sum \sigma_i(B)$
+where $\sigma_i(B)$ are the square roots of the eigenvalues of the matrix $B^tB$ as:
+
+
+\[\min_{A,B,W_1,W_2,Z} \gamma 1^tZ1+{\rm Tr}(W)\\
+\text{ subject to }W=\left(
+\begin{array}{cc}
+W_{11} & \frac{B}{2}\\
+\frac{B}{2} & W_{22}\\
+\end{array}
+\right)\succeq 0,
+-Z_{ij}\leq A_{ij}\leq Z_{ij},
+A+B=C
+\]
+
+
+{\it De d\'onde sale la norma nuclear?}
+
+Recall that if $f:C\rightarrow \RR$ the convex hull of the function is the biggest convex function $g$ such that $g(x)\leq f(x)$. $g(x)=f^{**}(x)$ where $f^*(y):={\rm sup_{x\in C}}\{\langle x,y\rangle -f(x)\}$
+
+Let $C$ be a convex set and let $f:C\rightarrow \RR$ be a function. The function $g(x)$ is the best convex surrogate of $f(x)$ if $g(x)\leq f(x)$, $g(x)$ is convex and for every convex function $q(x)$ with $q(x)\leq f(x)$ the inequality $q(x)\leq g(x)$ holds.
+
+Recall that $f^*(y)=\sup\{\langle y,x\rangle -f(x)\}$. The main properties are summarized in the following Theorem,
+
+\begin{theorem} The following properties hold:
+\begin{enumerate}
+\item {\bf Defining property} The affine function $\langle x,y\rangle-f^*(y)$ is a lower bound for $f$, that is
+\[\forall x\left(\langle x,y\rangle-f^*(y)\leq f(x) \right)\] 
+\item {\bf Computation of convex surrogates} The convex surrogate is, by definition the supremum of all affinel linear functions which bound $f(x)$ from below. As a result
+\[g(x)=\sup_{y}\left(\langle x,y\rangle -f^*(y)\right)\]
+which by definition agrees with $f^{**}(x)$.
+\end{enumerate}
+\end{theorem}
+
+
+
+\begin{lemma} The nuclear norm is the best convex surrogate of the rank function in the set of matrices with $\|X\|\leq 1$.
+\end{lemma}
+\begin{proof} IF $\phi(X)$ is the rank then we compute
+$\phi^*(X)={\rm sup}_{\|X\|\leq 1} \{\langle Y,X\rangle -\phi(X)\}$.
+
+By Von Neumann's inequality ${\rm Tr}(YX^t)\leq \sum_{i=1}^ n \sigma_i(X)\sigma_i(Y)$ and equality holds if and only if $X$ and $Y$ admit a simultaneous singular values diagonaliation. We conclude that
+\[\phi^*(Y)={\rm sup}_{\|X\|\leq 1} \{\sum \sigma_i(X)\sigma_i(Y)-\phi(X)\}\]
+
+where the supremum is taken over $X$'s which are diagonal when $U$ is and have operator norm (i.e. absolute value) at most one. Since the $\ell_1$-norm is dual to the $\ell^{\infty}$ norm It follows that
+
+\[\phi^*(X)=\max_{1\leq r\leq \min(m,n)}-r+\sum_{i=1}^r\sigma_i(X)=\sum_{i=1}^r\max(0, \sigma_i(Y)-1)\]
+
+ 
+
+\end{proof}
+
+\section{Matrix decomposition as sums of low-rank and sparse matrices}
+
+Let $n,k,m$ be positive integers. A decomposition of a square $n\times n$ matrix $C$ is an expression of the form $C=A^*+B^*$ where $A^*$ has low rank (at most $k$) and $B^*$ is sparse (having at most $m$ nonzero components). Let $R_k$ be the variety of matrices of rank $\leq k$ and let $S_m$ be the (reducible) variety of matrices having at most $m$ non-zero components.
+
+
+\subsection{Tangent space identifiability vs. actual identifiability}
+
+It is claimed in Section $3.2$ of~\cite{IncoherenceDecomposition} that if $C$ admits a decomposition $C=A^*+B^*$ then this decomposition is unique if and only  $T_{A^*}(R_{k})\cap T_{B^*}(S_m)=0$. In this section we show that this claim is not true. However as we will show next, there is a valid {\it local version}. 
+
+{\bf Counterexample.} Let $n=2$ we will find several distinct decompositions of a $2\times 2$ matrix as a sum of a matrix of rank one and a $1$-sparse matrix and verify that transversality of the tangent spaces holds at at least one of these.
+\[
+\left(
+\begin{array}{cc}
+1 & 2\\
+3 & 4\\
+\end{array}
+\right)=
+\left(
+\begin{array}{cc}
+\frac{3}{2} & 2\\
+3 & 4\\
+\end{array}
+\right)
++\left(
+\begin{array}{cc}
+-\frac{1}{2} & 0\\
+0 & 0\\
+\end{array}
+\right)
+\]
+\[
+\left(
+\begin{array}{cc}
+1 & 2\\
+3 & 4\\
+\end{array}
+\right)=
+\left(
+\begin{array}{cc}
+1 & \frac{4}{3}\\
+3 & 4\\
+\end{array}
+\right)
++\left(
+\begin{array}{cc}
+0 & \frac{2}{3}\\
+0 & 0\\
+\end{array}
+\right)
+\]
+The variety of rank one matrices is given by 
+\[R_1=\left\{
+\left(\begin{array}{cc}
+a & b\\
+c & d\\
+\end{array}
+\right):ad-bc=0
+\right\}
+\]
+as a result the tangent space at $A^*$ in the first decomposition is given by
+\[T_{A^*}(R_1)=\left\{
+\left(\begin{array}{cc}
+\alpha & \beta\\
+\gamma & \delta\\
+\end{array}
+\right):4\alpha-3\beta-2\gamma+\frac{3}{2}\delta=0
+\right\}\]   
+The tangent space $T_{B^*}(S_1)$ is given by $\beta=\gamma=\delta=0$ so the two tangent spaces intersect transversely.
+
+\mv{Ejercicio. Demuestre que toda matriz de $n\times n$ se puede escribir de por lo menos $n^2$ maneras distintas como suma de una matriz $1$-sparse y una de rango $n-1$. Hay algun caso en que se pueda en m\'as de $n^2$ maneras? (Ayuda: Si, de hecho algunas matrices admiten infinitas maneras pero estas viven en alguna subvariedad del espacio de matrices).} 
+
+However, tangent spaces are enough to guarantee that there are only finitely many decompositions (so that locally in open neighborhoods of $A^*$ and $B^*$ there is only one decomposition).
+
+\begin{lemma} Let $M,N\subseteq \RR^n$ be differentiable submanifolds and let $p\in M$, $q\in N$. If $T_pM\cap T_qN=\{0\}$ then the map $\sigma: M\times N:\rightarrow \RR^n$ given by $\sigma(x,y)=x+y$ is a diffeomorphism between $M\times N$ and $\sigma(M\times N)$ near $(p,q)$. If, moreover $M$ and $N$ are algebraic varieties and $p,q$ are non-singular points in $M,N$ then $\sigma$ is generically finite. 
+\end{lemma}
+\begin{proof} The derivative of $\sigma$ at $(p,q)$ is the map
+\[D\sigma: T_pM\times T_qN\rightarrow \RR^n\]
+which maps vectors $(u,v)$ to $u+v$. The assumption of injectivity proves that the differential surjects onto the tangent space of the image because $\sigma(M\times N)$ has dimension at most $m+n$ and the image of $D\sigma$ has dimension at least $m+n$ by transversality of the tangent spaces \mv{Maybe we need $p,q$ to be generic points to make sure $\sigma(p,q)$ is a non-singular point of $\sigma(X\times Y)$}. In the algebraic case Chevalley's theorem on the dimension of fibers implies that the map $\sigma$ has at least one $zero$-dimensional fiber and therefore the generic fiber is finite, proving the claim.
+\end{proof}
+
+We conclude that the following theorem holds,
+
+\begin{theorem} Suppose $A^*\in R_k$ and $B^*\in S_m$ have transverse tangent spaces. If these matrices are generic then the matrix $C:=A^*+B^*$ has only this decomposition near $A^*$ and $B^*$.
+\end{theorem}
+
+
+\begin{remark} If $M=R_k$, $N=S_m$ and $T_{A^*}(R_k)\cap T_{B^*}(S_m)=0$ then the Lemma says that the set $\sigma(R_k\times S_m)$ (i.e. the matrices that can be written as sums of a rank $\leq k$ and an $m$-sparse matrix) are locally parametrized by $R_k\times S_m$ via $\sigma$. In particular this map is injective in open neighborhoods near $A^*$ and $B^*$ in their respective varieties so $C$ has no other decomposition {\it in those neighborhoods}. As we saw in the counterexample this is NOT an obstacle for the existence of other decompositions far away. In more geometric terms the issue is that the generically finite map above does not have to have degree one.   
+\end{remark}
+
+\section{Cluster learning}
+Fix an integer $N$. By a cluster structure matrix on a graph in $[n]$ we mean a matrix $A$ which is the adjacency matrix of a disjoint union of cliques on $[n]$. In particular $A$ is a symmetric $\{0,1\}$-matrix and the rank of $A+I$ coincides with the number of clusters in $A$. Let $\mu$ be a probability measure in the set of graphs in $[n]$. We want to find a cluster structure $A$ which minimizes the expected cardinality of the symmetric difference between a random graph $G$ chosen according to $\mu$ and $A$. In other words the learning problem consists of finding a minimizer $A$ of the risk function
+\[R(A):=\EE_B[\|A-B\|_1]\] 
+where $B$ is the adjacency matrix of a graph sampled according to $\mu$.
+The difficulty lies in the fact that all the information we have about the distribution of $B$ is given by an i.i.d sample $B_i$, $i=1,\dots,m$ of random variables distributed according to $\mu$.
+
+
+\subsection{Learning and robust optimization}
+
+A way to approximate our unknown measure $\mu$ is to replace it by its empirical measure $P_m:=\frac{1}{m}\sum_{i=1}^m\delta_{B_i}$. However, it will often be the case that $m$ is small (because of limitations in either the available data or the computational resources needed for the optimization) so we do not have guarantees that $\mu^{m}$ is, by itself, close to $\mu$. We therefore introduce an additional parameter $\delta$ and will assume that the actual distribution belongs to a ball of radius $\delta$ of the empirical measure.
+
+\begin{definition} Endow the space $M$ of symmetric $n\times n$ matrices with the spectral norm $\|\cdot\|$. If $\nu_1$ and $\nu_2$ are measures taking values on $M$ define the spectral Wasserstein distance $W_s(\nu_1,\nu_2)=\inf_{\pi\in\mathcal{M}(K\times K):\pi_i=\nu_i}\EE[\|Z_1-Z_2\|]$ where $(Z_1,Z_2)$ is distributed according to $\pi$.
+\end{definition}
+
+\begin{theorem} Let $C$ be the set of adjacency matrices of disjoint unions of complete subgraphs and let $V_{\delta}(\mu)=\{\nu: W_s(\nu,\mu)\leq \delta\}$ and let $P_m$ denote the empirical measure after $m$ samples. The following upper bound for the risk holds
+\[\min_{A\in C}\sup_{\mu\in V_{\delta}(P_m)} \EE[\|A-B\|_1]\leq \min_{A\in C} \frac{1}{m}\left(\sum_{i=1}^m \|A-B_i\|_1\right)+\delta\|2A-11^t\|_*\]
+\mv{Is this inequality an equality? Yo creo que si.}
+\end{theorem}
+\begin{proof} Suppose $B$ is distributed according to $\mu\in V_{\delta}(P_m)$ and that $B$ takes values in the set of adjacency matrices of graphs. Since both $A$ and $B$ are adjacency matrices of graphs the following equality holds
+\[\|A-B\|_1= \langle A, A-B\rangle + \langle 11^t-A,B-A\rangle=\langle 2A-11^t,A-B\rangle \]
+Next let $B^{(m)}$ be distributed according to the empirical measure $P_m$ centered in $m$ samples and that the joint distribution of $(B,B^{(m)})$ is given by a coupling $\pi$ which is a minimizer of the Wasserstein spectral norm $W_s(\mu,P_m)$. We then have
+
+\[\langle 2A-11^t,A-B\rangle = \langle 2A-11^t,A-B^{(m)}\rangle+\langle 2A-11^t,B^{(m)}-B\rangle\]
+the last quantity is bounded above by
+\[\langle 2A-11^t,A-B^{(m)}\rangle +\|2A-11^t\|_*\|B^{(m)}-B\|\]
+Taking expected value we obtain
+\[\frac{1}{m}\left(\sum_{i=1}^m \|A-B_i\|_1\right)+\|2A-11^t\|_*\EE\|B^{(m)}-B\|\]
+Since $\pi$ is a minimizer of $W_s(\mu,P_m)$  the rightmost expected value is bounded above by $\delta$. As a result we  conclude that for every $\mu\in V(\delta)$ the following inequality holds,
+\[\EE[\|A-B\|_1]\leq  \frac{1}{m}\left(\sum_{i=1}^m \|A-B_i\|_1\right)+\delta\|2A-11^t\|_*\]
+as claimed.
+
+
+\end{proof}
+
+\mv{Pregunta: Qu\'e tal si regularizamos no sumando la norma nuclear de $A$ sino la de $\|2A-11^t\|_*$? Ayuda esto a recuperar si tenemos mas datos? Notar que en ese caso el par\'ametro $\delta$ parece mucho m\'as f\'acil de interpretar}.
+
+\mv{Esto se conecta muy muy bien con \url{https://arxiv.org/pdf/1610.05627.pdf}. Hay que leer este paper.
+Ver Secci\'on $3.2$ y proposici\'on $4$. Por ejemplo da esto nuevos algoritmos de c\'alculo?}
+
+\section{Learning and robust optimization 2}
+
+Given an independent sample $B_1,\dots, B_N$ of random graphs on $[N]$ we wish to choose a symmetric matrix $A\in \{0,1\}^{n\times n}$ which minimizes the worst-case risk among all probability distributions in the ball of radius $\epsilon$ around the empirical measure $\hat{\mathbb{P}_N}$ determined by our sample. We measure this ball in the Wasserstein distance defined by the spectral norm and assume that all our distributions take values in the hypercube $K$ consisting of matrices with entries in $[0,1]$. 
+
+Our aim is to compute the quantity
+\[R_{\epsilon}(A):=\sup_{\nu\in B_{\delta}(\hat{\mathbb{P}_N})}\EE[\|A-B\|_1]\]
+where $B$ is distributed according to the measure $\nu$. We first reprove the following key Lemma due to Esfahani and Kuhn. We assume that the empirical measure $\hat{\mathbb{P}}_N$ is given by $\PP=\sum_{i=1}^Nc_i\delta_{B_i}$ where $c_i>0$ are constants which sum to one. 
+
+\begin{theorem}For every $A\in \{0,1\}^{n\times n}$ the number $\alpha:=\sup_{\nu\in B_{\delta}(\hat{\mathbb{P}_N})} \EE[\|A-B\|_1]\]
+is equal to the optimal value of the problem
+\[\min_S \left(\lambda\epsilon +\sum_{i=1}^N c_is_i+\sum_{i=1}^Nc_i\|A-B_i\|_1\right)\]
+where $S$ is the set of $(\lambda, s_1,\dots, s_N, W)\in \RR\times\RR^N\times \RR^{n\times n}$ which satisfy the inequalities
+\begin{center}
+\begin{array}{l}
+\|W\|_*\leq 1\\
+\|\max(2A-11^t-W,0)\|_{1}\leq s_i-\langle 2A-11^t, B_i\rangle\text{ for $i=1,\dots, N$}
+\end{array}
+\end{center}
+\end{theorem}
+\begin{proof} Since $A$ has entries in $\{0,1\}$ and $B$ has entries in $K$ the equality $\|A-B\|_1=\langle 2A-11^t, A-B\rangle=\|A-\hat{B}\|_1+\langle 2A-11^t, \hat{B}-B\rangle$ where $\hat{B}$ is distributed according to the empirical measure. Taking expected values and suprema we see that
+\[\alpha=\sum_{i=1}^N c_i\|A-B_i\|_1+\sup_{\nu\in B_{\delta}(\hat{\mathbb{P}_N})}\EE\left[\langle 2A-11^t, \hat{B}-B\rangle\right].\] 
+Let $\mathcal{M}(K\times K,\hat{\mathbb{P}_N})$ be the set of probability measures in $K\times K$ whose marginal distribution in the first component is given by $\hat{\mathbb{P}_N}$. Every such measure is of the form 
+\[\mu = \sum_{i=1}^N c_i \delta_{B_i}\otimes \mathbb{Q}_i\]
+where $\mathbb{Q}_i$ is a probability measure on $K$. These measures act on functions on two sets of variables corresponding to each copy of $K$. More concretely
+\[\int_{K\times K} f(x,y) d\mu = \sum_{i=1}^ N c_i \int_K f(B_i,y)d\mathbb{Q}_i(y).\]
+This allows us to rewrite
+\[\sup_{\nu\in B_{\delta}(\hat{\mathbb{P}_N})}\EE\left[\langle 2A-11^t, \hat{B}-B\rangle\right] = 
+\sup_{\mu\in \mathcal{M}(K\times K, \hat{\mathbb{P}_N})} \inf_{\lambda\geq 0} \int_{K\times K}\langle 2A-11^t, X-Y\rangle d\mu +\lambda\left(\epsilon -\int_{K\times K} \|X-Y\|d\mu\right)\]
+Exchanging sup and inf we obtain that this quantity is bounded above \mv{equals?}
+\[\inf_{\lambda\geq 0} \left(\lambda \epsilon +\sup_{\mu\in \mathcal{M}(K\times K, \hat{\mathbb{P}_N})}\int_{K\times K} \langle 2A-11^t, X-Y\rangle -\lambda \|X-Y\|d\mu\right)\]
+Using the fact that $\mu = \sum_{i=1}^N c_i \delta_{B_i}\otimes \mathbb{Q}_i$ this quantity equals
+\[\inf_{\lambda\geq 0} \left(\lambda\epsilon + \sum_{i=1}^N c_i \sup_{\mathbb{Q}_i} \int_{K} \langle 2A-11^t, B_i-Y\rangle -\lambda \|B_i-Y\|d\mathbb{Q}_i\right)\]
+Since $\mathbb{Q}_i$ are arbitrary probability measures this quantity equals
+\[\inf_{\lambda\geq 0} \lambda \epsilon +\sum_{i=1}^N c_i \sup_{Y\in K} \left(\langle 2A-11^t, B_i-Y\rangle -\lambda \|B_i-Y\|\right)\]
+
+Next we put the supremum into the constraints obtaining the equivalent problem
+\[ \inf_{(\lambda,s_1,\dots, s_N)} \lambda\epsilon +\sum c_is_i\]
+over the set given by the inequalities $\lambda\geq 0$ and for which the following inequalities in $\lambda$ are satisfied for $i=1,\dots, N$.
+\[\sup_{Y\in K} \left(\langle 2A-11^t, B_i-Y\rangle -\lambda \|B_i-Y\|\right)\leq s_i\]
+
+
+Next we compute the supremum in the constraints using strong duality \mv{Check hypothesis for strong duality}. We letting $\|W\|_*$ be the nuclear norm of a matrix $W$. We use duality because we are aiming to bound  the supremum above by $s_i$ and for this it suffices to exhibit a point in the dual whose objective function is bounded above by $s_i$. 
+
+\[\sup_{Y\in K} \left(\langle 2A-11^t, B_i-Y\rangle -\lambda \|B_i-Y\|\right)=
+\sup_{Y\in K} \inf_{W: \|W\|_*\leq \lambda} \langle 2A-11^t-W, B_i-Y\rangle  =\]
+\[=\inf_{W: \|W\|_*\leq \lambda}\sup_{Y\in K}\langle 2A-11^t-W, B_i-Y\rangle =\inf_{W: \|W\|_*\leq \lambda} \langle 2A-11^t-W, B_i\rangle+ \|\max(2A-11^t-W,0)\|_{1}\]
+The last equality holds because $K$ is a hypercube so
+\[ \sup_{y\in K} \langle a,y\rangle = \sup_{y\in K} \langle a,x-\frac{1}{2}11^t\rangle + \langle a,\frac{1}{2}11^ t\rangle = \sup_{\alpha: \|\alpha\|_\infty\leq \frac{1}{2}} \langle a,\alpha\rangle + \langle a,\frac{1}{2}11^t\rangle=\frac{1}{2}(\|a\|_1+\langle a,11^t\rangle)=\|\max(a,0)\|_1$
+where $\max(a,0)$ is the entrywise maximum.
+As a result, the inequality 
+\[\sup_{Y\in K} \left(\langle 2A-11^t, B_i-Y\rangle -\lambda \|B_i-Y\|\right)\leq s_i\] holds if and only if there exists a $W$ with $\|W\|_*\leq \lambda$ such that 
+\[\|\max(2A-11^t-W,0)\|_{1}\leq s_i-\langle 2A-11^t, B_i\rangle\]
+\end{proof}
+The optimization problem above can be solved via semidefinite programming. More concretely,
+
+\begin{theorem} If $A$ has entries in $\{0,1\}$ then the optimal value of the following semidefinite programming problem equals $R_{\epsilon}(A)$.
+\end{theorem}
+\mv{To do: probar este Teorema. Lo m\'as importante es escribirlo de manera muy expl\'icita para que se pueda implementar usando el hecho de que la norma nuclear es semidefinidamente representable}
+\ddr{Fresco, yo lo escribo para la proxima semana}
+
+The problem of finding the best $A$ reduces to computing $\min_{A\in C} R_{\epsilon}(A)$ where $C$ is the set of all adjacency matrices of graphs (the set $C$ consists of $2^{\binom{n}{2}}$ matrices). 
+
+This problem can be relaxed to the minimization problem over all $A\in K$ \mv{of which function? Note that the $1$-norm is representable by a linear function only for $A\in C$ and NOT in the rest of $K$}. Alternatively one can compute the risk for any choice $A\in K$ by recalling that for any matrix $D$ the norm $\|D\|_1$ equals the pointwise maximum of $2^{\binom{n}{2}}$ inequalities (because such inequalities are the extreme points of the unit ball in the dual $\ell_1$-norm)
+\[\|D\|_1=\max \sum \epsilon_{ij}d_{ij}\]
+and the maximum runs over all choices of $\epsilon_{ij}\in\{\pm 1\}$.
+\mv{Can this be used to get a better relaxation, valid for all $A\in K$ and not only those $A$ with \{0,1\}-entries?}
+
+
+
+\begin{theorem} 
+The optimal value of the optimization problem
+\[\beta:=\min_S \left(\lambda\epsilon +\sum_{i=1}^N c_is_i+\sum_{i=1}^Nc_i\|A-B_i\|_1\right)\]
+where $L$ is the set of $(\lambda, s_1,\dots, s_N, W,A)\in \RR\times\RR^N\times \RR^{n\times n}\times \RR^{n\times n}$ which satisfy the inequalities
+\begin{center}
+\begin{array}{l}
+\|W\|_*\leq 1\\
+\|\max(2A-11^t-W,0)\|_{1}\leq s_i-\langle 2A-11^t, B_i\rangle\text{ for $i=1,\dots, N$}\\
+0\leq A_{ij}\leq 1 \text{ for  $1\leq i,j\leq n$}
+\end{array}
+
+
+\end{center}
+
+
+\end{theorem}
+
+
+
+\end{document}
