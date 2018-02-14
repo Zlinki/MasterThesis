@@ -1,0 +1,126 @@
+\documentclass[12pt]{amsart}
+\usepackage{amstext,amsfonts,amssymb,amscd,amsbsy,amsmath,verbatim}
+\usepackage{ifthen}
+%\usepackage{color,tikz}
+
+\usepackage{amsthm}
+\usepackage{latexsym}
+\usepackage[all]{xy}
+\usepackage{enumerate}
+\usepackage{url}
+
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{theorem}[lemma]{Theorem}
+\newtheorem{propo}[lemma]{Proposition}
+
+\newtheorem{prop}[lemma]{Proposition}
+\newtheorem{cor}[lemma]{Corollary}
+\newtheorem{conj}[lemma]{Conjecture}
+\newtheorem{claim}[lemma]{Claim}
+\newtheorem{claim*}{Claim}
+\newtheorem{thm}[lemma]{Theorem}
+\newtheorem{defn}[lemma]{Definition}
+\newtheorem{example}[lemma]{Example}
+\newtheorem{definition}[lemma]{Definition}
+
+
+\theoremstyle{remark}
+\newtheorem{remark}[lemma]{Remark}
+
+\usepackage{geometry,enumerate}
+\geometry{a4paper, top=3.5cm, bottom=3cm, left=3cm, right=3cm}
+
+\parindent = 6pt
+\parskip = 4pt
+
+% Commands
+\newcommand{\isom}{\cong}
+\newcommand{\m}{\mathfrak m}
+\newcommand{\lideal}{\langle}
+\newcommand{\rideal}{\rangle}
+\newcommand{\initial}{\operatorname{in}}
+\newcommand{\Hilb}{\operatorname{Hilb}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\im}{\operatorname{im}}
+\newcommand{\NS}{\operatorname{NS}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\ch}{\operatorname{char}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\Div}{\operatorname{Div}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Gal}{\operatorname{Gal}}
+\newcommand{\Pic}{\operatorname{Pic}}
+\newcommand{\QQbar}{{\overline{\mathbb Q}}}
+\newcommand{\Br}{\operatorname{Br}}
+\newcommand{\Bl}{\operatorname{Bl}}
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\grad}{\nabla}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newcommand{\Cox}{\operatorname{Cox}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\diam}{\operatorname{diam}}
+\newcommand{\Hom}{\operatorname{Hom}} %done
+\newcommand{\sheafHom}{\mathcal{H}om}
+\newcommand{\Gr}{\operatorname{Gr}}
+\newcommand{\Osh}{{\mathcal O}}
+\newcommand{\kk}{\kappa}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\codim}{\operatorname{codim}}
+\newcommand{\conv}{\operatorname{conv}}
+\newcommand{\D}{{\mathcal D}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\EE}{\mathbb{E}}
+
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\zz}{\mathbb{Z}}
+\newcommand{\Sym}{\operatorname{Sym}} %done
+\newcommand{\GL}{{GL}}
+\newcommand{\Syz}{\operatorname{Syz}}
+\newcommand{\defi}[1]{\textsf{#1}} % for defined terms
+
+
+\newcommand{\Bmod}{\ensuremath{B_
+\text{mod}}}
+\newcommand{\Bint}{\ensuremath{B_\text{int}}}
+\newcommand\commentr[1]{{\color{red} \sf [#1]}}
+\newcommand\commentb[1]{{\color{blue} \sf [#1]}}
+\newcommand\commentm[1]{{\color{magenta} \sf [#1]}}
+\newcommand{\ddr}[1]{{\color{blue} \sf $\clubsuit\clubsuit\clubsuit$ Daniel: [#1]}} 
+\newcommand{\mv}[1]{{\color{red} \sf $\clubsuit\clubsuit\clubsuit$ Mauricio: [#1]}}
+
+
+\title{Graph learning and the Wasserstein metric}
+\author{Daniel De Roux}
+\author{Mauricio Velasco}
+
+
+\begin{document}
+\maketitle
+
+
+\section{Preliminaries}
+
+
+\subsection{ Preliminaries on graphs}
+
+By a graph $G$ we mean a finite loopless undirected graph. We say that $G$ is weighted if it is endowed with a function $w: E(G)\rightarrow \RR$ which assigns to every edge a real number in $[0,1]$. If $G$ has $n$ vertices then it is completely specified by its adjacency matrix $A\in \{0,1\}^{n\times n}$ defined by $A_{ij}=1$ if and only if vertices $i,j$ are connected. If $G$ is weighted then we use the term adjacency matrix of $G$ to denote the matrix with entries $A_{i,j}=w(i,j)$. 
+
+If $A$ is a matrix then we use $\|\bullet\|$, $\|\bullet\|_1$ to denote its operator norm and $\ell^1$-norm respectively.
+
+\section{A description of the problem}
+
+By a random graph $B$ we mean a random variable $B$ taking values on the set of adjacency matrices of graphs (i.e. symmeric matrices in $\{0,1\}^{n\times n}$ with zero diagonal). By a random weighted graph we mean a random variable taking values in the adjacency matrices of weighted graphs (i.e. symmetric matrices with $0$ diagonal all of whose off-diagonal entries lie in $[0,1]$). 
+
+\begin{definition} Let $B$ be a random weighted graph and let $A$ be a (weighted) adjacency matrix. Define the risk of choosing $A\in \{0,1\}^n$ as a deterministic summary of $B$ as
+\[R(A):=\EE[\|A-B\|_1].\]
+We say that $A^*$ is an optimal summary of a random graph $B$ in the set $S$ if it is a minimizer of the optimization problem $\min_{A\in S} R(A)$.
+\end{definition}
+
+\end{document}
+
+
