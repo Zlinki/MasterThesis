@@ -7,7 +7,7 @@
 \usepackage {amsmath}
 \usepackage{amsthm}
 \usepackage {amssymb}
-
+\usepackage{dsfont}
 
 %\usepackage{setspace}
 %\documentclass[12pt]{amsart}
@@ -302,6 +302,7 @@ We conclude that the following theorem holds,
 
 \begin{remark} If $M=R_k$, $N=S_m$ and $T_{A^*}(R_k)\cap T_{B^*}(S_m)=0$ then the Lemma says that the set $\sigma(R_k\times S_m)$ (i.e. the matrices that can be written as sums of a rank $\leq k$ and an $m$-sparse matrix) are locally parametrized by $R_k\times S_m$ via $\sigma$. In particular this map is injective in open neighborhoods near $A^*$ and $B^*$ in their respective varieties so $C$ has no other decomposition {\it in those neighborhoods}. As we saw in the counterexample this is NOT an obstacle for the existence of other decompositions far away. In more geometric terms the issue is that the generically finite map above does not have to have degree one.   
 \end{remark}
+\newpage
 
 \section{Cluster learning}
 Fix an integer $N$. By a cluster structure matrix on a graph in $[n]$ we mean a matrix $A$ which is the adjacency matrix of a disjoint union of cliques on $[n]$. In particular $A$ is a symmetric $\{0,1\}$-matrix and the rank of $A+I$ coincides with the number of clusters in $A$. Let $\mu$ be a probability measure in the set of graphs in $[n]$. We want to find a cluster structure $A$ which minimizes the expected cardinality of the symmetric difference between a random graph $G$ chosen according to $\mu$ and $A$. In other words the learning problem consists of finding a minimizer $A$ of the risk function
@@ -314,53 +315,59 @@ The difficulty lies in the fact that all the information we have about the distr
 
 A way to approximate our unknown measure $\mu$ is to replace it by its empirical measure $P_m:=\frac{1}{m}\sum_{i=1}^m\delta_{B_i}$. However, it will often be the case that $m$ is small (because of limitations in either the available data or the computational resources needed for the optimization) so we do not have guarantees that $\mu^{m}$ is, by itself, close to $\mu$. We therefore introduce an additional parameter $\delta$ and will assume that the actual distribution belongs to a ball of radius $\delta$ of the empirical measure.
 
-\begin{definition} Endow the space $M$ of symmetric $n\times n$ matrices with the spectral norm $\|\cdot\|$. If $\nu_1$ and $\nu_2$ are measures taking values on $M$ define the spectral Wasserstein distance $W_s(\nu_1,\nu_2)=\inf_{\pi\in\mathcal{M}(K\times K):\pi_i=\nu_i}\EE[\|Z_1-Z_2\|]$ where $(Z_1,Z_2)$ is distributed according to $\pi$.
+\begin{definition} Endow the space $M$ of symmetric $n\times n$ matrices with a given matrix norm $\|\cdot\|_*$. If $\nu_1$ and $\nu_2$ are measures taking values on $M$ define the *-Wasserstein distance $W_*(\nu_1,\nu_2)=\inf_{\pi\in\mathcal{M}(K\times K):\pi_i=\nu_i}\EE[\|Z_1-Z_2\|_*]$ where $(Z_1,Z_2)$ is distributed according to $\pi$.
 \end{definition}
 
-\begin{theorem} Let $C$ be the set of adjacency matrices of disjoint unions of complete subgraphs and let $V_{\delta}(\mu)=\{\nu: W_s(\nu,\mu)\leq \delta\}$ and let $P_m$ denote the empirical measure after $m$ samples. The following upper bound for the risk holds
-\[\min_{A\in C}\sup_{\mu\in V_{\delta}(P_m)} \EE[\|A-B\|_1]\leq \min_{A\in C} \frac{1}{m}\left(\sum_{i=1}^m \|A-B_i\|_1\right)+\delta\|2A-11^t\|_*\]
-\mv{Is this inequality an equality? Yo creo que si.}
-\end{theorem}
-\begin{proof} Suppose $B$ is distributed according to $\mu\in V_{\delta}(P_m)$ and that $B$ takes values in the set of adjacency matrices of graphs. Since both $A$ and $B$ are adjacency matrices of graphs the following equality holds
-\[\|A-B\|_1= \langle A, A-B\rangle + \langle 11^t-A,B-A\rangle=\langle 2A-11^t,A-B\rangle \]
-Next let $B^{(m)}$ be distributed according to the empirical measure $P_m$ centered in $m$ samples and that the joint distribution of $(B,B^{(m)})$ is given by a coupling $\pi$ which is a minimizer of the Wasserstein spectral norm $W_s(\mu,P_m)$. We then have
+%\begin{theorem} Let $C$ be the set of adjacency matrices of disjoint unions of complete subgraphs and let $V_{\delta}(\mu)=\{\nu: W_s(\nu,\mu)\leq \delta\}$ and let $P_m$ denote the empirical measure after $m$ samples. The following upper bound for the risk holds
+%\[\min_{A\in C}\sup_{\mu\in V_{\delta}(P_m)} \EE[\|A-B\|_1]\leq \min_{A\in C} \frac{1}{m}\left(\sum_{i=1}^m \|A-B_i\|_1\right)+\delta\|2A-11^t\|_*\]
+%\mv{Is this inequality an equality? Yo creo que si.}
+%\end{theorem}
+%\begin{proof} Suppose $B$ is distributed according to $\mu\in V_{\delta}(P_m)$ and that $B$ takes values in the set of adjacency matrices of graphs. Since both $A$ and $B$ are adjacency matrices of graphs the following equality holds
+%\[\|A-B\|_1= \langle A, A-B\rangle + \langle 11^t-A,B-A\rangle=\langle 2A-11^t,A-B\rangle \]
+%Next let $B^{(m)}$ be distributed according to the empirical measure $P_m$ centered in $m$ samples and that the joint distribution of $(B,B^{(m)})$ is given by a coupling $\pi$ which is a minimizer of the Wasserstein spectral norm $W_s(\mu,P_m)$. We then have
 
-\[\langle 2A-11^t,A-B\rangle = \langle 2A-11^t,A-B^{(m)}\rangle+\langle 2A-11^t,B^{(m)}-B\rangle\]
-the last quantity is bounded above by
-\[\langle 2A-11^t,A-B^{(m)}\rangle +\|2A-11^t\|_*\|B^{(m)}-B\|\]
-Taking expected value we obtain
-\[\frac{1}{m}\left(\sum_{i=1}^m \|A-B_i\|_1\right)+\|2A-11^t\|_*\EE\|B^{(m)}-B\|\]
-Since $\pi$ is a minimizer of $W_s(\mu,P_m)$  the rightmost expected value is bounded above by $\delta$. As a result we  conclude that for every $\mu\in V(\delta)$ the following inequality holds,
-\[\EE[\|A-B\|_1]\leq  \frac{1}{m}\left(\sum_{i=1}^m \|A-B_i\|_1\right)+\delta\|2A-11^t\|_*\]
-as claimed.
+%\[\langle 2A-11^t,A-B\rangle = \langle 2A-11^t,A-B^{(m)}\rangle+\langle 2A-11^t,B^{(m)}-B\rangle\]
+%the last quantity is bounded above by
+%\[\langle 2A-11^t,A-B^{(m)}\rangle +\|2A-11^t\|_*\|B^{(m)}-B\|\]
+%Taking expected value we obtain
+%\[\frac{1}{m}\left(\sum_{i=1}^m \|A-B_i\|_1\right)+\|2A-11^t\|_*\EE\|B^{(m)}-B\|\]
+%Since $\pi$ is a minimizer of $W_s(\mu,P_m)$  the rightmost expected value is bounded above by $\delta$. As a result we  conclude that for every $\mu\in V(\delta)$ the following inequality holds,
+%\[\EE[\|A-B\|_1]\leq  \frac{1}{m}\left(\sum_{i=1}^m %\|A-B_i\|_1\right)+\delta\|2A-11^t\|_*\]
+%as claimed.
 
 
-\end{proof}
+%\end{proof}
 
-\mv{Pregunta: Qu\'e tal si regularizamos no sumando la norma nuclear de $A$ sino la de $\|2A-11^t\|_*$? Ayuda esto a recuperar si tenemos mas datos? Notar que en ese caso el par\'ametro $\delta$ parece mucho m\'as f\'acil de interpretar}.
+%\mv{Pregunta: Qu\'e tal si regularizamos no sumando la norma nuclear de $A$ sino la de $\|2A-11^t\|_*$? Ayuda esto a recuperar si tenemos mas datos? Notar que en ese caso el par\'ametro $\delta$ parece mucho m\'as f\'acil de interpretar}.
 
-\mv{Esto se conecta muy muy bien con \url{https://arxiv.org/pdf/1610.05627.pdf}. Hay que leer este paper.
-Ver Secci\'on $3.2$ y proposici\'on $4$. Por ejemplo da esto nuevos algoritmos de c\'alculo?}
+%\mv{Esto se conecta muy muy bien con \url{https://arxiv.org/pdf/1610.05627.pdf}. Hay que leer este paper.
+%Ver Secci\'on $3.2$ y proposici\'on $4$. Por ejemplo da esto nuevos algoritmos de c\'alculo?}
 
-\section{Learning and robust optimization 2}
+%\section{Learning and robust optimization 2}
 
-Given an independent sample $B_1,\dots, B_N$ of random graphs on $[N]$ we wish to choose a symmetric matrix $A\in \{0,1\}^{n\times n}$ which minimizes the worst-case risk among all probability distributions in the ball of radius $\epsilon$ around the empirical measure $\hat{\mathbb{P}_N}$ determined by our sample. We measure this ball in the Wasserstein distance defined by the spectral norm and assume that all our distributions take values in the hypercube $K$ consisting of matrices with entries in $[0,1]$. 
+Given an independent sample $B_1,\dots, B_N$ of random graphs on $[N]$ we wish to choose a symmetric matrix $A\in \{0,1\}^{n\times n}$ which minimizes the worst-case risk among all probability distributions in the ball of radius $\delta$ around the empirical measure $\hat{\mathbb{P}_N}$ determined by our sample. We assume that all our distributions take values in the hypercube $K$ consisting of adjacency matrices of graphs with entries in $[0,1]$. 
 
-Our aim is to compute the quantity
+Let $||\cdot||_{*}$ be a given matrix norm a denote its dual norm by $||\cdot||_{d*}$ Our aim is to compute the quantity
 \[R_{\epsilon}(A):=\sup_{\nu\in B_{\delta}(\hat{\mathbb{P}_N})}\EE[\|A-B\|_1]\]
-where $B$ is distributed according to the measure $\nu$. We first reprove the following key Lemma due to Esfahani and Kuhn. We assume that the empirical measure $\hat{\mathbb{P}}_N$ is given by $\PP=\sum_{i=1}^Nc_i\delta_{B_i}$ where $c_i>0$ are constants which sum to one. 
+where $B$ is distributed according to the measure $\nu$ and $B_\delta(\hat{\mathbb{P}}_N)$ is the ball of radius $\delta$ of the *-Wasserstein metric centered in the empirical measure $\hat{\mathbb{P}}_N$. We first reprove the following key Lemma due to Esfahani and Kuhn. We assume that the empirical measure $\hat{\mathbb{P}}_N$ is given by $\PP=\sum_{i=1}^Nc_i\delta_{B_i}$ where $c_i>0$ are constants which sum to one. 
 
-\begin{theorem}For every $A\in \{0,1\}^{n\times n}$ the number $\alpha:=\sup_{\nu\in B_{\delta}(\hat{\mathbb{P}_N})} \EE[\|A-B\|_1]\]
+\begin{theorem}
+\label{teoError}
+For every $A\in \{0,1\}^{n\times n}$ the number \[\alpha:=\sup_{\nu\in B_{\delta}(\hat{\mathbb{P}_N})} \EE[\|A-B\|_1]\]
 is equal to the optimal value of the problem
-\[\min_S \left(\lambda\epsilon +\sum_{i=1}^N c_is_i+\sum_{i=1}^Nc_i\|A-B_i\|_1\right)\]
-where $S$ is the set of $(\lambda, s_1,\dots, s_N, W)\in \RR\times\RR^N\times \RR^{n\times n}$ which satisfy the inequalities
+\[\min_{L} \left(\lambda\delta +\sum_{i=1}^N c_is_i+\sum_{i=1}^Nc_i\|A-B_i\|_1\right)\]
+where $L$ is the set of $(\lambda, s_1,\dots, s_N, W)\in \RR\times\RR^N\times \RR^{n\times n}$ which satisfy the inequalities
 \begin{center}
+\[
 \begin{array}{l}
-\|W\|_*\leq 1\\
-\|\max(2A-11^t-W,0)\|_{1}\leq s_i-\langle 2A-11^t, B_i\rangle\text{ for $i=1,\dots, N$}
+\|W\|_{d*}\leq \lambda\\
+\|(2A-11^t-W)\|_{1}\leq s_i-\langle 2A-11^t-W, B_i\rangle\text{ for $i=1,\dots, N$}
 \end{array}
+\]
 \end{center}
+
 \end{theorem}
+
 \begin{proof} Since $A$ has entries in $\{0,1\}$ and $B$ has entries in $K$ the equality $\|A-B\|_1=\langle 2A-11^t, A-B\rangle=\|A-\hat{B}\|_1+\langle 2A-11^t, \hat{B}-B\rangle$ where $\hat{B}$ is distributed according to the empirical measure. Taking expected values and suprema we see that
 \[\alpha=\sum_{i=1}^N c_i\|A-B_i\|_1+\sup_{\nu\in B_{\delta}(\hat{\mathbb{P}_N})}\EE\left[\langle 2A-11^t, \hat{B}-B\rangle\right].\] 
 Let $\mathcal{M}(K\times K,\hat{\mathbb{P}_N})$ be the set of probability measures in $K\times K$ whose marginal distribution in the first component is given by $\hat{\mathbb{P}_N}$. Every such measure is of the form 
@@ -369,38 +376,78 @@ where $\mathbb{Q}_i$ is a probability measure on $K$. These measures act on func
 \[\int_{K\times K} f(x,y) d\mu = \sum_{i=1}^ N c_i \int_K f(B_i,y)d\mathbb{Q}_i(y).\]
 This allows us to rewrite
 \[\sup_{\nu\in B_{\delta}(\hat{\mathbb{P}_N})}\EE\left[\langle 2A-11^t, \hat{B}-B\rangle\right] = 
-\sup_{\mu\in \mathcal{M}(K\times K, \hat{\mathbb{P}_N})} \inf_{\lambda\geq 0} \int_{K\times K}\langle 2A-11^t, X-Y\rangle d\mu +\lambda\left(\epsilon -\int_{K\times K} \|X-Y\|d\mu\right)\]
+\sup_{\mu\in \mathcal{M}(K\times K, \hat{\mathbb{P}_N})} \inf_{\lambda\geq 0} \int_{K\times K}\langle 2A-11^t, X-Y\rangle d\mu +\lambda\left(\delta -\int_{K\times K} \|X-Y\|_*d\mu\right)\]
 Exchanging sup and inf we obtain that this quantity is bounded above \mv{equals?}
-\[\inf_{\lambda\geq 0} \left(\lambda \epsilon +\sup_{\mu\in \mathcal{M}(K\times K, \hat{\mathbb{P}_N})}\int_{K\times K} \langle 2A-11^t, X-Y\rangle -\lambda \|X-Y\|d\mu\right)\]
+\[\inf_{\lambda\geq 0} \left(\lambda \delta +\sup_{\mu\in \mathcal{M}(K\times K, \hat{\mathbb{P}_N})}\int_{K\times K} \langle 2A-11^t, X-Y\rangle -\lambda \|X-Y\|_*d\mu\right)\]
 Using the fact that $\mu = \sum_{i=1}^N c_i \delta_{B_i}\otimes \mathbb{Q}_i$ this quantity equals
-\[\inf_{\lambda\geq 0} \left(\lambda\epsilon + \sum_{i=1}^N c_i \sup_{\mathbb{Q}_i} \int_{K} \langle 2A-11^t, B_i-Y\rangle -\lambda \|B_i-Y\|d\mathbb{Q}_i\right)\]
+\[\inf_{\lambda\geq 0} \left(\lambda\delta + \sum_{i=1}^N c_i \sup_{\mathbb{Q}_i} \int_{K} \langle 2A-11^t, B_i-Y\rangle -\lambda \|B_i-Y\|_*d\mathbb{Q}_i\right)\]
 Since $\mathbb{Q}_i$ are arbitrary probability measures this quantity equals
-\[\inf_{\lambda\geq 0} \lambda \epsilon +\sum_{i=1}^N c_i \sup_{Y\in K} \left(\langle 2A-11^t, B_i-Y\rangle -\lambda \|B_i-Y\|\right)\]
+\[\inf_{\lambda\geq 0} \lambda \delta +\sum_{i=1}^N c_i \sup_{Y\in K} \left(\langle 2A-11^t, B_i-Y\rangle -\lambda \|B_i-Y\|_*\right)\]
 
 Next we put the supremum into the constraints obtaining the equivalent problem
-\[ \inf_{(\lambda,s_1,\dots, s_N)} \lambda\epsilon +\sum c_is_i\]
+\[ \inf_{(\lambda,s_1,\dots, s_N)} \lambda\delta +\sum c_is_i\]
 over the set given by the inequalities $\lambda\geq 0$ and for which the following inequalities in $\lambda$ are satisfied for $i=1,\dots, N$.
-\[\sup_{Y\in K} \left(\langle 2A-11^t, B_i-Y\rangle -\lambda \|B_i-Y\|\right)\leq s_i\]
+\[\sup_{Y\in K} \left(\langle 2A-11^t, B_i-Y\rangle -\lambda \|B_i-Y\|_*\right)\leq s_i\]
 
 
-Next we compute the supremum in the constraints using strong duality \mv{Check hypothesis for strong duality}. We letting $\|W\|_*$ be the nuclear norm of a matrix $W$. We use duality because we are aiming to bound  the supremum above by $s_i$ and for this it suffices to exhibit a point in the dual whose objective function is bounded above by $s_i$. 
+Next we compute the supremum in the constraints using strong duality \mv{Check hypothesis for strong duality}. We use duality because we are aiming to bound  the supremum above by $s_i$ and for this it suffices to exhibit a point in the dual whose objective function is bounded above by $s_i$. 
 
-\[\sup_{Y\in K} \left(\langle 2A-11^t, B_i-Y\rangle -\lambda \|B_i-Y\|\right)=
-\sup_{Y\in K} \inf_{W: \|W\|_*\leq \lambda} \langle 2A-11^t-W, B_i-Y\rangle  =\]
-\[=\inf_{W: \|W\|_*\leq \lambda}\sup_{Y\in K}\langle 2A-11^t-W, B_i-Y\rangle =\inf_{W: \|W\|_*\leq \lambda} \langle 2A-11^t-W, B_i\rangle+ \|\max(2A-11^t-W,0)\|_{1}\]
-The last equality holds because $K$ is a hypercube so
-\[ \sup_{y\in K} \langle a,y\rangle = \sup_{y\in K} \langle a,x-\frac{1}{2}11^t\rangle + \langle a,\frac{1}{2}11^ t\rangle = \sup_{\alpha: \|\alpha\|_\infty\leq \frac{1}{2}} \langle a,\alpha\rangle + \langle a,\frac{1}{2}11^t\rangle=\frac{1}{2}(\|a\|_1+\langle a,11^t\rangle)=\|\max(a,0)\|_1$
-where $\max(a,0)$ is the entrywise maximum.
-As a result, the inequality 
-\[\sup_{Y\in K} \left(\langle 2A-11^t, B_i-Y\rangle -\lambda \|B_i-Y\|\right)\leq s_i\] holds if and only if there exists a $W$ with $\|W\|_*\leq \lambda$ such that 
-\[\|\max(2A-11^t-W,0)\|_{1}\leq s_i-\langle 2A-11^t, B_i\rangle\]
+\[\sup_{Y\in K} \left(\langle 2A-11^t, B_i-Y\rangle -\lambda \|B_i-Y\|_*\right)=
+\sup_{Y\in K} \inf_{W: \|W\|_{d*}\leq \lambda} \langle 2A-11^t-W, B_i-Y\rangle  =\]
+\[=\inf_{W: \|W\|_{d*}\leq \lambda}\sup_{Y\in K}\langle 2A-11^t-W, B_i-Y\rangle 
+%=\inf_{W: \|W\|_*\leq \lambda} \langle 2A-11^t-W, B_i\rangle+ \sup_{Y\in K} \langle D,-Y \rangle.
+\]
+By the comment above, we wish to bound the last term by $S_i$, so it is enough to exhibit a $W$ such that $W: ||W||_{d*} \leq \lambda$ such that
+\[
+\sup_{Y\in K} \langle 2A-11^t-W, B_i-Y\rangle \leq S_i.
+\]
+For the sake of notation, let 
+$D= 2A-11^t-W$.
+The last inequality then becomes
+\[
+\langle D,B_i\rangle + \sup_{Y \in K}\langle D,-Y \rangle \leq S_i.
+\]
+which is equivalent to 
+\[
+ \sup_{Y \in K}\langle -D,Y \rangle \leq S_i-\langle D,B_i\rangle.
+\]
+Now, K is the hipercube, wich is the ball of radius 1 of $||\cdot||_\infty$. 
+Therefore, 
+\[
+ \sup_{Y \in K}\langle -D,Y \rangle = \sup_{Y:||Y||_\infty \leq 1}\langle -D,Y \rangle = ||D||_1.
+\]
+We thus obtain the desired optimization problem.
 \end{proof}
-The optimization problem above can be solved via semidefinite programming. More concretely,
+Note that the complexity of this problem depends on the complexity of computing $||W||_{d*}$
+ More concretely,
 
-\begin{theorem} If $A$ has entries in $\{0,1\}$ then the optimal value of the following semidefinite programming problem equals $R_{\epsilon}(A)$.
-\end{theorem}
-\mv{To do: probar este Teorema. Lo m\'as importante es escribirlo de manera muy expl\'icita para que se pueda implementar usando el hecho de que la norma nuclear es semidefinidamente representable}
-\ddr{Fresco, yo lo escribo para la proxima semana}
+\begin{cor} If $A$ has entries in $\{0,1\}$ then the optimal value of the following  programming problem equals $R_{\delta}(A)$.
+
+\[
+ \inf_{(\lambda,s_1,\dots, s_N,W,Z_1,..,Z_N,a)} \lambda\delta +\sum c_is_i + \sum_{i=1}^N c_i \mathds{1}^t Z_i \mathds{1}.
+\]
+Subject to
+\begin{center}
+\[
+\begin{array}{l}
+\lambda \geq 0\\
+-Z_i \leq A-B_i  \leq Z_i \ for \ i=1,...,N\\
+-a \leq 2A-11^t-W \leq a \\
+\|W\|_{d*}\leq \lambda\\
+a\leq s_i-\langle 2A-11^t-W, B_i\rangle\text{ for $i=1,\dots, N$}\\
+\end{array}
+\]
+\end{center}
+
+
+Where $\mathds{1}$ is a vector of ones of size $n$ and the inequalities in the first and second restriction are entry-wise. Moreover, the complexity of the problem is given by the complexity of $||\cdot||_{d*}$. In particular, if $\|\cdot\|_*$ is the norm $1$, the optimization problem is linear and if  $\|\cdot\|_*$ is the spectral norm, the optimization problem is semidefinite.  
+\end{cor}
+\begin{proof}
+The optimization problem follows directly from theorem \ref{teoError}. The norm $1$ and norm $\infty$ are polyedricaly representable. The dual of the spectral norm, namely the nuclear norm is semidefinitely representable.
+\end{proof}
+
+%\mv{To do: probar este Teorema. Lo m\'as importante es escribirlo de manera muy expl\'icita para que se pueda implementar usando el hecho de que la norma nuclear es semidefinidamente representable}
+%\ddr{Fresco, yo lo escribo para la proxima semana}
 
 The problem of finding the best $A$ reduces to computing $\min_{A\in C} R_{\epsilon}(A)$ where $C$ is the set of all adjacency matrices of graphs (the set $C$ consists of $2^{\binom{n}{2}}$ matrices). 
 
@@ -413,15 +460,20 @@ and the maximum runs over all choices of $\epsilon_{ij}\in\{\pm 1\}$.
 
 \begin{theorem} 
 The optimal value of the optimization problem
-\[\beta:=\min_S \left(\lambda\epsilon +\sum_{i=1}^N c_is_i+\sum_{i=1}^Nc_i\|A-B_i\|_1\right)\]
+\[\beta:=\min_S \left(\lambda\epsilon +\sum_{i=1}^N c_is_i+\sum_{i=1}^Nc_i\mathds{1}^tZ_i\mathds{1}\right)\]
 where $L$ is the set of $(\lambda, s_1,\dots, s_N, W,A)\in \RR\times\RR^N\times \RR^{n\times n}\times \RR^{n\times n}$ which satisfy the inequalities
 \begin{center}
+\[
 \begin{array}{l}
-\|W\|_*\leq 1\\
-\|\max(2A-11^t-W,0)\|_{1}\leq s_i-\langle 2A-11^t, B_i\rangle\text{ for $i=1,\dots, N$}\\
-0\leq A_{ij}\leq 1 \text{ for  $1\leq i,j\leq n$}
+\lambda \geq 0\\
+-Z_i \leq A-B_i \leq Z_i \ for \ i=1,\dots, N \\
+-a \leq 2A-11^t-W \leq a \\
+\|W\|_{d*}\leq \lambda\\
+a\leq s_i-\langle 2A-11^t-W, B_i\rangle\text{ for $i=1,\dots, N$}\\
+0\leq A_{ij}\leq 1 \text{ for  $1\leq i,j\leq n$} \\
+A = A^t
 \end{array}
-
+\]
 
 \end{center}
 
