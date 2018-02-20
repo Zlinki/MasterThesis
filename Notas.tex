@@ -355,13 +355,15 @@ where $B$ is distributed according to the measure $\nu$ and $B_\delta(\hat{\math
 \label{teoError}
 For every $A\in \{0,1\}^{n\times n}$ the number \[\alpha:=\sup_{\nu\in B_{\delta}(\hat{\mathbb{P}_N})} \EE[\|A-B\|_1]\]
 is equal to the optimal value of the problem
-\[\min_{L} \left(\lambda\delta +\sum_{i=1}^N c_is_i+\sum_{i=1}^Nc_i\|A-B_i\|_1\right)\]
-where $L$ is the set of $(\lambda, s_1,\dots, s_N, W)\in \RR\times\RR^N\times \RR^{n\times n}$ which satisfy the inequalities
+\[\min_{H} \left(\lambda\delta +\sum_{i=1}^N c_is_i+\sum_{i=1}^Nc_i\|A-B_i\|_1\right)\]
+where $H$ is the set of $(\lambda, s_1,\dots, s_N, W,Lambda)\in \RR\times\RR^N\times \RR^{n\times n} \times \RR^{n\times n}$ which satisfy the inequalities
 \begin{center}
 \[
 \begin{array}{l}
 \|W\|_{d*}\leq \lambda\\
-\|(2A-11^t-W)\|_{1}\leq s_i-\langle 2A-11^t-W, B_i\rangle\text{ for $i=1,\dots, N$}
+\Lambda \geq 0\\
+2A-11^t-W + \Lambda \geq 0\\
+\|\Lambda\|_{1}\leq s_i-\langle 2A-11^t-W, B_i\rangle\text{ for $i=1,\dots, N$}
 \end{array}
 \]
 \end{center}
@@ -411,13 +413,38 @@ which is equivalent to
 \[
  \sup_{Y \in K}\langle -D,Y \rangle \leq S_i-\langle D,B_i\rangle.
 \]
-Now, K is the hipercube, wich is the ball of radius 1 of $||\cdot||_\infty$. 
-Therefore, 
+We will now compute $$\sup_{Y \in K}\langle -D,Y \rangle$$.
+$K$ is the hipercube, which gives the restrictions $0 \leq Y \leq 11^t$ and $Y=Y^t$. 
+The lagragian is: 
 \[
- \sup_{Y \in K}\langle -D,Y \rangle = \sup_{Y:||Y||_\infty \leq 1}\langle -D,Y \rangle = ||D||_1.
+L = \langle D,-Y \rangle + \langle \Lambda,11^t-Y \rangle + \langle \eta,Y \rangle + \langle \Omega,Y-Y^t \rangle
+= \langle D+\Lambda -\eta,-Y \rangle + \langle \Lambda,11^t\rangle + \langle \Omega, Y-Y^t\rangle\]
+with $\Lambda,\eta \geq 0$.
+It follows that
+\[
+\sup_{Y \in K}\langle -D,Y \rangle = \sup_{Y \in K} \inf_{\Lambda,\eta \geq 0} L = \begin{cases}
+\langle 2A-11^t-W,-Y \rangle \ \text{if } Y \in K\\
+- \ \infty \text{ in the other case.}
+\end{cases}
 \]
-We thus obtain the desired optimization problem.
+Exchanging infimum and supremum, we obtain  
+\[
+\sup_{Y \in K}\langle -D,Y \rangle = \inf_{\Lambda,\eta \geq 0}\sup_{Y \in K}L= \inf_{\Lambda,\eta \geq 0} 
+\begin{cases}
+\langle \Lambda, 11^t \rangle \ if \ D+\Lambda + \eta = 0 \ and \ \Omega =0.\rangle \\
+\infty \text{ in the other case.}
+\end{cases}
+\]
+Finally, this problem reduces to, 
+\[
+\inf_{\Lambda \geq0} \|\Lambda\|_1
+\]
+Subject to 
+\[
+\Lambda, \ D+\Lambda \geq 0.
+\]
 \end{proof}
+\ddr{En realidad lo que hace lambda mayuscula es calcular la norma 1 de la matriz max(-D,0). Esta forma se puede obtener directamente sin la necesidad de dualidad ni del lagrangiano(ver notas viejas). Sin embargo escribo esta version pues es la que se us\'o en la programaci\'on. }
 Note that the complexity of this problem depends on the complexity of computing $||W||_{d*}$
  More concretely,
 
