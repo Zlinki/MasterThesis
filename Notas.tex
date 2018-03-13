@@ -348,7 +348,7 @@ A way to approximate our unknown measure $\mu$ is to replace it by its empirical
 Given an independent sample $B_1,\dots, B_N$ of random graphs on $[N]$ we wish to choose a symmetric matrix $A\in \{0,1\}^{n\times n}$ which minimizes the worst-case risk among all probability distributions in the ball of radius $\delta$ around the empirical measure $\hat{\mathbb{P}_N}$ determined by our sample. We assume that all our distributions take values in the hypercube $K$ consisting of adjacency matrices of graphs with entries in $[0,1]$. 
 
 Let $||\cdot||_{*}$ be a given matrix norm a denote its dual norm by $||\cdot||_{d*}$ Our aim is to compute the quantity
-\[R_{\epsilon}(A):=\sup_{\nu\in B_{\delta}(\hat{\mathbb{P}_N})}\EE[\|A-B\|_1]\]
+\[R_{\delta}(A):=\sup_{\nu\in B_{\delta}(\hat{\mathbb{P}_N})}\EE[\|A-B\|_1]\]
 where $B$ is distributed according to the measure $\nu$ and $B_\delta(\hat{\mathbb{P}}_N)$ is the ball of radius $\delta$ of the *-Wasserstein metric centered in the empirical measure $\hat{\mathbb{P}}_N$. We first reprove the following key Lemma due to Esfahani and Kuhn. We assume that the empirical measure $\hat{\mathbb{P}}_N$ is given by $\PP=\sum_{i=1}^Nc_i\delta_{B_i}$ where $c_i>0$ are constants which sum to one. 
 
 \begin{theorem}
@@ -507,6 +507,117 @@ A = A^t
 
 \end{theorem}
 
+\section{Unique recovery}
 
+
+In this chapter we will introduce the problem of unique recovery giving contex and la little bit of structure to the problem we are working with.
+
+
+
+Remember the fundametal problem we are dealing with: finding $A^*$: 
+
+\[
+A^*=\min_A \EE_B\left[||A-B||_1\right]
+\]
+Where we only know an iid sample  $B_1,..,B_N$ and $B_i ~ \mu$ with $\mu$ a measure over the matrices $n \times n$. In this section we will refer to $\mu$ as "the model of the $B_i$".
+
+The stochastic bloc model, the Erdos Renyi model and the work of the previous section motivate the following definition:
+
+
+\begin{definition}
+A model (i.e a measure) $\mu$ over the set of $n \times n$ matrices  admits a $*-inherent$ structure if the minimization problem 
+
+\[
+A^*=\min_A \EE_B\left[||A-B||_*\right]
+\]
+has a \textbf{unique} minimizer $A^* \in \{0,1\}^{n\times n}$. In such case we call $A^*$ the *-inherent structure of the model $\mu$.
+
+\end{definition}
+We will focus only on 1-inherent structures. We will now define two random graph models that will help us motivate the previous defintion.
+
+\begin{definition}
+fix $n$. the Erdos-Renyi model $Erdos(n,p)$ is a graph with n vertices whose adjacency matrix is given by:
+\[
+D_{ij}=D_{ji}=\begin{cases}
+1 \text{ with probability p and } i \neq j. \cr
+0 \text{ with probability }1-p \text{ or if } i=j.
+\end{cases}
+\]
+\end{definition}
+In other words, vertices are contected with probability $p$ independent of other vertices.
+
+
+Now we define the stochastic block model which is usually used to evaluate cluster recovery methods.
+
+
+\begin{definition}
+fix n. The stochastic block model is a random graph model given by the following parameters:
+
+\begin{enumerate}
+\item A number $n$ of vertices.
+\item A partition $C_1,..,C_r$ of the vertices called communities.
+\item A symmetric matrix $P$ of dimension $r\times r$ of edge probabilities.
+\item Two vertices $u \in C_i$ and $v \in C_j$ are conected with probability $P_{ij}$.
+\end{enumerate}
+We will refer to this model as
+$SB((C1,..,C_r),P)$
+The "planted partition model", also sometimes refered as the stochastic block model is the special case when $P$ is constant $q$ in the Diagonal and constant $q$ outside of it. We will refer to this model as $PP((C1,..,C_r),p,q)$.
+\end{definition}
+Note that if $P_{ij}=p$ we recover the Erdos-Renyi model.
+
+\begin{remark}
+The Erdos-Renyi model $Erdos(n,\frac{1}{2})$ does not admit a 1-inherent structure as  both the matrices 
+$A_1=11^t$ and $A_2=0$ satisfy:
+
+\[
+\min_A \EE_B\left[||A-B||_1\right]= \EE_B\left[||A_1-B||_1\right]=\EE_B\left[||A_2-B||_1\right]=\frac{n}{2}.
+\]
+where $B \sim Erdos(n,\frac{1}{2})$.
+\end{remark}
+
+\begin{remark}
+The stocastic block model 
+$SB((C1,..,C_r),P)$ admits a 1-inherent structure $A^*$ if $P$ satisfies the conditions:
+\begin{enumerate}
+\item $P_{ii}>\frac{1}{2} \ for \ i=1,..,r.$
+\item $P_{ij} \leq \frac{1}{2} \  \forall  i \neq j$.
+\end{enumerate}
+Moreover, $A^*$ is given by a permutation of the rows of the matrix:
+
+\[
+D^* = 
+\left[
+\begin{array}{c c c c}
+M_1 & 0 &\cdots & 0\\
+0 & M_2 & \cdots & 0 \\ 
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0& \cdots & M_r
+
+\end{array}
+\right] 
+\]
+Where  $M_i=11^t$ with dimension $c_i \times c_i$ and $c_i$ is the amount of vertices in $C_i$.
+\end{remark}
+
+
+\ddr{Esto debe ser f\'acil de probar usando subgradientes.}
+
+\ddr{El siguiente teorema es el importante de esta secci\'on}.
+
+\begin{theorem}[Unique recovery]
+Let $\mu$ be a model with an 1-inherent structure $A^*$. let $B_1,..,B_N$ be an i.i.d sample with $B_i \sim \mu$.
+As $\delta$ tends to $0$ and $N$ tends to infinity, the program 
+
+\[
+\hat{A}=\min_A\sup_{\nu\in B_{\delta}(\hat{\mathbb{P}_N})} \EE[\|A-B\|_1]
+\]
+recovers $A^*$, meaning that
+
+\[
+\hat{A}=A^*.
+\]
+
+
+\end{theorem}
 
 \end{document}
