@@ -149,8 +149,8 @@ has the correct cluster structure $A^*$ as a minimizer. For vertices $i,j\in [n]
 where $\PP\{n_0(ij)\leq n_1(ij)\}$ is given by the following formula 
 \mv{Ejercicio para Daniel: Encontrar una f\'ormula, es la probabilidad de que haya mas caras que sellos en $N$ lanzamientos de una moneda trucada donde las probabilidades de la moneda dependen s\'olo de la arista $ij$}.
 \end{lemma}
-\begin{proof} The matrix $A^*$ is a minimizer of the above convex function if and only if its subdifferential at $A^*$ contains the matrix $0$. By part $(1)$ of the previous Lemma this occurs if and only if $\frac{n_0(ij)-n_1(ij)}{N}\geq 0$ for $(ij)$ in a cluster and 
-$\frac{n_0(ij)-n_1(ij)}{N}\leq 0$ for $(ij)$ in $O$. Independence of the edges then implies the above formula.  
+\begin{proof} The matrix $A^*$ is a minimizer of the above convex function if and only if its subdifferential at $A^*$ contains the matrix $0$. By part $(1)$ of the previous Lemma this occurs if and only if $\frac{n_0(ij)-n_1(ij)}{N}\leq 0$ for $(ij)$ in a cluster and 
+$\frac{n_0(ij)-n_1(ij)}{N}\geq 0$ for $(ij)$ in $O$. Independence of the edges then implies the above formula.  
 \end{proof}
 \begin{remark} Could the set of minimizers be larger? If $A'$ has at least one entry $A_{ij}\in (0,1)$ the corresponding component in the subgradient is the constant $n_0(ij)-n_1(ij)$ and this equals zero with much smaller probability, precisely when both terms equal to $\frac{N}{2}$. In particular it is impossible if $N$ is odd and in this case $A^*$ is the only minimizer.
 \end{remark}
@@ -164,8 +164,115 @@ The most immediate way to do this would be to find an $S$ with $S_{ij}\leq 0$ ne
 \]
 
 However it is easy to see that we cannot do this improvement simultaneously in all components, because $n=\langle S, 2A-11^t\rangle = Tr(S)+\sum_{ij \in O^c} S_{ij} -\sum_{ij \in O} S_{ij}\leq n+u$ where $u$ is the objective function in the problem above. We conclude that $u$ must be nonnegative so we cannot improve simultaneously in all directions at once.
+In the following section we discuss how tradeoffs between components explain the improved recovery probability induced by the spectral norm.
 
-\mv{El pr\'oximo paso es entonces intentar hacer "tradeoffs", es decir quitar de una componente, dificultando la recuperaci\'on, para poner en otra haci\'endola m\'as f\'acil. En qu\'e direcci\'on hacer estos tradeoffs depender\'a entonces de poder entender las probabilidades relevantes con m\'as detalle -- es decir de las f\'ormulas de tarea. Algo que puede ayudar es de pronto usar la aproximación de la binomial mediante la distribuci\'on normal.}
+\section{Estimating recovery probabilities}
+
+Let $\Gamma$ be the symmetric matrix with zero diagonal and off-diagonal entries given by
+$\Gamma_{ij}=\frac{n_0(ij)-n_1(ij)}{N}$. By Lemma~\ref{lem: subdiff} a symmetric matrix $C$ lies in the subdifferential if and only if it satisfies the inequalities
+\[ \Gamma_{ij}\leq C_{ij}\leq 1 \text{, if $\{i,j\}\subseteq C_t$ for some $t$ and}\]
+\[-1\leq C_{ij} \leq \Gamma_{ij} \text{ if $\{i,j\}$ does not belong to any cluster. } \]
+To simplify these inequalities we define a linear operator $\widetilde{\bullet}$ on symmetric matrices by the formula
+\[ \widetilde{A} = 
+\begin{cases}
+A_{ij}\text{ if $i=j$ or $ij\in I$ and}\\
+-A_{ij}\text{ if $ij\in O$.}
+\end{cases}
+\]
+in this language $C_{ij}$ belongs to the subdifferential if and only if $\widetilde{\Gamma}_{ij}\leq \widetilde{C}_{ij}$ for $i\neq j$.
+The following key result gives sufficient conditions for the true cluster structure $A^*$ to be a minimizer of the proposed optimization problem. In order to describe it we introduce the following notation. 
+
+\begin{definition} Let $\delta$ be a positive real number. For a symmetric matrix $\Gamma$ define the quantities
+\[b(\Gamma,\delta):=\sum_{i\neq j} \max\left(\widetilde{\Gamma}+\frac{2\delta}{n}11^t,0\right)
+\text{ and } a(\Gamma,\delta):=\sum_{i\neq j} \max\left(-\widetilde{\Gamma}-\frac{2\delta}{n}11^t,0\right)
+\]\end{definition}
+The quantity $b(\Gamma,\delta)$ (resp. $a(\Gamma,\delta)$) measures the total amount by which the matrix $\widetilde{-\frac{2\delta}{n}11^t}$ fails (resp. succeeds) to be in the subdifferential of Lemma~\ref{lem: subdiff} in the sense that it sums over all $ij$ the amount by which the inequalities $\widetilde{\Gamma_{ij}}\leq \frac{2\delta}{n} 11^t$ fail (resp. succeed). The key point of the following Theorem is that if the inequality fails by less than it succeeds then the subdifferential of the spectral norm is sufficiently rich so as to allow us to redistribute these quantities. In this sense the following Theorem explains the success of the spectral norm in cluster recovery algorithms. 
+
+
+\begin{theorem} Assume there are only two clusters. If $b(\Gamma,\delta)\leq \min(\delta, a(\Gamma,\delta))$ then $A^*$ is a minimizer of the optimization problem $\min_A\Delta(A)$. 
+\end{theorem}
+\begin{proof} We will show that there exists a matrix $C_{ij}$ such that $-C_{ij}\in \partial \left(\delta\|2A-11^t\|\right)(A^*)$ for which $\widetilde{\Gamma_{ij}}\leq \widetilde{C_{ij}}$ for $i\neq j$. It will then follow that $0=C-C$ belongs to the subdifferential of $\Delta(A)$ at $A^*$ and thus $A^*$ is a minimizer as claimed.
+
+Recall that $-C\in \partial \left(\delta\|2A-11^t\|\right)(A^*)$ if and only if it satifies the conditions
+\[ \langle H^* , C\rangle =-2\delta n\text{ and }\|C\|\leq 2\delta \]
+where $H^*:=2A^*-11^t$ and $\|\bullet\|$ is the spectral norm. 
+Both of these conditions are satisfied by setting $C=-\frac{2\delta}{n} H^*$. However this choice of $C$ will not, in general, satisfy the inequalities $\widetilde{\Gamma}_{ij}\leq \widetilde{-\frac{2\delta}{n} H^*}_{ij}=-\frac{2\delta}{n}11^t_{ij}$ for $i\neq j$. 
+
+We will adjust our candidate for $\widetilde{C}$ by adding to it a transportation matrix $\widetilde{K}$ that will guarantee that all these inequalities are satisfied when $b(\Gamma,\delta)\leq a(\Gamma, \delta)$. Crucially we will choose $\widetilde{K}$ so that $K$ satisfies $KH^*=H^*K=0$ allowing us to control the spectral norm of $C$.
+
+Since $b(\Gamma,\delta)\leq a(\Gamma,\delta)$ there exists a way to redistribute the quantity $b(\Gamma,\delta)$ by substracting it from the $ij$ for which $-\frac{\delta}{n}\leq \widetilde{\Gamma}_{ij}$  and adding it into those $st$ for which $\widetilde{\Gamma}_{st}\leq -\frac{\delta}{n}$. More specifically, if $b=\widetilde{\Gamma_{ij}}+\frac{2\delta}{n}>0$ then there exists a set $(i_1,j_1),\dots, (i_t,j_t)$ of non-diagonal entries and nonnegative constants $\gamma_{i_s,j_s}$ summing to one 
+such that $\widetilde{\Gamma}_{i_sj_s}+\frac{2\delta}{n}+ b\gamma_{i_s,j_s}\leq 0$. Define the off-diagonal elements of $\widetilde{C}$ by
+\[\widetilde{C}:=-\frac{2\delta}{n} 11^t + \sum_{i_s,j_s} b\gamma_{i_s,j_s}(-e_{ij}+e_{i_s,j_s})\]
+where $e_{ij}$ is the symmetric matrix with one in positions $i,j$ and $j,i$ and zeroes otherwise. More generally, let $B$ be the set of paris $(i,j)$ with $i<j$ such that $\widetilde{\Gamma_{ij}}+\frac{2\delta}{n}>0$. If $b(\Gamma,\delta)\leq a(\Gamma,\delta)$ then for each $ij\in B$ there exist nonnegative constants $\gamma^{(ij)}_{st}$ such that $\sum_{s < t} \gamma^{(ij)}_{st}=1$ and for which the matrix
+\[\widetilde{C}:=-\frac{2\delta}{n}11^t+\sum_{ij\in B} \sum_{s<t} \left(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n}\right)\gamma_{st}^{(ij)} (-e_{ij}+e_{st})\]  
+satisfies $\widetilde{\Gamma}_{ab}\leq \widetilde{C}_{ab}$ for all $a\neq b$. We will show that if $b(\Gamma,\delta)\leq 2\delta$ then the matrix $C$ with off-diagonal entries given by
+\[C_{ab}=-\frac{2\delta}{n}H^*_{ab} + \sum_{ij\in B} \sum_{s<t} \left(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n}\right)\gamma_{st}^{(ij)} \widetilde{(-e_{ij}+e_{st})_{ab}}\]
+lies in $-\partial \left(\delta\|2A-11^t\|_*\right)(A^*)$ for some choice of diagonal, proving the Theorem. 
+For a pair of indices $i<j$ let $\epsilon_{ij}=1$ if $ij\in I$ and $\epsilon_{ij}=-1$ if $ij\in O$. Define the matrix $t_{ij}$ by $t_{ij}=\epsilon_{ij} e_{ij}-e_{ii}-e_{jj}$ and note that $t_{ij}$ satisfies the following three properties: 
+\begin{enumerate}
+\item The equalities $H^*t_{ij}=0=t_{ij}H^*$ hold. If $ij\in O$ this happens only when there are exactly two clusters and this is the only point in the proof where this assumption is used.
+\item The off-diagonal entries of $\widetilde{t_{ij}}$ are equal to those of $e_{ij}$. In particular the off-diagonal entries of $\widetilde{(-e_{ij}+e_{st})_{ab}}$ are always equal to those of $\widetilde{-t_{ij}+t_{st}}$.
+\item The inequality $\|-t_{ij}+t_{st}\|\leq 2$ holds for all $ij$ and $st$. This is immediate via direct calculation (the inequality is strict only if $|\{i,j\}\cap\{s,t\}|\geq 1$ and in this case it can take values of $\sqrt{3}$ and $0$).  
+\end{enumerate}
+If $C$ denotes the matrix given by
+\[C:= -\frac{2\delta}{n}H^* + \sum_{ij\in B} \sum_{s<t} \left(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n}\right)\gamma_{st}^{(ij)} (-t_{ij}+t_{st})\]
+then the following properties hold:
+\begin{enumerate}
+\item The off-diagonal entries agree with those in our previous expression so $\widetilde{\Gamma}_{ab}\leq \widetilde{C}_{ab}$ for all $a\neq b$ and thus $C$ is in the subdifferential of Lemma~\ref{lem: subdiff}.
+\item Since $H^*t_{ij}=0=t_{ij}H^*$ the equality $\langle H^*, C\rangle =\langle H^*,-\frac{2\delta}{n}H^*\rangle = -2\delta n$ holds and moreover
+\[ \| C\|=\max\left(\left\|-\frac{2\delta}{n}H^*\right\|, \left\|\sum_{ij\in B} \sum_{s<t} \left(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n}\right)\gamma_{st}^{(ij)} (-t_{ij}+t_{st})\right\|\right).\] 
+\end{enumerate}
+The operator norm of the first term in the maximum equals $2\delta$ and that of the second term is bounded by $2b(\Gamma,\delta)$ by the triangle inequality and the definition of $b(\Gamma,\delta)$. We conclude that $\|C\|$ is bounded by $2\delta$ because $b(\Gamma,\delta)\leq \delta$. As a result $-C\in \partial\left(\|2A-11^t\|\right)(A^*)$ proving the Theorem.
+\end{proof}
+
+\mv{Como extendemos este razonamiento al caso de tres o m\'as clusters? Debe ser posible utilizar otras matrices de transporte para este caso que vivan en el kernel. Algo interesante es que con tres clusters es necesario que los promedios de una matriz aniquilada por $H^*$ dentro de cada uno de los bloques $C_i\times C_j$ deban ser cero.} 
+
+Using the previous Theorem we now estimate the probabilities of perfect recovery of the correct cluster structure.
+
+\begin{cor} Given $\delta<0$ the probability that $A^*$ is a minimizer of the optimization problem $\min_A\Delta_{\delta}(A)$ is bounded below by $\mathbb{P}\{ b(\Gamma,\delta)\leq \min \left(a(\Gamma,\delta), 2\delta\right)\}$.  
+This quantity can be computed in terms of the joint distribution of two sums over all edges of independent random variables, because the following idetities hold:
+\[b(\Gamma,\delta)+a(\Gamma,\delta)=\sum_{ij} \left|\widetilde{\Gamma}_{ij}+\frac{\delta}{n}\right|\]
+\[b(\Gamma,\delta)-a(\Gamma,\delta)=\sum_{ij} \left(\widetilde{\Gamma}_{ij}+\frac{\delta}{n}\right)\]
+and in particular, 
+\[\mathbb{P}\{ b(\Gamma,\delta)\leq \min \left(a(\Gamma,\delta), \delta\right)\}\geq \]  
+\mv{TAREA: Encontrar la mejor f\'ormula posible. Esto debe poder hacerse usando desiguladades de concentraci\'on junto con las igualdades del Corolario. Notar que esta desigualdad es independiente de la prueba del Teorema anterior y es solo un problema de probabilidad multinomial.}
+\end{cor}
+
+
+
+
+\end{document}
+Note that $\Gamma$ is the set of variable endpoints in the inequalities of Lemma~\ref{lem: subdiff}. Accor
+
+
+
+
+
+
+
+
+
+
+Our following Lemma gives us a decomposition Theorem for symmetric matrices. This decomposition will be very useful when computing spectral norms in the two-block case.
+Suppose that we have only two blocks $C_1$ and $C_2$ and let $u$ be the vector given by
+\[u_i=\begin{cases}
+1\text{ if $i\in C_1$}
+-1\text{ if $i\in C_2$}
+\end{cases}
+\]
+Define $H^*:=uu^t$ and for $i=1,\dots, n$ let $e_{ii}$ be the $n\times n$ matrix whose only nonzero entry is in position $ii$ and has value $1$ 
+
+
+\begin{lemma} Assume $|C_1|\neq |C_2|$ If $A$ is a symmetric matrix then there exist unique constants $\lambda_1,\dots, \lambda_{n-1}$ and a matrix $K$ such that $KH^*=H^*K=0$ such that
+\[A= \frac{\langle H^*,A\rangle }{n^2} H^* +\sum_{i=1}^{n-1}\lambda_1(e_{i,i}-e_{i+1,i+1})+K.\]
+And in particular the following equality holds  
+\[ \|A\| =\max(A-K,K).\]
+\end{lemma}
+\begin{proof} The $n$ vectors in $v^tH^*$ and $v^t(e_{i,i}-e_{i+1,i+1})$ for $i=1,\dots, n-1$ are linearly independent in $\RR^n$ because the sum of the entries of all but the first one vanish. It follows that $v^tA$ can be expressed uniquely as a linear combination of them 
+
+
+\end{proof}
+
 
 
 
