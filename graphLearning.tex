@@ -229,14 +229,38 @@ The operator norm of the first term in the maximum equals $2\delta$ and that of 
 
 Using the previous Theorem we now estimate the probabilities of perfect recovery of the correct cluster structure.
 
+
+\begin{lemma} The following inequality holds
+\[\PP\{b(\Gamma,\delta)\geq a(\Gamma,\delta)\} \geq 1-2\exp\left(-\frac{4n^2N}{3} \alpha^2\right) \]
+where $\alpha=\frac{1}{2}n^2N-nN\delta-|O|\overline{p}-\sum_{i=1}^k |C_i|p_iN]$. 
+\end{lemma}
+\begin{proof} 
+\[\PP\{b(\Gamma, \delta)-a(\Gamma,\delta)\leq 0\} =\sum_{ij} \left(\widetilde{\Gamma_{ij}} +\frac{2\delta}{n}\right) = \]
+iff
+\[ \sum_{ij\in I} \Gamma_{ij} -\sum_{ij\in O} \Gamma_{ij} +2\delta(n-1) \leq 0\]
+Now the expected values are given by
+\[\mathbb{E}[\Gamma_{ij}]= \begin{cases}
+\overline{q}-\overline{p}\text{, if $ij\in O$}\\
+q_t-p_t\text{, if $ij\in C_t$}
+\end{cases}\]
+So by Hoeffding's inequality we conclude that 
+
+
+\end{proof}
+
+
+
+
 \begin{cor} Given $\delta<0$ the probability that $A^*$ is a minimizer of the optimization problem $\min_A\Delta_{\delta}(A)$ is bounded below by $\mathbb{P}\{ b(\Gamma,\delta)\leq \min \left(a(\Gamma,\delta), 2\delta\right)\}$.  
 This quantity can be computed in terms of the joint distribution of two sums over all edges of independent random variables, because the following idetities hold:
-\[b(\Gamma,\delta)+a(\Gamma,\delta)=\sum_{ij} \left|\widetilde{\Gamma}_{ij}+\frac{\delta}{n}\right|\]
-\[b(\Gamma,\delta)-a(\Gamma,\delta)=\sum_{ij} \left(\widetilde{\Gamma}_{ij}+\frac{\delta}{n}\right)\]
+\[b(\Gamma,\delta)+a(\Gamma,\delta)=\sum_{ij} \left|\widetilde{\Gamma}_{ij}+\frac{2\delta}{n}\right|\]
+\[b(\Gamma,\delta)-a(\Gamma,\delta)=\sum_{ij} \left(\widetilde{\Gamma}_{ij}+\frac{2\delta}{n}\right)\]
 and in particular, 
 \[\mathbb{P}\{ b(\Gamma,\delta)\leq \min \left(a(\Gamma,\delta), \delta\right)\}\geq \]  
 \mv{TAREA: Encontrar la mejor f\'ormula posible. Esto debe poder hacerse usando desiguladades de concentraci\'on junto con las igualdades del Corolario. Notar que esta desigualdad es independiente de la prueba del Teorema anterior y es solo un problema de probabilidad multinomial.}
 \end{cor}
+
+
 
 
 
