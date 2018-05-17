@@ -691,7 +691,7 @@ A_{ij}\text{ if $i=j$ or $ij\in I$ and}\\
 -A_{ij}\text{ if $ij\in O$.}
 \end{cases}
 \]
-in this language $C_{ij}$ belongs to the subdifferential if and only if $\widetilde{\Gamma}_{ij}\leq \widetilde{C}_{ij}$ for $i\neq j$.
+in this language $C_{ij}$ belongs to the subdifferential if and only if $\widetilde{\Gamma}_{ij}\leq \widetilde{C}_{ij}\leq 1$ for $i\neq j$.
 The following key result gives sufficient conditions for the true cluster structure $A^*$ to be a minimizer of the proposed optimization problem. In order to describe it we introduce the following notation. 
 
 \begin{definition} Let $\delta$ be a positive real number. For a symmetric matrix $\Gamma$ define the quantities
@@ -723,7 +723,7 @@ lies in $-\partial \left(\delta\|2A-11^t\|_*\right)(A^*)$ for some choice of dia
 For a pair of indices $i<j$ let $\epsilon_{ij}=1$ if $ij\in I$ and $\epsilon_{ij}=-1$ if $ij\in O$. Define the matrix $t_{ij}$ by $t_{ij}=\epsilon_{ij} e_{ij}-e_{ii}-e_{jj}$ and note that $t_{ij}$ satisfies the following three properties: 
 \begin{enumerate}
 \item The equalities $H^*t_{ij}=0=t_{ij}H^*$ hold. If $ij\in O$ this happens only when there are exactly two clusters and this is the only point in the proof where this assumption is used.
-\item The off-diagonal entries of $\widetilde{t_{ij}}$ are equal to those of $e_{ij}$. In particular the off-diagonal entries of $\widetilde{(-e_{ij}+e_{st})_{ab}}$ are always equal to those of $\widetilde{-t_{ij}+t_{st}}$.
+\item The off-diagonal entries of $\widetilde{t_{ij}}$ are equal to those of $e_{ij}$. In particular the off-diagonal entries of $\widetilde{(-e_{ij}+e_{st})_{ab}}$ are always equal to those of $-t_{ij}+t_{st}$.
 \item The inequality $\|-t_{ij}+t_{st}\|\leq 2$ holds for all $ij$ and $st$. This is immediate via direct calculation (the inequality is strict only if $|\{i,j\}\cap\{s,t\}|\geq 1$ and in this case it can take values of $\sqrt{3}$ and $0$).  
 \end{enumerate}
 If $C$ denotes the matrix given by
