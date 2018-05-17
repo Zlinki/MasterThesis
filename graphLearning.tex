@@ -183,13 +183,13 @@ in this language $C_{ij}$ belongs to the subdifferential if and only if $\wideti
 The following key result gives sufficient conditions for the true cluster structure $A^*$ to be a minimizer of the proposed optimization problem. In order to describe it we introduce the following notation. 
 
 \begin{definition} Let $\delta$ be a positive real number. For a symmetric matrix $\Gamma$ define the quantities
-\[b(\Gamma,\delta):=\sum_{i\neq j} \max\left(\widetilde{\Gamma}+\frac{2\delta}{n}11^t,0\right)
-\text{ and } a(\Gamma,\delta):=\sum_{i\neq j} \max\left(-\widetilde{\Gamma}-\frac{2\delta}{n}11^t,0\right)
+\[b(\Gamma,\delta):=\sum_{i\neq j} \max\left(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n},0\right)
+\text{ and } a(\Gamma,\delta):=\sum_{i\neq j} \max\left(-\widetilde{\Gamma_{ij}}-\frac{2\delta}{n},0\right)
 \]\end{definition}
 The quantity $b(\Gamma,\delta)$ (resp. $a(\Gamma,\delta)$) measures the total amount by which the matrix $\widetilde{-\frac{2\delta}{n}11^t}$ fails (resp. succeeds) to be in the subdifferential of Lemma~\ref{lem: subdiff} in the sense that it sums over all $ij$ the amount by which the inequalities $\widetilde{\Gamma_{ij}}\leq \frac{2\delta}{n} 11^t$ fail (resp. succeed). The key point of the following Theorem is that if the inequality fails by less than it succeeds then the subdifferential of the spectral norm is sufficiently rich so as to allow us to redistribute these quantities. In this sense the following Theorem explains the success of the spectral norm in cluster recovery algorithms. 
 
 
-\begin{theorem} Assume there are only two clusters. If $b(\Gamma,\delta)\leq \min(\delta, a(\Gamma,\delta))$ then $A^*$ is a minimizer of the optimization problem $\min_A\Delta(A)$. 
+\begin{theorem}\label{thm: transport} Assume there are only two clusters. If $b(\Gamma,\delta)\leq \min(\delta, a(\Gamma,\delta))$ then $A^*$ is a minimizer of the optimization problem $\min_A\Delta(A)$. 
 \end{theorem}
 \begin{proof} We will show that there exists a matrix $C_{ij}$ such that $-C_{ij}\in \partial \left(\delta\|2A-11^t\|\right)(A^*)$ for which $\widetilde{\Gamma_{ij}}\leq \widetilde{C_{ij}}$ for $i\neq j$. It will then follow that $0=C-C$ belongs to the subdifferential of $\Delta(A)$ at $A^*$ and thus $A^*$ is a minimizer as claimed.
 
@@ -227,27 +227,46 @@ The operator norm of the first term in the maximum equals $2\delta$ and that of 
 
 \mv{Como extendemos este razonamiento al caso de tres o m\'as clusters? Debe ser posible utilizar otras matrices de transporte para este caso que vivan en el kernel. Algo interesante es que con tres clusters es necesario que los promedios de una matriz aniquilada por $H^*$ dentro de cada uno de los bloques $C_i\times C_j$ deban ser cero.} 
 
-Using the previous Theorem we now estimate the probabilities of perfect recovery of the correct cluster structure.
+Using the previous Theorem we now estimate the probabilities of perfect recovery of the correct cluster structure. 
 
+\begin{theorem} Suppose $B_1,\dots, B_N$ are i.i.d. random graphs with independent entries. If the quantities $M$ and $J$ are given by the formulas 
+\[ M:=\EE\left[\sum_{i\neq j}\widetilde{\Gamma_{ij}}\right]\text{ and }J:=\EE\left[\sum_{i\neq j}\max\left(\widetilde{-Z_{ij}^{(t)}}+\frac{2\delta N}{n},0\right)\right]\]
+then the probability that $A^*\in \argmin \Delta(A)$ is bounded below by
+\[1-\left(\exp\left( -\frac{N}{2}\left(1-\frac{1}{n}\right) \left(\frac{M}{n-1}-2\delta\right)^2\right)+\exp\left(-\frac{N(\delta-J)^2}{2n(n-1)}\right)\right)\]
+whenever $\delta$ satisfies the inequalities $\frac{M}{2(n-1)}>\delta>J$. 
+\end{theorem}
 
-\begin{lemma} The following inequality holds
-\[\PP\{b(\Gamma,\delta)\geq a(\Gamma,\delta)\} \geq 1-2\exp\left(-\frac{4n^2N}{3} \alpha^2\right) \]
-where $\alpha=\frac{1}{2}n^2N-nN\delta-|O|\overline{p}-\sum_{i=1}^k |C_i|p_iN]$. 
-\end{lemma}
-\begin{proof} 
-\[\PP\{b(\Gamma, \delta)-a(\Gamma,\delta)\leq 0\} =\sum_{ij} \left(\widetilde{\Gamma_{ij}} +\frac{2\delta}{n}\right) = \]
-iff
-\[ \sum_{ij\in I} \Gamma_{ij} -\sum_{ij\in O} \Gamma_{ij} +2\delta(n-1) \leq 0\]
-Now the expected values are given by
-\[\mathbb{E}[\Gamma_{ij}]= \begin{cases}
-\overline{q}-\overline{p}\text{, if $ij\in O$}\\
-q_t-p_t\text{, if $ij\in C_t$}
-\end{cases}\]
-So by Hoeffding's inequality we conclude that 
+\begin{proof} By Theorem~\ref{thm: transport} the probability that $A^*\in \argmin \Delta(A)
+$ is bounded below by $\PP\{b(\Gamma,\delta)\leq \min(\delta,a(\Gamma,\delta)\}$. By the union bound this probability is bounded below by the quantity
+\[1-\left(\PP\{b(\Gamma,\delta)\geq a(\Gamma,\delta)\}+ \PP\{b(\Gamma,\delta)\geq \delta\}\right).\]
+We will find upper bounds for the summands in the parenthesis proving the Theorem. Our key tool will be the following version of Hoeffding's inequality: If $X_1,\dots, X_T$ are independent random variables with values in $[c_i,d_i]$ and $\Lambda_T:=\sum_{i=1}^T X_i$ then the following inequality holds for any $t\geq 0$ 
+\[\PP\{\Lambda_T-\EE[\Lambda_T]\geq t\}\leq \exp\left(-\frac{2t^2}{\sum_{i=1}^T (d_i-c_i)^2}\right).\]
+To obtain a bound for the first term, define for $t=1,\dots, N$ the random variable $Z^{(t)}:=2B_t-11^t$ and note that for every $i\neq j$ the equality
+\[\sum_{t=1}^N-\frac{Z_{ij}^{(t)}}{N} = \frac{n_0(ij)-n_1(ij)}{N}=\Gamma_{ij}\]
+holds. As a result
+\[b(\gamma,\delta)-a(\Gamma,\delta) = \sum_{i\neq j} \left(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n}\right)= \frac{2\delta n(n-1)}{n} + \sum_{t=1}^N \sum_{i\neq j} \frac{-\widetilde{Z^{(t)}_{ij}}}{N}\]
+and therefore if $M:=\EE\left[\sum_{t=1}^N \sum_{i\neq j} \frac{\widetilde{Z^{(t)}_{ij}}}{N}\right]=\EE\left[\sum_{i\neq j} \widetilde{Z^{(t)}_{ij}}\right]$ then 
+\[\PP\left\{\frac{2\delta n(n-1)}{n} + \sum_{t=1}^N \sum_{i\neq j} \frac{-\widetilde{Z^{(t)}_{ij}}}{N}\geq 0\right\} = \PP\left\{\sum_{t=1}^N \sum_{i\neq j} \frac{-\widetilde{Z^{(t)}_{ij}}}{N} + M \geq -2\delta (n-1) + M \right\}.\]
 
+Estimating the last term via Hoeffding's inequality with $Nn(n-1)$ summands with values in $\left[-\frac{1}{N},\frac{1}{N}\right]$ we conclude that 
+\[\PP\{b(\Gamma,\delta)\geq a(\Gamma,\delta)\}\leq \exp\left(-2\frac{(M-2\delta(n-1))^2}{Nn(n-1)(\frac{2}{N})^2}\right)=\exp\left( -\frac{N}{2}\left(1-\frac{1}{n}\right) \left(\frac{M}{n-1}-2\delta\right)^2\right) \]
+whenever $\frac{M}{n-1}-2\delta>0$.
 
+For estimating the second term, recall that
+\[b(\Gamma,\delta)= \sum_{i\neq j} \max\left(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n},0\right) = \sum_{i\neq j} \max\left(\sum_{t=1}^N\frac{\widetilde{-Z_{ij}^{(t)}}+\frac{2\delta N}{n}}{N},0\right)\]
+By Jensen's inequality applied to the convex function $\max(\bullet,0)$ the last term can be bounded above as
+\[
+\sum_{i\neq j} \max\left(\sum_{t=1}^N\frac{\widetilde{-Z_{ij}^{(t)}}+\frac{2\delta N}{n}}{N},0\right)\leq \sum_{t=1}^N \sum_{i\neq j}  \frac{1}{N} \max\left(\widetilde{-Z_{ij}^{(t)}}+\frac{2\delta N}{n},0\right)
+\]
+As a result
+\[\PP\{b(\Gamma,\delta)\geq \delta\}\leq \PP\left\{ \sum_{t=1}^N \sum_{i\neq j}  \frac{1}{N} \max\left(\widetilde{-Z_{ij}^{(t)}}+\frac{2\delta N}{n},0\right)\geq \delta\right\}\]
+And we can estimate the last term via Hoeffding's inequality with $Nn(n-1)$ summands taking values in the interval $\left[-\frac{1}{N}+\frac{2\delta}{n},\frac{1}{N}+\frac{2\delta}{n}\right]$ obtaining
+
+\[\PP\{b(\Gamma,\delta)\geq \delta\}\leq \exp\left( -\frac{2(\delta-J)^2}{Nn(n-1)\left(\frac{2}{N}\right)^2}\right)=\exp\left(-\frac{N(\delta-J)^2}{2n(n-1)}\right)\]
+whenever $J:=\EE\left[\sum_{i\neq j}\max\left(\widetilde{-Z_{ij}^{(t)}}+\frac{2\delta N}{n},0\right)\right]$ satisfies $J<\delta$.
 \end{proof}
 
+\mv{Esta prueba todav\'ia no muestra lo que queremos. El problema es que la cantidad $J$ depende de $N$. Esto esta causado por intentar hacer aparecer $N$, usando la desigualdad de Jensen obteniendo una suma con $Nn(n-1)$ t\'erminos. El precio es que esos t\'erminos terminan con valor esperado dependiente de $N$. Creo que una soluci\'on posible ser\'ia usar una desigualdad m\'as precisa que Hoeffding que involucre la varianza, por ejemplo la desigualdad de Bernstein (porque el punto es que la varianza de $\max(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n},0)$ se va para cero cuando $N$ crece). Se logra as\'i una buena desigualdad?} 
 
 
 
