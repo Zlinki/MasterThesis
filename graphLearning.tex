@@ -268,6 +268,14 @@ whenever $J:=\EE\left[\sum_{i\neq j}\max\left(\widetilde{-Z_{ij}^{(t)}}+\frac{2\
 
 \mv{Esta prueba todav\'ia no muestra lo que queremos. El problema es que la cantidad $J$ depende de $N$. Esto esta causado por intentar hacer aparecer $N$, usando la desigualdad de Jensen obteniendo una suma con $Nn(n-1)$ t\'erminos. El precio es que esos t\'erminos terminan con valor esperado dependiente de $N$. Creo que una soluci\'on posible ser\'ia usar una desigualdad m\'as precisa que Hoeffding que involucre la varianza, por ejemplo la desigualdad de Bernstein (porque el punto es que la varianza de $\max(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n},0)$ se va para cero cuando $N$ crece). Se logra as\'i una buena desigualdad?} 
 
+\mv{Algunas ideas mas concretas. El problema es acotar por encima $\PP\{b(\Gamma,\delta)\geq \delta\}$. Ahora $b(\Gamma,\delta):=\sum_{i\neq j} \max\left(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n},0\right)$ asi que es una suma de variables aleatorias independientes, cada una en el rango $[0, 1+ \frac{2\delta}{n}]$. Lo importante es que en la medida en que $N$ crece estas variables aleatorias deben estar cada vez m\'as concentradas en $0$. Para cuantificar esto necesitamos entender (i.e. encontrar una cota superior simple como funcion de $N$) para alguno de los siguientes 
+\begin{enumerate}
+\item Entender el valor esperado para cada sumando.
+\item Entender la varianza. (con estos dos podriamos utilizar la desigualdad de Bennett para obtener el resultado, ver notas de Pollard) 
+\item Entender la funci\'on generadora de momentos. Esta es la clave para una eventual desigualdad de concentraci\'on.
+\end{enumerate}
+}
+
 
 
 \begin{cor} Given $\delta<0$ the probability that $A^*$ is a minimizer of the optimization problem $\min_A\Delta_{\delta}(A)$ is bounded below by $\mathbb{P}\{ b(\Gamma,\delta)\leq \min \left(a(\Gamma,\delta), 2\delta\right)\}$.  
