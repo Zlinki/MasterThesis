@@ -227,6 +227,51 @@ The operator norm of the first term in the maximum equals $2\delta$ and that of 
 
 \mv{Como extendemos este razonamiento al caso de tres o m\'as clusters? Debe ser posible utilizar otras matrices de transporte para este caso que vivan en el kernel. Algo interesante es que con tres clusters es necesario que los promedios de una matriz aniquilada por $H^*$ dentro de cada uno de los bloques $C_i\times C_j$ deban ser cero.} 
 
+We will now prove the general case when there are more than two clusters. The proof will be similar the proof of the previous theorem. We will start with the candidate matrix $\frac{-2\delta}{n}H^*$ and correct it by adding transport matrices that assure that the corrected matrix belong to the subdifferential of $\Delta(A)$ at $A^*$.
+The difficulty in applying the tools of the previous theorem to solve the general case is that the matrices $K$ that transport weight from one cluster to another do not, in general, satisfy the relation $KH^* = H^*K = 0$ when there are more than two clusters. This problem can be solved by splitting the matrix $H^*$ into matrices than only take into account $2$ clusters, and using the previous theorem.
+
+For  clusters $C_i\neq C_j$ define the matrix $H^{C_iC_j}$ whose entries are given by: 
+\[
+H^{C_iC_j}_{uv}= 
+\begin{cases}
+1 \text{ if } u,v \in C_i \text{ or } u,v \in C_j. \\
+-1 \text{ if } u \in C_i, v \in C_j \text{ or } u \in C_i, v\in C_j. \\
+0 \text{ in any other case.}
+\end{cases}
+\]
+Notice that this matrix has $4$ blocs. Two with only $1$ and two with only $-1$ moreover, its spectral norm is equal to $|C_i|+|C_j|$.
+
+\begin{lemma}
+Assume there are $l$ clusters. If for each pair of clusters the transport matrices $\Delta_{ij}$ satisfy that $\frac{1}{l-1}||H^{C_iC_j}||\geq ||\Delta_{ij}||$, then
+$A^*$ is a minimizer of the optimization problem $\min_A\Delta(A)$. 
+\end{lemma}
+
+\begin{proof}
+
+First of all, observe that
+\[
+\frac{-2\delta}{n}H^* = \frac{-2\delta}{n}\frac{1}{l-1}\sum_{1\leq i<j\leq l}H^{C_iC_j}.
+\]
+For each, $C_i\neq C_j$ construct the transport matrix $\Delta_{ij}$ as in the previous theorem, as to assure that $\Delta_{ij}H^{C_iC_j} = H^{C_iC_j} \Delta_{ij}=0$. This can be done since $H^{C_iC_j}$ takes into account only two clusters. 
+
+Finally, assume that for each $i<j$, $\frac{1}{l-1}||H^{C_iC_j}||\geq ||\Delta_{ij}||$.
+Then,
+\[
+\begin{aligned}
+||\frac{-2\delta}{n}H^*|| = \frac{2\delta}{n}||H^*|| \leq \frac{2\delta}{n}\sum_{1\leq i<j\leq l}||H^{C_iC_j}+\Delta_{ij}|| = \frac{2\delta}{n}\sum_{1\leq i<j\leq l} \max (||\frac{1}{l-1}H^{C_iC_j}||,||\Delta_{ij}||)& \\
+= \frac{2\delta}{n}\sum_{1\leq i<j\leq l} ||\frac{1}{l-1}H^{C_iC_j}|| = \sum_{1\leq i<j\leq l} \frac{2\delta(|C_i|+|C_j|)}{n(l-1)} = \frac{2\delta(l-1)}{n(k-1)}\sum_{1\leq i<j\leq l}|C_i|+|C_j|=2\delta.
+\end{aligned}
+\]
+
+
+\end{proof}
+
+
+
+
+
+
+
 Using the previous Theorem we now estimate the probabilities of perfect recovery of the correct cluster structure. 
 
 \begin{theorem} Suppose $B_1,\dots, B_N$ are i.i.d. random graphs with independent entries. If the quantities $M$ and $J$ are given by the formulas 
@@ -330,5 +375,4 @@ And in particular the following equality holds
 
 
 \end{document}
-
 
