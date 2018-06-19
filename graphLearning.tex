@@ -229,8 +229,22 @@ The operator norm of the first term in the maximum equals $2\delta$ and that of 
 
 We will now prove the general case when there are more than two clusters. The proof will be similar the proof of the previous theorem. We will start with the candidate matrix $\frac{-2\delta}{n}H^*$ and correct it by adding transport matrices that assure that the corrected matrix belong to the subdifferential of $\Delta(A)$ at $A^*$.
 The difficulty in applying the tools of the previous theorem to solve the general case is that the matrices $K$ that transport weight from one cluster to another do not, in general, satisfy the relation $KH^* = H^*K = 0$ when there are more than two clusters. This problem can be solved by splitting the matrix $H^*$ into matrices than only take into account $2$ clusters, and using the previous theorem.
+We begin recalling the following simple result:
 
-For  clusters $C_i\neq C_j$ define the matrix $H^{C_iC_j}$ whose entries are given by: 
+\begin{claim}
+Let $a_i,b_i \geq 0, \ i = 1,\dots,p$ be two non-negative, finite sequences of real numbers such that
+\[
+\sum_{i=1}^{p}a_i \geq \sum_{i=1}^{p}b_i.
+\]
+Then there exist a finite sequence of reals $c_i$ such that
+\begin{itemize}
+\item $\sum_{i=1}^p c_i=0.$
+\item $a_i \geq b_i+c_i \  \forall i.$
+\end{itemize}
+\end{claim}
+
+
+Now we proceed to do the proof. For  clusters $C_i\neq C_j$ define the matrix $H^{C_iC_j}$ whose entries are given by: 
 \[
 H^{C_iC_j}_{uv}= 
 \begin{cases}
@@ -242,7 +256,7 @@ H^{C_iC_j}_{uv}=
 Notice that this matrix has $4$ blocs. Two with only $1$ and two with only $-1$ moreover, its spectral norm is equal to $|C_i|+|C_j|$.
 
 \begin{lemma}
-Assume there are $l$ clusters. If for each pair of clusters the transport matrices $\Delta_{ij}$ satisfy that $\frac{1}{l-1}||H^{C_iC_j}||\geq ||\Delta_{ij}||$, then
+Assume there are $l$ clusters. Suppose that $ b(\Gamma,\delta) \leq min(\delta,a(\Gamma,\delta))$.Then,
 $A^*$ is a minimizer of the optimization problem $\min_A\Delta(A)$. 
 \end{lemma}
 
@@ -252,16 +266,44 @@ First of all, observe that
 \[
 \frac{-2\delta}{n}H^* = \frac{-2\delta}{n}\frac{1}{l-1}\sum_{1\leq i<j\leq l}H^{C_iC_j}.
 \]
-For each, $C_i\neq C_j$ construct the transport matrix $\Delta_{ij}$ as in the previous theorem, as to assure that $\Delta_{ij}H^{C_iC_j} = H^{C_iC_j} \Delta_{ij}=0$. This can be done since $H^{C_iC_j}$ takes into account only two clusters. 
+For each, $C_i\neq C_j$ construct the transport matrix $\Delta_{ij}$ as in the previous theorem, as to assure that $\Delta_{ij}H^{C_iC_j} = H^{C_iC_j} \Delta_{ij}=0$. This can be done since $H^{C_iC_j}$ takes into account only two clusters. Recall that the total amount of weight to be corrected is $b(\Gamma,\delta)$. Let $w_{i,j}$ the weight to be distributed from cluster $i$ to cluster $j$. In the notation of the previous theorem, $w_{ij}$ is just the sum of the 
+$\gamma_{i_sj_s}$ where $i_s \in i$ and $j_s \in j$.
+
+
+Let 
+
+\[
+C:= -\frac{2\delta}{n}H^* + \sum_{i<j}\Delta_{ij} = \frac{-2\delta}{n}\frac{1}{l-1}\sum_{1\leq i<j\leq l}H^{C_iC_j} + \sum_{i<j}\Delta_{ij}
+\]
 
 Finally, assume that for each $i<j$, $\frac{1}{l-1}||H^{C_iC_j}||\geq ||\Delta_{ij}||$.
 Then,
 \[
 \begin{aligned}
-||\frac{-2\delta}{n}H^*|| = \frac{2\delta}{n}||H^*|| \leq \frac{2\delta}{n}\sum_{1\leq i<j\leq l}||H^{C_iC_j}+\Delta_{ij}|| = \frac{2\delta}{n}\sum_{1\leq i<j\leq l} \max (||\frac{1}{l-1}H^{C_iC_j}||,||\Delta_{ij}||)& \\
-= \frac{2\delta}{n}\sum_{1\leq i<j\leq l} ||\frac{1}{l-1}H^{C_iC_j}|| = \sum_{1\leq i<j\leq l} \frac{2\delta(|C_i|+|C_j|)}{n(l-1)} = \frac{2\delta(l-1)}{n(k-1)}\sum_{1\leq i<j\leq l}|C_i|+|C_j|=2\delta.
+\left\|C\right \| = \left\| \frac{-2\delta}{n}\frac{1}{l-1}\sum_{1\leq i<j\leq l}H^{C_iC_j} + \sum_{i<j}\Delta_{ij}  \right \| & \\ \leq \frac{2\delta}{n(l-1)}\sum_{1\leq i<j\leq l}\left \|H^{C_iC_j}+ \frac{n(l-1)}{2\delta} \Delta_{ij}\right \| & \\
+= \frac{2\delta}{n(l-1)}\sum_{1\leq i<j\leq l} \max (\left\|H^{C_iC_j}\right\|,\left\|\frac{n(l-1)}{2\delta}\Delta_{ij}\right\|)& \\
 \end{aligned}
 \]
+Now notice that 
+\[
+\begin{aligned}
+\delta \geq b(\Gamma,\delta) \Rightarrow (l-1)n \geq \frac{(l-1)n}{\delta} b(\Gamma,\delta) \Rightarrow \sum_{i<j}\left \|H^{C_iC_j}\right \| \geq  \frac{(l-1)n}{\delta}\sum_{i<j}w_{i,j}  & \\
+\geq \frac{(l-1)n}{2\delta}\sum_{i<j}\left \|\Delta_{i,j} \right \|  .
+\end{aligned}
+\]
+By the claim, we can assume without loss of generality that
+for each $i<j$,
+\[
+\left \|H^{C_i,C_j}\right \| \geq  \frac{(l-1)n}{\delta}\left \|\Delta_{i,j} \right \|.
+\]
+
+This implies that the last sum reduces to
+\[
+\frac{2\delta}{n(l-1)}\sum_{1\leq i<j\leq l} \left\|H^{C_iC_j}\right\| = \sum_{1\leq i<j\leq l} \frac{2\delta(|C_i|+|C_j|)}{n(l-1)} = \frac{2\delta(l-1)}{n(l-1)}\sum_{1\leq i<j\leq l}|C_i|+|C_j|=2\delta.
+\]
+And so
+$\|C\| \leq 2\delta$.
+
 
 
 \end{proof}
@@ -375,4 +417,5 @@ And in particular the following equality holds
 
 
 \end{document}
+
 
