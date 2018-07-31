@@ -22,6 +22,7 @@
 \newtheorem{defn}[lemma]{Definition}
 \newtheorem{example}[lemma]{Example}
 \newtheorem{definition}[lemma]{Definition}
+\newtheorem{problem}[lemma]{Problem}
 
 
 \theoremstyle{remark}
@@ -80,6 +81,8 @@
 \newcommand{\zz}{\mathbb{Z}}
 \newcommand{\Sym}{\operatorname{Sym}} %done
 \newcommand{\GL}{{GL}}
+\newcommand{\grG}{{\mathcal{G}}}
+
 \newcommand{\Syz}{\operatorname{Syz}}
 \newcommand{\defi}[1]{\textsf{#1}} % for defined terms
 
@@ -93,15 +96,126 @@
 \newcommand{\ddr}[1]{{\color{blue} \sf $\clubsuit\clubsuit\clubsuit$ Daniel: [#1]}} 
 \newcommand{\mv}[1]{{\color{red} \sf $\clubsuit\clubsuit\clubsuit$ Mauricio: [#1]}}
 
-
-\title{Graph learning and the Wasserstein metric}
-\author{Daniel De Roux}
-\author{Mauricio Velasco}
-
-
 \begin{document}
+
+\author{Daniel De Roux}
+\address{
+Departamento de matem\'aticas\\
+Universidad de los Andes\\
+Carrera $1^{\rm ra}\#18A-12$\\ 
+Bogot\'a, Colombia
+}
+\email{d.de1033@uniandes.edu.co}
+
+\author{Mauricio Velasco}
+\address{
+Departamento de matem\'aticas\\
+Universidad de los Andes\\
+Carrera $1^{\rm ra}\#18A-12$\\ 
+Bogot\'a, Colombia
+}
+\email{mvelasco@uniandes.edu.co}
+
+\subjclass[2000]{Primary 15A29 % Inverse problems
+Secondary 15B52,52A22} % Random matrices, Random Convex sets and integral geometry
+\keywords{Compressed sensing, truncated moment problems, Kostlan-Shub-Smale polynomials}
+
+\begin{abstract} We study the problem of discovering the cluster structure of a random graph $\grG$ from an independent sample of size $N$. We propose a Wasserstein robust formulation of this optimization problem and prove that it can be reformulated as a tractable convex optimization problem. We give theoretical performance guarantees for these problems when the Wasserstein metric is induced by the nuclear norm and $\grG$ is distributed according to the stochastic block model explaining its good practical behavior. Finally we present our Julia implementation of the proposed algorithm and use it to analyze the voting patterns of the colombian senate in \mv{period?}.
+\end{abstract} 
+
+\title{Graph clustering and the nuclear Wasserstein metric.}
 \maketitle
 
+\section{Introduction}
+
+
+
+Let $\grG$ be a random graph with $n$ vertices. By a deterministic summary of $\grG$ we mean a (deterministic) graph $H^*$ which, on average, differs from $\grG$ by as few edges as possible. In this article we study the problem of finding deterministic summaries {\it from an independent sample} of $\grG$ of size $N$. More precisely we will address the following problem:
+
+\begin{problem}\label{Prob} Given adjacency matrices $B_1,\dots, B_N$ of an independent sample with the same distribution as $\grG$ find a symmetric matrix $A^*$ in $\argmin_A \EE_{B\sim \grG}[\|A-B\|_1]$. 
+\end{problem}
+
+Special cases of this problem arise in cluster detection and in data summarization, both heavily studied in the literature (\mv{refs?}).
+
+A possible approach to problem~\ref{Prob} is to use the samples to use the empirical measure $\hat{\mu}:=\sum_{i=1}^N \frac{1}{N}\delta_{B_i}$ as an approximation of the distribution of $\grG$ and to find a minimizer $A$ of the resulting empirical risk
+\[ \EE_{B\sim \mu}[\|A-B\|_1]=\frac{1}{N}\sum_{i=1}^N \|A-B_i\|_1.\]
+When the sample size $N$ is not sufficienly large for $\hat{\mu}$ to be a good approximation for the distribution of $\grG$ this approach leads to overfitting. To mitigate this we propose a robust version of the summarization problem by minimizing the worst-case risk when the distribution of $B$ is allowed to vary in a ball $\mathcal{N}_{\delta}(\hat{\mu})$ of radius $\delta>0$ centered at $\hat{\mu}$ in a suitable metric, leading to the following robust optimization problem:
+
+\begin{problem}\label{ProbRobusto} Given adjacency matrices $B_1,\dots, B_N$ of an independent sample with the same distribution as $\grG$ find a symmetric matrix $\overline{A}$ which minimizes  
+\[R(A):=\left(\sup_{\nu\in \mathcal{N}_{\delta}(\hat{\mu})} \EE_{B\sim G}[\|A-B\|_1]\right).\] 
+\end{problem}
+
+
+The seminal work of Kuhn et. al. \mv{ref?} shows that using a Wasserstein metric among probability distributions in the problem above leads to a tractable convex optimization problem. Our first result is that this is also true for the robust graph summarization problem when the Wasserstein metric is induced by a semidefinitely representable metric.
+
+\begin{theorem}\label{thm: finiteConvex} Let $K$ be the set of $n\times n$ symmetric matrices with entries in $[0,1]$. If $\delta>0$ then problem~\ref{ProbRobusto} is equivalent to:
+\[\min_{(A,s_1,\dots, s_N,\lambda)\in \mathcal{T}}\left( \lambda\delta +\frac{1}{N}\sum_{i=1}^N s_i + \frac{1}{N}\sum \|A-B_i\|_1\right)\]
+where $\mathcal{T}$ is the set of $(A,\vec{s},\lambda)$  satisfying the inequalities $\lambda\geq 0$ and $\eta_{\epsilon, i}(\lambda)\leq s_i$ as $i=1,\dots, N$ and $\epsilon$ ranges over all $\{0,1\}$-symmetric matrices and
+\[\eta_{\epsilon, i}(\lambda):= \sup_{Y\in K} \left(\langle \epsilon, A-Y\rangle -\lambda \|B_i-Y\|\right)\]
+\end{theorem}
+
+The formulation of~\ref{ProbRobusto} in Theorem~\ref{thm: finiteConvex} is a finite-dimensional convex optimization problem which unfortunately contains  an exponential number of constraints. We therefore introduce:
+\begin{enumerate}
+\item A more tractable simplification which agrees with the original problem whenever the optimal $A$ occurs at a matrix with entries in $\{0,1\}$.
+\item A relaxation which takes the form of a regularization of empirical risk minimization.
+\end{enumerate}
+More specifically, we prove the following 
+
+\begin{theorem}\label{Thm: tractable}If $A$ is a symmetric $\{0,1\}$-matrix then the following statements hold:
+\begin{enumerate}
+\item{  The number $\sup_{\nu\in B_{\delta}(\hat{\mu})} \EE[\|A-B\|_1]$ is equal to the optimal value of the problem
+\[
+\min_{\mathcal{H}} \left(\lambda\delta +\frac{1}{N}\sum_{i=1}^N s_i+\frac{1}{N}\sum_{i=1}^N\|A-B_i\|_1\right)
+\]
+where $\mathcal{H}$ is the set of $(\lambda, s_1,\dots, s_N,\Lambda, W)\in \RR\times\RR^N\times \RR^{n\times n} \times \RR^{n\times n}$ which satisfy the inequalities:
+\[
+\begin{array}{l}
+\|W\|_{*}\leq \lambda\\
+\Lambda \geq 0\\
+2A-11^t-W + \Lambda \geq 0\\
+\|\Lambda\|_{1}\leq s_i-\langle 2A-11^t-W, B_i\rangle\text{ for $i=1,\dots, N$}
+\end{array}
+\]}
+\item The following inequality holds:
+\[\sup_{\nu\in B_{\delta}(\hat{\mu})} \EE[\|A-B\|_1]\leq \frac{1}{N}\sum_{i=1}^N\|A-B_i\|_1+ \delta\|2A-11^t\|_*\]
+\item If $\|\cdot\|$ is a semidefinitely representable function then the problems:
+\begin{equation}\label{eqn: WRGS}
+\min_A \min_{\mathcal{H}} \left(\lambda\delta +\frac{1}{N}\sum_{i=1}^N s_i+\frac{1}{N}\sum_{i=1}^N\|A-B_i\|_1\right)\text{ and }
+\end{equation}
+\begin{equation}\label{eqn: WRGS2}
+\min_A\left(\frac{1}{N}\sum_{i=1}^N\|A-B_i\|_1+ \delta\|2A-11^t\|_*\right)
+\end{equation}
+are semidefinite programming problems.
+\end{enumerate}
+\end{theorem}
+
+Solving the optimization problems in part $(3)$ of Theorem~\ref{Thm: tractable} leads to a new algorithm for estimating deterministic graph summaries which we call {\it Wasserstein robust graph summarization}. We applied this algorithm to a variety of graphs $G$ distributed according to the stochastic block model and noted that the regularized problem with the Wasserstein metric induced by the nuclear norm, henceforth {\it Wasserstein robust nuclear norm summarization}, was able to recover the correct cluster structure using only very few samples outperforming all other methods known to us. Our next result is a performance guarantee which shows that exact recovery occurs for suitable $\delta>0$ with overwhelming probability explaining the good practical performance of Wasserstein nuclear norm summarization for cluster detection.
+
+Recall that a random graph $\grG$ has distribution given by the stochastic block model in $n$ vertices if there is a partition of $[n]$ into disjoint subsets $C_1,\dots, C_k$, real numbers $0\leq q<\frac{1}{2}<p_1,\dots, p_k\leq 1$ and edges are added independently with probability $p_{ij}$ of joining vertices $i,j$ by an edge where
+\[p_{ij}:=\begin{cases}
+p_t\text{, if $\{i,j\}\subseteq C_t$}\\
+q\text{, else.}
+\end{cases}
+\] 
+Note that a random graph $\grG$ has a unique deterministic summary given by $A^*$ with entries given by
+\[
+A^*_{ij}:=\begin{cases}
+1\text{, if $\{i,j\}\in C_t$ for some $t$}\\
+0\text{, otherwise.}
+\end{cases}
+\]
+
+\begin{theorem} Suppose $\grG$ is distributed according to the above stochastic block model. If $\hat{p}:=$ and $\delta=$ then the probability that $A^*$ is not a minimizer of~(\ref{eqn: WRGS2}) is bounded above by
+\[ \prod_{i<j}\left(\right)+ \] 
+\end{theorem}
+
+The key point of the Theorem, discussed at length in Section~\ref{}, is that we were able to understand why the nuclear norm is a good regularizer for graph summarization problems, namely because the subdifferential of the regularizer at $A^*$ is sufficiently rich so as to contain enough transportation matrices. 
+
+Next we focus on the practical performance of the proposed algorithm. Problems~(\ref{eqn: WRGS}) and~(\ref{eqn: WRGS2}) require solving large semidefinite programs which are beyond the  capacity of standard off-the-shelf software even for relatively small graphs (of say $40$ vertices with $N=4$). One possible reason is that off-the-shelf solvers often use interior point methods. A better alternative, especially well suited for solving~\ref{WNNC} is to use first order numerical optimization methods such as ADMM. In Section~\ref{Numerics} we adapt the ADMM algorithm for our regularized problem and present our open source Julia implementation allowing us to run the algorithm in graphs of up to 10000 vertices on a common laptop. In Section~\ref{Senadores} we use this algorithm to find a deterministic summary of voting patterns in the colombian senate \mv{Period}. 
+
+\subsection{Acknowledgments.}
+We wish to thank Fabrice Gamboa, Mauricio Junca and Thierry Klein for useful conversations during the completion of this project. \mv{CienciaPolitica}.
+D. De Roux was partially supported by a grant from Facultad de Ciencias, Universidad de los Andes. M. Velasco was partially supported by research funds from Universidad de los Andes. 
 
 \section{Preliminaries}
 
