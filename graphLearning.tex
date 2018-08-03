@@ -205,8 +205,9 @@ A^*_{ij}:=\begin{cases}
 \end{cases}
 \]
 
-\begin{theorem} Suppose $\grG$ is distributed according to the above stochastic block model. If $\hat{p}:=$ and $\delta=$ then the probability that $A^*$ is not a minimizer of~(\ref{eqn: WRGS2}) is bounded above by
-\[ \prod_{i<j}\left(\right)+ \] 
+\begin{theorem} Suppose $B_1,\dots, B_N$ are independent and have the same distribution as $\grG$. If $\alpha = \min (|p_t-\frac{1}{2}|, |q-\frac{1}{2}|)$ and $\delta^*$ is the maximum of $a(\delta):=\frac{\delta\left(\alpha-\frac{\delta}{n}\right)^2}{\left(1+\frac{2\delta}{n}\right)}$ in $[0,\alpha n]$ then the probability that $A^*$ is not a minimizer of~(\ref{eqn: WRGS2}) is bounded above by
+\[ \exp\left(-\frac{2N(n-1)^3(\alpha n-\delta^*)^2}{n}\right) + e^{-N\left(\delta^* a(\delta^*)\right)}\prod_{i\neq j}\left(1+ (e^{-4a}\widetilde{p_{ij}}+\widetilde{q_{ij}})^{\frac{N}{2}}\right).\] 
+Moreover this quantity decreases exponentially with the sample size $N$.
 \end{theorem}
 
 The key point of the Theorem, discussed at length in Section~\ref{}, is that we were able to understand why the nuclear norm is a good regularizer for graph summarization problems, namely because the subdifferential of the regularizer at $A^*$ is sufficiently rich so as to contain enough transportation matrices. 
@@ -225,6 +226,9 @@ D. De Roux was partially supported by a grant from Facultad de Ciencias, Univers
 By a graph $G$ we mean a finite loopless undirected graph. We say that $G$ is weighted if it is endowed with a function $w: E(G)\rightarrow \RR$ which assigns to every edge a real number in $[0,1]$. If $G$ has $n$ vertices then it is completely specified by its adjacency matrix $A\in \{0,1\}^{n\times n}$ defined by $A_{ij}=1$ if and only if vertices $i,j$ are connected. If $G$ is weighted then we use the term adjacency matrix of $G$ to denote the matrix with entries $A_{i,j}=w(i,j)$. 
 
 If $A$ is a matrix then we use $\|\bullet\|$, $\|\bullet\|_1$ to denote its operator norm and $\ell^1$-norm respectively.
+
+
+
 
 \section{A description of the problem}
 
@@ -369,7 +373,7 @@ H^{C_iC_j}_{uv}=
 \]
 Notice that this matrix has $4$ blocs. Two with only $1$ and two with only $-1$ moreover, its spectral norm is equal to $|C_i|+|C_j|$.
 
-\begin{lemma}
+\begin{lemma}\label{lemma: transport2}
 Assume there are $l$ clusters. Suppose that $ b(\Gamma,\delta) \leq min(\delta,a(\Gamma,\delta))$.Then,
 $A^*$ is a minimizer of the optimization problem $\min_A\Delta(A)$. 
 \end{lemma}
@@ -430,79 +434,79 @@ $\|C\| \leq 2\delta$.
 
 Using the previous Theorem we now estimate the probabilities of perfect recovery of the correct cluster structure. 
 
-\begin{theorem} Suppose $B_1,\dots, B_N$ are i.i.d. random graphs with independent entries. If the quantities $M$ and $J$ are given by the formulas 
-\[ M:=\EE\left[\sum_{i\neq j}\widetilde{\Gamma_{ij}}\right]\text{ and }J:=\EE\left[\sum_{i\neq j}\max\left(\widetilde{-Z_{ij}^{(t)}}+\frac{2\delta N}{n},0\right)\right]\]
-then the probability that $A^*\in \argmin \Delta(A)$ is bounded below by
-\[1-\left(\exp\left( -\frac{N}{2}\left(1-\frac{1}{n}\right) \left(\frac{M}{n-1}-2\delta\right)^2\right)+\exp\left(-\frac{N(\delta-J)^2}{2n(n-1)}\right)\right)\]
-whenever $\delta$ satisfies the inequalities $\frac{M}{2(n-1)}>\delta>J$. 
-\end{theorem}
+\subsection{A bound for recovery probabilities}
 
-\begin{proof} By Theorem~\ref{thm: transport} the probability that $A^*\in \argmin \Delta(A)
-$ is bounded below by $\PP\{b(\Gamma,\delta)\leq \min(\delta,a(\Gamma,\delta)\}$. By the union bound this probability is bounded below by the quantity
-\[1-\left(\PP\{b(\Gamma,\delta)\geq a(\Gamma,\delta)\}+ \PP\{b(\Gamma,\delta)\geq \delta\}\right).\]
-We will find upper bounds for the summands in the parenthesis proving the Theorem. Our key tool will be the following version of Hoeffding's inequality: If $X_1,\dots, X_T$ are independent random variables with values in $[c_i,d_i]$ and $\Lambda_T:=\sum_{i=1}^T X_i$ then the following inequality holds for any $t\geq 0$ 
+In this section we will bound the probability that the correct $A^*$ is not an optimal solution of our proposed optimization problem. A key tool will be the following version of Hoeffding's inequality: If $X_1,\dots, X_T$ are independent random variables with values in $[c_i,d_i]$ and $\Lambda_T:=\sum_{i=1}^T X_i$ then the following inequality holds for all $t\geq 0$ 
 \[\PP\{\Lambda_T-\EE[\Lambda_T]\geq t\}\leq \exp\left(-\frac{2t^2}{\sum_{i=1}^T (d_i-c_i)^2}\right).\]
-To obtain a bound for the first term, define for $t=1,\dots, N$ the random variable $Z^{(t)}:=2B_t-11^t$ and note that for every $i\neq j$ the equality
-\[\sum_{t=1}^N-\frac{Z_{ij}^{(t)}}{N} = \frac{n_0(ij)-n_1(ij)}{N}=\Gamma_{ij}\]
-holds. As a result
-\[b(\gamma,\delta)-a(\Gamma,\delta) = \sum_{i\neq j} \left(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n}\right)= \frac{2\delta n(n-1)}{n} + \sum_{t=1}^N \sum_{i\neq j} \frac{-\widetilde{Z^{(t)}_{ij}}}{N}\]
-and therefore if $M:=\EE\left[\sum_{t=1}^N \sum_{i\neq j} \frac{\widetilde{Z^{(t)}_{ij}}}{N}\right]=\EE\left[\sum_{i\neq j} \widetilde{Z^{(t)}_{ij}}\right]$ then 
-\[\PP\left\{\frac{2\delta n(n-1)}{n} + \sum_{t=1}^N \sum_{i\neq j} \frac{-\widetilde{Z^{(t)}_{ij}}}{N}\geq 0\right\} = \PP\left\{\sum_{t=1}^N \sum_{i\neq j} \frac{-\widetilde{Z^{(t)}_{ij}}}{N} + M \geq -2\delta (n-1) + M \right\}.\]
 
-Estimating the last term via Hoeffding's inequality with $Nn(n-1)$ summands with values in $\left[-\frac{1}{N},\frac{1}{N}\right]$ we conclude that 
-\[\PP\{b(\Gamma,\delta)\geq a(\Gamma,\delta)\}\leq \exp\left(-2\frac{(M-2\delta(n-1))^2}{Nn(n-1)(\frac{2}{N})^2}\right)=\exp\left( -\frac{N}{2}\left(1-\frac{1}{n}\right) \left(\frac{M}{n-1}-2\delta\right)^2\right) \]
-whenever $\frac{M}{n-1}-2\delta>0$.
 
-For estimating the second term, recall that
-\[b(\Gamma,\delta)= \sum_{i\neq j} \max\left(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n},0\right) = \sum_{i\neq j} \max\left(\sum_{t=1}^N\frac{\widetilde{-Z_{ij}^{(t)}}+\frac{2\delta N}{n}}{N},0\right)\]
-By Jensen's inequality applied to the convex function $\max(\bullet,0)$ the last term can be bounded above as
+
+
+\begin{theorem} Suppose $B_1,\dots, B_N$ are independent and have the same distribution as $\grG$. If $\alpha = \min (|p_t-\frac{1}{2}|, |q-\frac{1}{2}|)$ and $\delta^*$ is the maximum of $a(\delta):=\frac{\delta\left(\alpha-\frac{\delta}{n}\right)^2}{\left(1+\frac{2\delta}{n}\right)}$ in $[0,\alpha n]$ then the probability that $A^*$ is not a minimizer of~(\ref{eqn: WRGS2}) is bounded above by
+\[ \exp\left(-\frac{2N(n-1)^3(\alpha n-\delta^*)^2}{n}\right) + e^{-N\left(\delta^* a(\delta^*)\right)}\prod_{i\neq j}\left(1+ (e^{-4a}p_{ij}+q_{ij})^{\frac{N}{2}}\right).\] 
+Moreover this quantity decreases exponentially with the sample size $N$.
+\end{theorem}
+\begin{proof} By Lemma~\ref{lemma: transport2} and the union bound the probability that $A^*$ is not an optimal solution of problem~(\ref{ProbRobusto}) is bounded above by
+
+\begin{equation}\label{Eq: 2Probs}
+\PP\{b(\Gamma,\delta)\geq a(\Gamma,\delta)\}+\PP\{b(\Gamma,\delta)\geq \delta\}.
+\end{equation}
+
+and we will find upper bounds for the individual terms in~(\ref{Eq: 2Probs}). 
+For $t=1,\dots, N$ and $i,j\in [n]$ define 
+\[Z^{(t)}_{ij}:=\begin{cases}
+-1\text{, if $(B_t)_{ij}=1$}\\
++1\text{, if $(B_t)_{ij}=0$}
+\end{cases}\]
+and note that for every $i\neq j$ the equality $\sum_{t=1}^N\frac{Z_{ij}^{(t)}}{N} = \Gamma_{ij}$ holds. As a result
+\[b(\Gamma,\delta)-a(\Gamma,\delta) = \sum_{i\neq j} \left(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n}\right)= \frac{2\delta n(n-1)}{n} + \sum_{t=1}^N \sum_{i\neq j} \frac{\widetilde{Z^{(t)}_{ij}}}{N}\]
+and therefore if $M:=\EE\left[\sum_{t=1}^N \sum_{i\neq j} \frac{\widetilde{Z^{(t)}_{ij}}}{N}\right]$ then the number $M$ is negative and is given by the formula
+\[M=(2q-1)2|O|+\sum_{i=1}^l 2\binom{c_i}{2} (1-2p_i)\leq -2\alpha n(n-1)\]  
+We can therefore bound the probability in the first term with
+ 
+\[\PP\left\{\frac{2\delta n(n-1)}{n} + \sum_{t=1}^N \sum_{i\neq j} \frac{\widetilde{Z^{(t)}_{ij}}}{N}\geq 0\right\} = \PP\left\{\sum_{t=1}^N \sum_{i\neq j} \frac{\widetilde{Z^{(t)}_{ij}}}{N} - M \geq -2\delta (n-1) - M \right\}\leq\]
+\[\leq \exp\left(-2\frac{(-M-2\delta(n-1))^2}{Nn(n-1)(\frac{2}{N})^2}\right)=\exp\left( -\frac{N}{2}\left(1-\frac{1}{n}\right) \left(\frac{-M}{n-1}-2\delta\right)^2\right) \]
+where the inequality follows from Hoeffding's inequality applied to the $Nn(n-1)$ independent random variables $\frac{\widetilde{Z_{ij}^{(t)}}}{N}$ which have values in $\left[-\frac{1}{N},\frac{1}{N}\right]$. The inequality applies whenever $-\frac{M}{2(n-1)}>\delta>0$. In particular whenever $0<\delta<\alpha n$ we have
+\[\PP\{b(\Gamma,\delta)-a(\Gamma,\delta)\}\leq \exp\left(-\frac{2N(n-1)^3(\alpha n-\delta)^2}{n}\right).\]
+Bounding the second term is more involved. Recall that
+\[b(\Gamma,\delta)=\sum_{i\neq j} \max\left(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n},0\right).\]
+Let $Y_{ij}:=\widetilde{\Gamma_{ij}}+\frac{2\delta}{n}$ and let $X_{ij}:=\max\left(Y_{ij},0\right)$. In order to prove a concentration inequality for the variables $X_{ij}$ we begin by studying their moment generating functions $m_{X_{ij}}(t)$. Note that for every real number $t$ the equality
+\[\exp(tX_{ij})= 1_{\{Y_{ij}\leq 0\}} + 1_{\{Y_{ij}\geq 0\}} \exp tY_{ij}\]
+holds. Now $Y_{ij}=1+\frac{2\delta}{n}-2\frac{n_{ij}}{N}$ where $n_{ij}$ is a binomial random variable with parameters $N$ and $p_{ij}$ given by
 \[
-\sum_{i\neq j} \max\left(\sum_{t=1}^N\frac{\widetilde{-Z_{ij}^{(t)}}+\frac{2\delta N}{n}}{N},0\right)\leq \sum_{t=1}^N \sum_{i\neq j}  \frac{1}{N} \max\left(\widetilde{-Z_{ij}^{(t)}}+\frac{2\delta N}{n},0\right)
+p_{ij}:=\begin{cases}
+p_t\text{, if $\{i,j\}\subseteq C_t$}\\
+1-q\text{, else}
+\end{cases}
 \]
-As a result
-\[\PP\{b(\Gamma,\delta)\geq \delta\}\leq \PP\left\{ \sum_{t=1}^N \sum_{i\neq j}  \frac{1}{N} \max\left(\widetilde{-Z_{ij}^{(t)}}+\frac{2\delta N}{n},0\right)\geq \delta\right\}\]
-And we can estimate the last term via Hoeffding's inequality with $Nn(n-1)$ summands taking values in the interval $\left[-\frac{1}{N}+\frac{2\delta}{n},\frac{1}{N}+\frac{2\delta}{n}\right]$ obtaining
 
-\[\PP\{b(\Gamma,\delta)\geq \delta\}\leq \exp\left( -\frac{2(\delta-J)^2}{Nn(n-1)\left(\frac{2}{N}\right)^2}\right)=\exp\left(-\frac{N(\delta-J)^2}{2n(n-1)}\right)\]
-whenever $J:=\EE\left[\sum_{i\neq j}\max\left(\widetilde{-Z_{ij}^{(t)}}+\frac{2\delta N}{n},0\right)\right]$ satisfies $J<\delta$.
+
+As a result taking expected values on both sides of the expression above we conclude that
+\[ m_{X_{ij}}(t) \leq \PP\{Y_{ij}\leq 0\} + e^{t\left(1+\frac{2\delta}{n}\right)}\EE\left(e^{-\frac{2t}{N}n_{ij}}1_{\{Y_{ij}\geq 0\}}\right).\]
+
+Using the Cauchy-Schwartz inequality and the known formula for the moment generating function of a binomial random variable it follows that
+\[ m_{X_{ij}}(t)\leq \PP\{Y_{ij}\leq 0\}+ e^{t\left(1+\frac{2\delta}{n}\right)}\EE\left(e^{-\frac{4t}{N}n_{ij}}\right)^{\frac{1}{2}}\PP\{Y_{ij}\geq 0\}^{\frac{1}{2}}=\]
+\[=\PP\{Y_{ij}\leq 0\}+ e^{t\left(1+\frac{2\delta}{n}\right)}\left(e^{-\frac{4t}{N}}p_{ij} + q_{ij}\right)^{\frac{N}{2}}\PP\{Y_{ij}\geq 0\}^{\frac{1}{2}}\]
+where $q_{ij}:=1-p_{ij}$.
+By Hoeffding's inequality on Bernoulli random variables we know that
+\[\PP\{Y_{ij}\geq 0\}\leq \exp\left(-\frac{N}{2}\left(-\frac{2\delta}{n}-(1-2p_{ij})\right)^2 \right)\leq \exp\left(-2N(\alpha-\delta/n)^2\right)\]
+so if $t=aN$ the inequality 
+\[e^{t\left(1+\frac{2\delta}{n}\right)}\exp\left(-N(\alpha-\delta/n)^2\right)\leq 1\] 
+holds whenever $a\leq \frac{(\alpha-\delta/n)^2}{\left(1+\frac{2\delta}{n}\right)}$ and for all such $a$ we have
+\[m_{X_{ij}}(aN)\leq \left(1+ (e^{-4a}p_{ij}+q_{ij})^{\frac{N}{2}}\right)\]
+We define $a(\delta):=\frac{(\alpha-\delta/n)^2}{\left(1+\frac{2\delta}{n}\right)}$ and will use it to prove a moment concentration inequality for $b(\Gamma,\delta)$ which will give us a bound on the second term in~(\ref{Eq: 2Probs}). For every $t>0$ we have
+
+\[\PP\left\{b(\Gamma,\delta)\geq \delta\right\}=\PP\left\{\exp\left(t\sum_{i\neq j} X_{ij}\right)\geq e^{t\delta}\right\}\leq e^{-t\delta}\prod_{i\neq j} \EE[e^{tX_{ij}}]= e^{-t\delta}m_{X_{ij}}(t)\]
+Choosing $t=a(\delta)N$ and using the previous inequality we see that
+\[\PP\left\{b(\Gamma,\delta)\geq \delta\right\}\leq e^{-N\delta a(\delta)}\prod_{i\neq j}\left(1+ (e^{-4a}p_{ij}+q_{ij})^{\frac{N}{2}}\right)\]
+Which decreases exponentially in $N$ for any $0\leq \delta\leq n\alpha$. The rate of decrease of the first term is controlled by the positive factor 
+\[\delta a(\delta)= \frac{\delta\left(\alpha-\frac{\delta}{n}\right)^2}{\left(1+\frac{2\delta}{n}\right)}.\]
+and we let $\delta^*$ be a maximizer of this function.
 \end{proof}
-
-\mv{Esta prueba todav\'ia no muestra lo que queremos. El problema es que la cantidad $J$ depende de $N$. Esto esta causado por intentar hacer aparecer $N$, usando la desigualdad de Jensen obteniendo una suma con $Nn(n-1)$ t\'erminos. El precio es que esos t\'erminos terminan con valor esperado dependiente de $N$. Creo que una soluci\'on posible ser\'ia usar una desigualdad m\'as precisa que Hoeffding que involucre la varianza, por ejemplo la desigualdad de Bernstein (porque el punto es que la varianza de $\max(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n},0)$ se va para cero cuando $N$ crece). Se logra as\'i una buena desigualdad?} 
-
-\mv{Algunas ideas mas concretas. El problema es acotar por encima $\PP\{b(\Gamma,\delta)\geq \delta\}$. Ahora $b(\Gamma,\delta):=\sum_{i\neq j} \max\left(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n},0\right)$ asi que es una suma de variables aleatorias independientes, cada una en el rango $[0, 1+ \frac{2\delta}{n}]$. Lo importante es que en la medida en que $N$ crece estas variables aleatorias deben estar cada vez m\'as concentradas en $0$. Para cuantificar esto necesitamos entender (i.e. encontrar una cota superior simple como funcion de $N$) para alguno de los siguientes 
-\begin{enumerate}
-\item Entender el valor esperado para cada sumando.
-\item Entender la varianza. (con estos dos podriamos utilizar la desigualdad de Bennett para obtener el resultado, ver notas de Pollard) 
-\item Entender la funci\'on generadora de momentos. Esta es la clave para una eventual desigualdad de concentraci\'on.
-\end{enumerate}
-}
-
-
-
-\begin{cor} Given $\delta<0$ the probability that $A^*$ is a minimizer of the optimization problem $\min_A\Delta_{\delta}(A)$ is bounded below by $\mathbb{P}\{ b(\Gamma,\delta)\leq \min \left(a(\Gamma,\delta), 2\delta\right)\}$.  
-This quantity can be computed in terms of the joint distribution of two sums over all edges of independent random variables, because the following idetities hold:
-\[b(\Gamma,\delta)+a(\Gamma,\delta)=\sum_{ij} \left|\widetilde{\Gamma}_{ij}+\frac{2\delta}{n}\right|\]
-\[b(\Gamma,\delta)-a(\Gamma,\delta)=\sum_{ij} \left(\widetilde{\Gamma}_{ij}+\frac{2\delta}{n}\right)\]
-and in particular, 
-\[\mathbb{P}\{ b(\Gamma,\delta)\leq \min \left(a(\Gamma,\delta), \delta\right)\}\geq \]  
-\mv{TAREA: Encontrar la mejor f\'ormula posible. Esto debe poder hacerse usando desiguladades de concentraci\'on junto con las igualdades del Corolario. Notar que esta desigualdad es independiente de la prueba del Teorema anterior y es solo un problema de probabilidad multinomial.}
-\end{cor}
-
-
-
 
 
 
 \end{document}
-Note that $\Gamma$ is the set of variable endpoints in the inequalities of Lemma~\ref{lem: subdiff}. Accor
-
-
-
-
-
-
-
-
 
 
 Our following Lemma gives us a decomposition Theorem for symmetric matrices. This decomposition will be very useful when computing spectral norms in the two-block case.
