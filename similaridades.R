@@ -31,17 +31,16 @@ rm(datos)
 
 
 #la siguiente funcion calcula, para un tema principal, la similaridad entre las votaciones de dos senadores.
-#nota IMPORTANTE: EL DATA frame pasado en votaciones debe ser el dataframe de TODOS  los datos unicamente filtrados
-# por senado y camara.
-
+#nota IMPORTANTE: EL DATA frame pasado en votaciones debe ser el dataframe de TODOS  los datos u
 
 CalcularSimilaridadTema=function(tema,votaciones)
 {
-  #hace el subset al tema requerido
-  votacionesTema = votaciones[votaciones$tema_principal==tema,]
+  #captura todos los miembros de la colectividad
   congresistas =  unique(votaciones$id_congresista)
   ordenados = sort(congresistas)
-  similaridad = matrix(0,nrow =length(ordenados),ncol = length(unique(ordenados)))
+  #hace el subset al tema requerido
+  votacionesTema = votaciones[votaciones$tema_principal==tema,]
+  similaridad = matrix(0,nrow =length(unique(ordenados)),ncol = length(unique(ordenados)))
   totales = matrix(0.00001,nrow =length(ordenados),ncol = length(unique(ordenados)))  
   
   proyectos = unique(votacionesTema$id_proyecto)
