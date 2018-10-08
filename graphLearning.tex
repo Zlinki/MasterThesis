@@ -23,6 +23,7 @@
 \newtheorem{example}[lemma]{Example}
 \newtheorem{definition}[lemma]{Definition}
 \newtheorem{problem}[lemma]{Problem}
+\newtheorem*{problem*}{Problem}
 
 
 \theoremstyle{remark}
@@ -120,7 +121,7 @@ Bogot\'a, Colombia
 Secondary 15B52,52A22} % Random matrices, Random Convex sets and integral geometry
 \keywords{Compressed sensing, truncated moment problems, Kostlan-Shub-Smale polynomials}
 
-\begin{abstract} We study the problem of discovering the cluster structure of a random graph $\grG$ from an independent sample of size $N$. We propose a Wasserstein robust formulation of this optimization problem and prove that it can be reformulated as a tractable convex optimization problem. We give theoretical performance guarantees for these problems when the Wasserstein metric is induced by the nuclear norm and $\grG$ is distributed according to the stochastic block model explaining its good practical behavior. Finally we present our Julia implementation of the proposed algorithm and use it to analyze the voting patterns of the colombian senate in \mv{period?}.
+\begin{abstract} We study the problem of discovering the cluster structure of a random graph $\grG$ from an independent sample of size $N$. We propose a Wasserstein robust formulation of this optimization problem and prove that it can be reformulated as a tractable convex optimization problem. We give theoretical performance guarantees for this problem when the Wasserstein metric is induced by the nuclear norm and $\grG$ is distributed according to the stochastic block model. Finally we present our Julia implementation of the proposed algorithm and use it to analyze the voting patterns of the colombian senate in \mv{period?}.
 \end{abstract} 
 
 \title{Graph clustering and the nuclear Wasserstein metric.}
@@ -132,42 +133,43 @@ Secondary 15B52,52A22} % Random matrices, Random Convex sets and integral geomet
 
 Let $\grG$ be a random graph with $n$ vertices. By a deterministic summary of $\grG$ we mean a (deterministic) graph $H^*$ which, on average, differs from $\grG$ by as few edges as possible. In this article we study the problem of finding deterministic summaries {\it from an independent sample} of $\grG$ of size $N$. More precisely we will address the following problem:
 
-\begin{problem}\label{Prob} Given adjacency matrices $B_1,\dots, B_N$ of an independent sample with the same distribution as $\grG$ find a symmetric matrix $A^*$ in $\argmin_A \EE_{B\sim \grG}[\|A-B\|_1]$. 
+\begin{problem}\label{Prob} Given adjacency matrices $B_1,\dots, B_N$ of an independent sample of $\grG$ find a symmetric matrix $A^*$ in $\argmin_A \EE_{B\sim \grG}[\|A-B\|_1]$. 
 \end{problem}
 
 Special cases of this problem arise in cluster detection and in data summarization, both heavily studied in the literature (\mv{refs?}).
 
-A possible approach to problem~\ref{Prob} is to use the samples to use the empirical measure $\hat{\mu}:=\sum_{i=1}^N \frac{1}{N}\delta_{B_i}$ as an approximation of the distribution of $\grG$ and to find a minimizer $A$ of the resulting empirical risk
+A possible approach to problem~\ref{Prob} is to use the samples to construct the empirical measure $\hat{\mu}:=\sum_{i=1}^N \frac{1}{N}\delta_{B_i}$ as an approximation of the distribution of $\grG$ and to find a minimizer $A$ of the resulting empirical risk
 \[ \EE_{B\sim \mu}[\|A-B\|_1]=\frac{1}{N}\sum_{i=1}^N \|A-B_i\|_1.\]
-When the sample size $N$ is not sufficienly large for $\hat{\mu}$ to be a good approximation for the distribution of $\grG$ this approach leads to overfitting. To mitigate this we propose a robust version of the summarization problem by minimizing the worst-case risk when the distribution of $B$ is allowed to vary in a ball $\mathcal{N}_{\delta}(\hat{\mu})$ of radius $\delta>0$ centered at $\hat{\mu}$ in a suitable metric, leading to the following robust optimization problem:
+When the sample size $N$ is not sufficienly large for $\hat{\mu}$ to be a good approximation for the distribution of $\grG$ this approach leads to overfitting. To mitigate this problem we propose a robust version of Problem~\ref{Prob}. In the robust version one aims to minimize the worst-case risk when the distribution of $B$ is allowed to vary in a ball $\mathcal{N}_{\delta}(\hat{\mu})$ of radius $\delta>0$ centered at $\hat{\mu}$ {\it in a suitable metric}. More precisely,
 
-\begin{problem}\label{ProbRobusto} Given adjacency matrices $B_1,\dots, B_N$ of an independent sample with the same distribution as $\grG$ find a symmetric matrix $\overline{A}$ which minimizes  
-\[R(A):=\left(\sup_{\nu\in \mathcal{N}_{\delta}(\hat{\mu})} \EE_{B\sim G}[\|A-B\|_1]\right).\] 
+\begin{problem}\label{ProbRobusto} Given adjacency matrices $B_1,\dots, B_N$ of an independent sample of $\grG$ find a symmetric matrix $\overline{A}$ which minimizes the robust worst-case risk 
+\[R_{\delta}(A):=\left(\sup_{\nu\in \mathcal{N}_{\delta}(\hat{\mu})} \EE_{B\sim G}[\|A-B\|_1]\right).\] 
 \end{problem}
+The robust worst-case risk is off course dependent on the chosen metric among probability distributions. In this article we will use the Wasserstein metric $W_{\|\bullet\|}$ associated to a norm $\|\bullet\|$ on the space $K$ of symmetric matrices with entries in $[0,1]$. If $\nu_1,\nu_2$ are probability measures on $K$ and $\Pi(\nu_1,\nu_2)$ is the set of random variables $(Z_1,Z_2)$ taking values in $K\times K$  with $Z_i\sim \nu_i$ then this Wasserstein metric is given by 
+\[ W_{\|\bullet\|}(\nu_1,\nu_2):=\inf_{(Z_1,Z_2)\in \Pi(\nu_1,\nu_2)} \EE[\|Z_1-Z_2\|].\]
 
+The seminal work of Esfahani and Kuhn~\cite{EsfahaniKuhn} shows that robust formulations using the Wasserstein metric lead to tractable convex optimization problems. Our first result is that this is also true for Problem~\ref{ProbRobusto} when the Wasserstein metric is induced by a semidefinitely representable norm.
 
-The seminal work of Kuhn et. al. \mv{ref?} shows that using a Wasserstein metric among probability distributions in the problem above leads to a tractable convex optimization problem. Our first result is that this is also true for the robust graph summarization problem when the Wasserstein metric is induced by a semidefinitely representable metric.
-
-\begin{theorem}\label{thm: finiteConvex} Let $K$ be the set of $n\times n$ symmetric matrices with entries in $[0,1]$. If $\delta>0$ then problem~\ref{ProbRobusto} is equivalent to:
+\begin{theorem}\label{thm: finiteConvex} Let $K$ be the set of $n\times n$ symmetric matrices with entries in $[0,1]$, let $\|\bullet\|$ be a norm on $K$ and let $\delta>0$. Problem~\ref{ProbRobusto} is equivalent to:
 \[\min_{(A,s_1,\dots, s_N,\lambda)\in \mathcal{T}}\left( \lambda\delta +\frac{1}{N}\sum_{i=1}^N s_i + \frac{1}{N}\sum \|A-B_i\|_1\right)\]
-where $\mathcal{T}$ is the set of $(A,\vec{s},\lambda)$  satisfying the inequalities $\lambda\geq 0$ and $\eta_{\epsilon, i}(\lambda)\leq s_i$ as $i=1,\dots, N$ and $\epsilon$ ranges over all $\{0,1\}$-symmetric matrices and
-\[\eta_{\epsilon, i}(\lambda):= \sup_{Y\in K} \left(\langle \epsilon, A-Y\rangle -\lambda \|B_i-Y\|\right)\]
+where $\mathcal{T}$ is the set of $(A,\vec{s},\lambda)\in K\times \RR^n\times \RR$  satisfying the inequalities $\lambda\geq 0$ and $\eta_{E, i}(\lambda)\leq s_i$ as $i=1,\dots, N$ and $E$ ranges over the set of all $\{0,1\}$-symmetric matrices, where
+\[\eta_{E, i}(\lambda):= \sup_{Y\in K} \left(\langle E, A-Y\rangle -\lambda \|B_i-Y\|\right)\]
 \end{theorem}
 
-The formulation of~\ref{ProbRobusto} in Theorem~\ref{thm: finiteConvex} is a finite-dimensional convex optimization problem which unfortunately contains  an exponential number of constraints. We therefore introduce:
+The reformulation in Theorem~\ref{thm: finiteConvex} is a finite-dimensional convex optimization problem which unfortunately contains  an exponential number of constraints. To address this proble we introduce:
 \begin{enumerate}
-\item A more tractable simplification which agrees with the original problem whenever the optimal $A$ occurs at a matrix with entries in $\{0,1\}$.
-\item A relaxation which takes the form of a regularization of empirical risk minimization.
+\item A more tractable simplification which agrees with the original problem whenever the optimal $\overline{A}$ occurs at a matrix with entries in $\{0,1\}$.
+\item A relaxation of $(1)$ which takes the form of a regularized empirical risk minimization problem.
 \end{enumerate}
 More specifically, we prove the following 
 
-\begin{theorem}\label{Thm: tractable}If $A$ is a symmetric $\{0,1\}$-matrix then the following statements hold:
+\begin{theorem}\label{Thm: tractable}If $A$ is a symmetric $\{0,1\}$-matrix and $\delta>0$ then the following statements hold:
 \begin{enumerate}
-\item{  The number $\sup_{\nu\in B_{\delta}(\hat{\mu})} \EE[\|A-B\|_1]$ is equal to the optimal value of the problem
+\item{  The following equality holds:
 \[
-\min_{\mathcal{H}} \left(\lambda\delta +\frac{1}{N}\sum_{i=1}^N s_i+\frac{1}{N}\sum_{i=1}^N\|A-B_i\|_1\right)
+R_{\delta}(A)=\min_{\mathcal{H}} \left(\lambda\delta +\frac{1}{N}\sum_{i=1}^N s_i+\frac{1}{N}\sum_{i=1}^N\|A-B_i\|_1\right)
 \]
-where $\mathcal{H}$ is the set of $(\lambda, s_1,\dots, s_N,\Lambda, W)\in \RR\times\RR^N\times \RR^{n\times n} \times \RR^{n\times n}$ which satisfy the inequalities:
+where $\mathcal{H}$ is the set of $(\lambda, s_1,\dots, s_N,\Lambda, W)\in \RR\times\RR^N\times \RR^{n\times n} \times \RR^{n\times n}$ \mv{$\Lambda$ y $W$ son sim\'etricas verdad? asi que deberia ser $K$} which satisfy the inequalities:
 \[
 \begin{array}{l}
 \|W\|_{*}\leq \lambda\\
@@ -177,70 +179,126 @@ where $\mathcal{H}$ is the set of $(\lambda, s_1,\dots, s_N,\Lambda, W)\in \RR\t
 \end{array}
 \]}
 \item The following inequality holds:
-\[\sup_{\nu\in B_{\delta}(\hat{\mu})} \EE[\|A-B\|_1]\leq \frac{1}{N}\sum_{i=1}^N\|A-B_i\|_1+ \delta\|2A-11^t\|_*\]
-\item If $\|\cdot\|$ is a semidefinitely representable function then the problems:
-\begin{equation}\label{eqn: WRGS}
-\min_A \min_{\mathcal{H}} \left(\lambda\delta +\frac{1}{N}\sum_{i=1}^N s_i+\frac{1}{N}\sum_{i=1}^N\|A-B_i\|_1\right)\text{ and }
-\end{equation}
-\begin{equation}\label{eqn: WRGS2}
-\min_A\left(\frac{1}{N}\sum_{i=1}^N\|A-B_i\|_1+ \delta\|2A-11^t\|_*\right)
-\end{equation}
-are semidefinite programming problems.
+\[R_{\delta}(A)\leq \frac{1}{N}\sum_{i=1}^N\|A-B_i\|_1+ \delta\|2A-11^t\|_*.\]
 \end{enumerate}
+Moreover, if $\|\cdot\|$ is a semidefinitely representable function then $(1)$ and the upper bound in $(2)$ are semidefinite programming problems.
 \end{theorem}
 
-Solving the optimization problems in part $(3)$ of Theorem~\ref{Thm: tractable} leads to a new algorithm for estimating deterministic graph summaries which we call {\it Wasserstein robust graph summarization}. We applied this algorithm to a variety of graphs $G$ distributed according to the stochastic block model and noted that the regularized problem with the Wasserstein metric induced by the nuclear norm, henceforth {\it Wasserstein robust nuclear norm summarization}, was able to recover the correct cluster structure using only very few samples outperforming all other methods known to us. Our next result is a performance guarantee which shows that exact recovery occurs for suitable $\delta>0$ with overwhelming probability explaining the good practical performance of Wasserstein nuclear norm summarization for cluster detection.
+Solving the optimization problems in Theorem~\ref{Thm: tractable} leads to a new algorithm for estimating deterministic graph summaries which we call {\it Wasserstein robust graph summarization}. 
 
-Recall that a random graph $\grG$ has distribution given by the stochastic block model in $n$ vertices if there is a partition of $[n]$ into disjoint subsets $C_1,\dots, C_k$, real numbers $0\leq q<\frac{1}{2}<p_1,\dots, p_k\leq 1$ and edges are added independently with probability $p_{ij}$ of joining vertices $i,j$ by an edge where
+We applied this algorithm to a variety of graphs $G$ distributed according to the stochastic block model and observed that the regularized problem with the Wasserstein metric induced by the spectral norm was able to recover the correct cluster structure using only very few samples outperforming all others. More precisely the resulting {\it Wasserstein robust nuclear norm summarization} problem is given by
+
+\begin{equation}\label{WRNNS}
+\min_{A\in K} \left(\frac{1}{N}\sum_{i=1}^N\|A-B_i\|_1+ \delta\|2A-11^t\|_*\right) 
+\end{equation}
+
+where the nuclear norm $\|B\|_*$ of a symmetric matrix $B$ equals the sum of the absolute values of its eigenvalues.
+
+Our next result is a performance guarantee for this algorithm which shows that exact recovery occurs for suitable $\delta>0$ with overwhelming probability on samples constructed via the stochastic block model, explaining the good practical performance of Wasserstein nuclear norm summarization in cluster detection.
+
+In order to describe our performance guarantee we need to establish notation for the parameters of the stochastic block model. Recall that a random graph $\grG$ has distribution given by the stochastic block model in $n$ vertices if there is a partition of $[n]$ into disjoint subsets $C_1,\dots, C_k$, real numbers $0\leq q<\frac{1}{2}<p_1,\dots, p_k\leq 1$ and edges are added independently with probability $p_{ij}$ of joining vertices $i,j$ given by
 \[p_{ij}:=\begin{cases}
 p_t\text{, if $\{i,j\}\subseteq C_t$}\\
 q\text{, else.}
 \end{cases}
 \] 
-Note that a random graph $\grG$ has a unique deterministic summary given by $A^*$ with entries given by
-\[
-A^*_{ij}:=\begin{cases}
-1\text{, if $\{i,j\}\in C_t$ for some $t$}\\
-0\text{, otherwise.}
-\end{cases}
-\]
+Such a random graph $\grG$ has a unique deterministic summary $A^*$ obtained by putting edges only between vertices belonging to the same cluster.
 
-\begin{theorem} Suppose $B_1,\dots, B_N$ are independent and have the same distribution as $\grG$. If $\alpha = \min (|p_t-\frac{1}{2}|, |q-\frac{1}{2}|)$ and $\delta^*$ is the maximum of $a(\delta):=\frac{\delta\left(\alpha-\frac{\delta}{n}\right)^2}{\left(1+\frac{2\delta}{n}\right)}$ in $[0,\alpha n]$ then the probability that $A^*$ is not a minimizer of~(\ref{eqn: WRGS2}) is bounded above by
+\begin{theorem} Suppose $B_1,\dots, B_N$ are independent and are distributed according to $\grG$. If $\alpha = \min (|p_t-\frac{1}{2}|, |q-\frac{1}{2}|)$ and $\delta^*$ is the maximum of $a(\delta):=\frac{\delta\left(\alpha-\frac{\delta}{n}\right)^2}{\left(1+\frac{2\delta}{n}\right)}$ in $[0,\alpha n]$ then the probability that $A^*$ is not the unique minimizer of~(\ref{WRNNS}) is bounded above by
 \[ \exp\left(-\frac{2N(n-1)^3(\alpha n-\delta^*)^2}{n}\right) + e^{-N\left(\delta^* a(\delta^*)\right)}\prod_{i\neq j}\left(1+ (e^{-4a}\widetilde{p_{ij}}+\widetilde{q_{ij}})^{\frac{N}{2}}\right).\] 
-Moreover this quantity decreases exponentially with the sample size $N$.
+which decreases exponentially with the sample size $N$.
 \end{theorem}
 
-The key point of the Theorem, discussed at length in Section~\ref{}, is that we were able to understand why the nuclear norm is a good regularizer for graph summarization problems, namely because the subdifferential of the regularizer at $A^*$ is sufficiently rich so as to contain enough transportation matrices. 
+The key point of the proof of the Theorem, discussed at length in Section~\ref{}, is that the nuclear norm is a good regularizer for graph summarization problems because the subdifferential of the regularization term at $A^*$ is sufficiently rich so as to contain enough transportation matrices. 
 
-Next we focus on the practical performance of the proposed algorithm. Problems~(\ref{eqn: WRGS}) and~(\ref{eqn: WRGS2}) require solving large semidefinite programs which are beyond the  capacity of standard off-the-shelf software even for relatively small graphs (of say $40$ vertices with $N=4$). One possible reason is that off-the-shelf solvers often use interior point methods. A better alternative, especially well suited for solving~\ref{WNNC} is to use first order numerical optimization methods such as ADMM. In Section~\ref{Numerics} we adapt the ADMM algorithm for our regularized problem and present our open source Julia implementation allowing us to run the algorithm in graphs of up to 10000 vertices on a common laptop. In Section~\ref{Senadores} we use this algorithm to find a deterministic summary of voting patterns in the colombian senate \mv{Period}. 
+Finally we focus on the practical performance of the proposed algorithm. Solving the optimization problems appearing in Theorem~\ref{Thm: tractable} require solving large semidefinite programs which are beyond the  capacity of standard off-the-shelf software even for relatively small graphs (of say $40$ vertices with $N=4$). One possible reason is that off-the-shelf solvers often use interior point methods, which are highly accurate but often do not scale well. A better alternative, especially well suited for solving~\ref{WNNC} is to use first order numerical optimization methods such as ADMM. In Section~\ref{Numerics} we adapt the ADMM algorithm for our regularized problem and present our open source Julia implementation. This implementation can run the Wasserstein nuclear norm summarization algorithm in graphs of up to 10000 vertices on a common laptop. In Section~\ref{Senadores} we use it to find a deterministic summary of voting patterns in the colombian senate during the period \mv{Period}. 
+
+\subsection{Relation to previous work.}
+%\mv{Daniel porfa escribir ac\'a los p\'arrafos que me mencion\'o y enriquecer enormemente las referencias (estan en el archivo lit.bib en formato bibtex, para poner nuevas referencias solo pongalas ahi, es facil cargarlas de MathScinet en formato bibtex).} 
+
+
+
+Finding clusters on a graph is one of the most studied task in machine learning, with wide applications to Biology \cite{cabreros2016detecting, cline2007integration,xu2002clustering}, social data understanding \cite{domingos2001mining,mishra2007clustering,newman2002random} and other machine learning task such as natural language processing \cite{collobert2011natural,ratinov2009design}. One of it's main uses is to organize datasets into sets of similar observations, an then apply learning algorithms on each of the sets.  
+
+The stochastic block model lies in the center of research in community detection. It's importance rises from the fact that communities are defined a priori and thus are formally specified.
+Two of the most popular approaches to find communities in the stochastic block model are spectral clustering and semidefinite optimization problems.
+
+Spectral clustering is based of the study of the spectrum of the Laplacian matrix (or modified versions of it) and has been widely used in the detection of sparse communities \cite{bordenave2015non, chin2015stochastic,krzakala2013spectral, massoulie2014community}. 
+SDP approaches are based on the work of Goemans and Williamson \cite{goemans1995improved},
+where one aims to maximize the trace of a matrix subject to it being positive semidefinite \cite{abbe2016exact,guedon2016community, montanari2016semidefinite}.
+
+The literature on the stochastic block model is extremely vast. For a more detailed picture of the previous comments we refer the reader to the recent survey on the stochastic black model\cite{abbe2017community}.
+
+
+Parallel to the traditional SDP bassed on the max cut, progress in the problem of splitting a matrix into a sparse  plus a low rank components using a convex relaxation based on the nuclear norm \cite{candes2011robust,chandrasekaran2011rank,candes2009exact} have allowed a fruitful development of  convex algorithms to find communities in graphs \cite{ames2011nuclear,vinayak2014sharp,chen2012clustering,chen2014clustering,oymak2011finding,ailon2013breaking}.
+
+To the best of the knowledge of the authors, these works are based on the intuition that the splitting of the adjacency  matrix into a sparse . Our approach using the Wasserstein metric allows to show that this problem arises naturally and has a firm theoretical justification. \ddr{Vale la pena decir esto?}
+
+As is well documented in the literature, the problem as usually just one observation of the graph is available. However, due to the vast increase in data collection more and more datasets with various observations of a graph (for example, in time) have appeared \cite{snapnets}. To work with these datasets, researchers oftentimes use heuristics methods to "summarize" their graphs due to the lack of mature tools to extract information of various observations of the same graph.  \ddr{Vale la pena decir esto?}
+
+
 
 \subsection{Acknowledgments.}
 We wish to thank Fabrice Gamboa, Mauricio Junca and Thierry Klein for useful conversations during the completion of this project. \mv{CienciaPolitica}.
-D. De Roux was partially supported by a grant from Facultad de Ciencias, Universidad de los Andes. M. Velasco was partially supported by research funds from Universidad de los Andes. 
-
-\section{Preliminaries}
+D. De Roux was partially supported by a grant from Facultad de Ciencias, Universidad de los Andes and By CAOBA. M. Velasco was partially supported by research funds from Universidad de los Andes. 
 
 
-\subsection{ Preliminaries on graphs}
+\section{Robust learning of deterministic summaries}
+Let $[n]:=\{1,2,\dots, n\}$. By a graph $G$ on $[n]$ we mean a finite loopless undirected graph with vertex set $[n]$. The adjacency matrix of such a graph is a symmetric $n\times n$ matrix with entries in $\{0,1\}$ and ones in positions $(i,j)$ whenever vertices $i$ and $j$ are adjacent. Let $\mathcal{A}_n$ be the set of adjacency matrices of graphs on $[n]$ (i.e. $\{0,1\}$-matrices of size $n\times n$ which are symmetric and have zeroes in the diagonal). Throughout the article we will use graphs and their adjacency matrices interchangeably. By a random graph $\grG$ on $[n]$ we mean a random variable $B$ taking values in $\mathcal{A}_n$.
 
-By a graph $G$ we mean a finite loopless undirected graph. We say that $G$ is weighted if it is endowed with a function $w: E(G)\rightarrow \RR$ which assigns to every edge a real number in $[0,1]$. If $G$ has $n$ vertices then it is completely specified by its adjacency matrix $A\in \{0,1\}^{n\times n}$ defined by $A_{ij}=1$ if and only if vertices $i,j$ are connected. If $G$ is weighted then we use the term adjacency matrix of $G$ to denote the matrix with entries $A_{i,j}=w(i,j)$. 
+\begin{definition} A {\it deterministic summary} of a random graph $\grG$ on $[n]$ is a graph $A^*$ with $A^*\in \argmin_{A\in\mathcal{A}_n} \EE[\|A-\grG\|_1]$.
+\end{definition}
+Here the norm $\|\bullet\|_1$ means the sum of absolute values of all entries of the matrix. Therefore the deterministic summary $A^*$ is a graph which, on average, differs from $\grG$ by the smallest possible number of edges. If the distribution of $\grG$ is known it is easy to find a deterministic summary (which is often unique). More precisely,
 
-If $A$ is a matrix then we use $\|\bullet\|$, $\|\bullet\|_1$ to denote its operator norm and $\ell^1$-norm respectively.
+\begin{lemma}\label{lem: withDist} If $\PP\{(i,j)\in \grG\}\neq \frac{1}{2}$ for all $i,j\in [n]$ then the unique deterministic summary of $\grG$ is given by $A^*$ with
+\[A^*_{ij}=
+\begin{cases}
+1\text{, if $\PP\{(i,j)\in \grG\}> \PP\{(i,j)\not\in \grG\}$}\\
+0\text{, if $\PP\{(i,j)\in \grG\}< \PP\{(i,j)\not\in \grG\}$}
+\end{cases}\]
+\end{lemma}
+\begin{proof} If $A\in \mathcal{A}_n$ then the term coming from entry $(i,j)$ in $\EE[\|A-\grG\|_1]$ is given by $|A_{ij}-1|p+|A_{ij}|q$ where $p$ (resp $q$) is the probability that $(i,j)$ is (resp. is not) an edge of $\grG$. This quantity is greater than $\min(p,q)$ and equality is achieved, for all $i,j$ with $A=A^*$. 
+\end{proof}
 
+Motivated by the previous Lemma we define a cluster structure on a random graph.
 
-
-
-\section{A description of the problem}
-
-By a random graph $B$ we mean a random variable $B$ taking values on the set of adjacency matrices of graphs (i.e. symmeric matrices in $\{0,1\}^{n\times n}$ with zero diagonal). By a random weighted graph we mean a random variable taking values in the adjacency matrices of weighted graphs (i.e. symmetric matrices with $0$ diagonal all of whose off-diagonal entries lie in $[0,1]$). 
-
-\begin{definition} Let $B$ be a random weighted graph and let $A$ be a (weighted) adjacency matrix. Define the risk of choosing $A\in \{0,1\}^n$ as a deterministic summary of $B$ as
-\[R(A):=\EE[\|A-B\|_1].\]
-We say that $A^*$ is an optimal summary of a random graph $B$ in the set $S$ if it is a minimizer of the optimization problem $\min_{A\in S} R(A)$.
+\begin{definition} A random graph $\grG$ has a {\it cluster structure} if it has a unique deterministic summary $A^*$ and the corresponding graph is a disjoint union of cliques. We call these cliques the clusters of $\grG$.
 \end{definition}
 
+The main problem that we address in this article is that of {\it learning} deterministic summaries (an in particular the problem of learning cluster structures on random graphs who have them). By this we mean that our only knowledge about the distribution of the random graph $\grG$ is encoded in an independent sample $B_1,\dots, B_N$ of adjacency matrices with the same distribution as $\grG$, leading to Problem~\ref{Prob} in the Introduction. 
 
-\section{Recovering cluster structures in the stochastic block model}
+
+
+Given the sample, define the empirical measure $\hat{\mu}:=\frac{1}{N}\sum_{j=1}^N \delta_{B_j}$ as a sum of Dirac delta measures at the sample points. As the number of sample points increases the measure $\hat{\mu}$ converges to the distribution of $\grG$ and it is therefore reasonable to try to minimize the objective function in Problem~\ref{Prob} with respect to the measure $\hat{\mu}$ instead of $\grG$, that is by finding a minimizer of the empirical risk
+\[\overline{A}\in\argmin _{A\in K} \EE_{Z\sim \hat{\mu}}[\|A-Z\|]\]
+Arguing as in Lemma~\ref{lem: withDist} it is immediate that a (generally unique) minimizer $\overline{A}$ is given by counting edge frequencies, that is
+\[ 
+\overline{A}_{ij}:=\begin{cases}
+1\text{, if $|\{t: B^{(t)}_{ij}=1\}|>|\{t: B^{(t)}_{ij}=0\}|$}\\
+0\text{, if $|\{t: B^{(t)}_{ij}=1\}|<|\{t: B^{(t)}_{ij}=0\}|$}
+\end{cases}
+\]
+
+The empirical risk minimization approach has lots of advantages, it is easy to implement, scales very well and is guaranteed to be consistent (in the sense that $\overline{A}_{ij}\rightarrow \overline{A}$ as the number of samples $N\rightarrow \infty$). However it also suffers from some potential drawbacks:
+
+\begin{enumerate}
+\item If the sample size $N$ is small then the empirical measure $\hat\mu$ could be very far from the distribution of $\grG$.
+\item The estimation of $\overline{A}$ is done independently edge by edge and in particular it does not use any global information, for instance the existence of a cluster structure as part of the estimation process.
+\end{enumerate}
+
+To mitigate these problems we will use a robust formulation. To this end let $\|\bullet\|$ be a norm in the space of symmetric $n\times n$ matrices and let $W_{\|\bullet\|}$ be the Wasserstein distance induced by $\|\bullet\|$ on probability distributions taking values on $K$. For a real number $\delta\geq 0$ let $\mathcal{N}_{\delta}(\hat{\mu})$ be the (closed) ball of radius $\delta$ centered at $\hat{\mu}$. We would like to solve the following
+
+
+\begin{problem*}\label{ProbRobusto} Given adjacency matrices $B_1,\dots, B_N$ of an independent sample of $\grG$ find a symmetric matrix $\overline{A}$ which minimizes the robust worst-case risk 
+\[R_{\delta}(A):=\left(\sup_{\nu\in \mathcal{N}_{\delta}(\hat{\mu})} \EE_{B\sim G}[\|A-B\|_1]\right).\] 
+\end{problem*}
+
+Our first result reformulates the robust optimization above as a finite convex optimization problem.
+\begin{proof}[Proof of Theorem~\ref{thm: finiteConvex}]
+\end{proof}
+
+
+\section{Clustering in the stochastic block model and the Wasserstein nuclear norm.}
 
 Suppose $B$ is a random (undirected loopless) graph on $n$ vertices generated by the stochastic block model. This means that we fix a set partition $C_1,\dots, C_l$ of $[n]$ into sets we call clusters and real numbers $0\leq p_i,\bar{p}\leq 1$ for $i=1,\dots, l$. The edges of $B$ are independent random variables and an edge joins vertices $i,j$ with probability $p_t$ if $\{i,j\}\subseteq C_t$ for some cluster $C_t$ and with probability $\bar{p}$ if $\{i,j\}$ is not contained in any $C_t$. We let $O\subseteq [n]\times [n]$ be the set of pairs of vertices which are not simultaneously contained in any cluster. 
 
@@ -289,7 +347,6 @@ has the correct cluster structure $A^*$ as a minimizer. For vertices $i,j\in [n]
 %However it is easy to see that we cannot do this improvement simultaneously in all components, because $n=\langle S, 2A-11^t\rangle = Tr(S)+\sum_{ij \in O^c} S_{ij} -\sum_{ij \in O} S_{ij}\leq n+u$ where $u$ is the objective function in the problem above. We conclude that $u$ must be nonnegative so we cannot improve simultaneously in all directions at once.
 In the following section we discuss how tradeoffs between components explain the improved recovery probability induced by the spectral norm.
 
-\section{Estimating recovery probabilities}
 
 Let $\Gamma$ be the symmetric matrix with zero diagonal and off-diagonal entries given by
 $\Gamma_{ij}=\frac{n_0(ij)-n_1(ij)}{N}$. By Lemma~\ref{lem: subdiff} a symmetric matrix $C$ lies in the subdifferential if and only if it satisfies the inequalities
@@ -633,7 +690,7 @@ As $x \neq \hat{x}$, $\epsilon \| x-\hat{x} \|> 0$. Therefore, $f(x)>f(\hat{x})$
 \end{proof}
 
 \begin{remark}{\label{remUnicity}}
-Under the conditions of theorem \ref{thm: transport}, The matrix $C^1$ we constructed satisfies the inequalities given by \ref{lem: subdiff} strictly, so $c^1$ is an interior point of $\partial(f)(A^*)$. It follows that the matrix $C$ constructed in \ref{lemma: transport2} also satisfies these inequalities strictly and thefore it is also an interior point of $\partial(f)(A^*)$.
+Under the conditions of theorem \ref{thm: transport}, The matrix $C^1$ we constructed satisfies the inequalities given by \ref{lem: subdiff} strictly, so $C^1$ is an interior point of $\partial(f)(A^*)$. It follows that the matrix $C$ constructed in \ref{lemma: transport2} also satisfies these inequalities strictly and thefore it is also an interior point of $\partial(f)(A^*)$.
 \end{remark}
 
 
@@ -725,171 +782,145 @@ and we let $\delta^*$ be a maximizer of this function.
 \end{proof}
 
 
-\section{Uniqueness of the minimizer $A^*$}
-\ddr{The following section is deprecated in favor of the alternative proof of uniqueness.}
-
-In this section, we address the question of whether or not the matrix $A^*$ is the unique minimizer of the optimization problem $min_A\Delta(A)$. We begin by stating two lemmas.
-
-\begin{lemma}
-Let $C_1$ and $C_2$ be two convex sets in $R^m$ for some m. Denote the relative interior of a set $C$ by Relint(C) Then,
-\[
-Relint(C_1)+Relint(C_2) \subseteq Relint(C_1+C_2).
-\]
-\end{lemma}
 
 
-\begin{lemma}{\label{lema2}} If $\langle N,Q\rangle\leq 0$ for every $Q$ in a convex set $C$ which contains 0 in its relative interior then the equality  $\langle N,Q\rangle=0$ holds for every $Q\in C$.
-\end{lemma}
-\begin{proof} Because of the inequality in our assumptions the set
-\[F:=\{ Q\in C: \langle N,Q\rangle=0\}\]
-is a face of the convex set $C$. 
-Moreover this face contains $Q=0$ which is a point in the relative interior of $C$. Since the only face of a convex set which intersects its relative interior is $C$ itself we conclude that $F=C$ as claimed.
-\end{proof}
-We will now prove that with very high probability, $A^*$ is the unique minimizer of $min_A\Delta(A)$. this fact will follow from the next theorem. We begin with some notation.
-Let $C$ denote the subdifferential of $\Delta$ at $A^*$. $\partial(\Delta(A))(A^*)$. since $\Delta(A)$ is a convex function, $C$ a convex region.
-Recall that 
-\[\Delta(A)= \delta\|2A-11^t\|_{*}+\frac{1}{N}\sum_{k=1}^N\|A-B_k\|_1\] 
-And define functions $f$, $g$:
-\[
-f:= \frac{1}{N}\sum_{k=1}^N\|A-B_k\|_1, \ \ g:= \delta\|2A-11^t\|_{*}
-\]
-In this vocabulary, we have that
-\begin{equation}\label{SumaSubDif}
-C = \partial(f)(A^*)+\partial(g)(A^*)
+
+
+
+
+
+
+
+\section{An algorithm for Wasserstein nuclear norm summarization }
+
+
+Solving the optimization problems appearing in Theorem~\ref{Thm: tractable} require solving large semidefinite programs which are beyond the  capacity of standard off-the-shelf software even for relatively small graphs (of say $70$ vertices with $N=4$). One possible reason is that off-the-shelf solvers often use interior point methods, which are highly accurate but often do not scale well. A better alternative, especially well suited for solving is to use first order numerical optimization methods such as ADMM.
+
+In this section, we provide an algorithm specially adapted for the Wassesrtein nuclear norm summarization. It is based on a variation of the \textbf{Alternating Direction Method of Multipliers} (ADMM) called \textbf{Global Variable consensus with regularization}. Our algorithm is derived using the theory given in \cite{boyd2011distributed}.
+
+
+\subsection{Global Variable consensus with regularization}
+
+
+The general form of Global Variable consensus with regularization is given by 
+
+\begin{equation}\label{GVC}
+\begin{aligned}
+& \text{Minimize   } \sum_{i=1}^n f_i(x_i)+g(z) \\
+&\text{Subject to: } x_i-z = 0, \ \ i=1,..,N. 
+\end{aligned}
 \end{equation}
 
-\begin{theorem}
-Assume that $A^* \in argmin \Delta(A)$ and that $0 \in Relint(C)$. Then, $A^*$ is the unique minimizer of the optimization problem $min_A\Delta(A)$.
-\end{theorem}
-\begin{proof}
-Suppose there exist a minimizer $\bar{A} \in argmin \ \Delta(A)$ with $\bar{A} \neq A^*$.
-Let $N:=\bar{A}-A^* $. We will prove that $N=0$.
-Let $Q \in C$. By definition of a subdifferential in $A^*$ we have that
-\[
-\Delta(\bar{A}) \geq \Delta(A^*) + \left \langle Q,  \bar{A}-A^* \rangle \right.
-\]
-Since both $\bar{A}$ and $A^*$ are minimizers of $\Delta(A)$ we have that $\Delta(\bar{A})=\Delta(A^*)$ and it follows that
-\[
-\left \langle Q,N \rangle \right. \leq 0.
-\]
-For all $Q \in C$. since $0 \in Relint(C)$ by hypothesis,  lemma \ref{lema2} implies that 
-\[
-\left \langle Q,N \rangle \right. = 0.
-\]
-For all $Q \in C$.
 
-Now, observe the key following fact. By the characterizations of the subdifferentials $ \partial(f)(A^*) $ and $ \ \partial(g)(A^*)$ discussed in the previous section, we have that $\frac{-2\delta}{n}H^*  \in \partial(g)(A^*) $ and that $H^* \in \partial(f)(A^*)$. By (\ref{SumaSubDif}) we have that $H^*+\frac{-2\delta}{n}H^* \in C$ which implies that
-\[
-\left \langle H^* + \frac{-2\delta}{n}H^*,N \right\rangle= 0
-\]
-and 
-\[
-\left \langle H^*,N \right\rangle = \left \langle \frac{-2\delta}{n}H^*,N \right\rangle = 0.
-\]
 
-For $T \in \partial(f)(A^*)$ we have that $T+ \frac{-2\delta}{n}H^* \in C$ and
-\[
-0 = \left \langle T+ \frac{-2\delta}{n}H^*,N \right\rangle = \left \langle T,N \right\rangle + \left \langle \frac{-2\delta}{n}H^*,N \right\rangle =  \left \langle T,N \right\rangle.
-\]
+To efficiently solve this optimization problem, ADMM does iterative rounds of minimization of the primal and dual variables. For certain functions, (as is the case for the $l_1$ norm and crucially the nuclear norm) these minimizations problems have actual analytical minimizers. 
 
-Using this same argument with $H^*$ instead of $\frac{-2\delta}{n}H^*$ we have that for all $S \in \partial(g)(A^*), \ \left \langle S,N \right\rangle =0.$
 
-The two previous facts are the key to show that $N=0$. To prove this, we will carefully select some members of $\partial(f)(A^*)$ and of $\partial(g)(A^*)$ and use them to show that the entries of $N$ are all $0$.
+The general algorithm to solve this optimization problem is given in \cite{boyd2011distributed} and consists of the following steps:
 
-First of all, let $D_i$ be a $n \times n$ diagonal matrix with  entries equal to 0 except in the entry $ii$ where we set it to $1>\epsilon>0$.
+\begin{enumerate}
+\item initialize $x^0_i$, $y^0_i$ for $i=1,..,N$, $\rho>0$ and $z^0$.
+\item Set $ \text{Set } \bar{x}^{k} = \frac{1}{N}\sum_{i=1}^N x_i $ and $\bar{y}^{k} = \frac{1}{N}\sum_{i=1}^N y_i $.
+\item $x_i^{k+1} = \argmin_{x_i} \left( f_i(x_i) + \left \langle y_i^k,x_i-z_k \right \rangle) +\frac{\rho}{2}\|x_i-z^k\|_2^2\right ).$
+\item $z^{k+1} = \argmin_z \left (g(z)+\frac{N\rho}{2}\|z^k-\bar{x}^{k+1} -\frac{1}{\rho}\bar{y}^k \|_2^2 \right ).$
+\item $y_i^{k+1} = y_i^k + \rho(x_i^{k+1}-z^{k+1}).$
+\end{enumerate}
+
+This algorithm converges under very general circumstances, wich can be easily checked for problem \ref{WRNNS} :
+\ddr{las condiciones son que f y g sean propias, cerradas y convexas. mas aun, el lagrangiano no aumentado $L_0$ debe tener un punto de silla. deberiamos incluir una demostracion de esto? mas explicitamente, la condicion es que 
+existen $(x^*,y^*,z^*)$ no necesariamente unicos tales que $L_0(x^*,z^*,y)\leq L_0(x^*,z^*,y^*) \leq L_0(x,z,y^*).$ donde 
+$L_0(x,y,z)= f(x)+g(z)+ \langle y, Ax-Bz-C\rangle $ en el problema de optmizacion general $min f(x)+g(z)$ sujeto a $Ax+Bz = c$.
+}
+
+
+
+\subsection{Adapatation to the Wasserstein nuclear norm summarization}
+
+
+\begin{definition}
+Let $f$ be a convex function, $\rho > 0$. The proximal operator of $f$ at $w$ is defined as:
 
 \[
-D = 
- \begin{bmatrix}
-    0 & & & \\
-   & \epsilon  & \\
-   & &\ddots & \\
-   &  & & 0
-  \end{bmatrix}
+prox_{f,\rho}(w) = \argmin_{z} f(z)+ \frac{\rho}{2}\|z-w\|_2^2
 \]
-Recall that the only restriction for a entry diagonal of a matrix in $\partial(f)(A^*)$ is that its absolute value is bounded by $n$ and that $H^* \in \partial(f)(A^*)$
-The matrix $H^* + D_i$ has the same entries of $H^*$ except in the entry $ii$ where its value is $H^*_{ii}+ \epsilon = 1+\epsilon<n$ so that $H^* + D_i\in \partial(f)(A^*)$. 
 
-Then,
+\end{definition}
+
+\begin{claim}
+if $\|\cdot\|_*$ denotes the nuclear norm, and if $w$ is a matrix with singular value decomposition $USV^t$ then,
 \[
-0 = \left \langle H^*+D_i,N \right\rangle = \left \langle H^*,N \right\rangle +  \left \langle D,N \right\rangle = \left \langle D,N \right\rangle = \epsilon N_{ii}.
+UP_{\epsilon}V^t = \argmin_x \epsilon\|x\|_* + \frac{1}{2}\|x-w\|_2^2.
 \]
-which implies that $N_{ii}=0$ for all $1\leq i\leq n$. Note that in particular $Tr(N)=0$. 
-
-Let $G_I$ be the set of pairs $\{i,j\}$ such that $\{i,j\}\in I$, $i\neq j$ and $\frac{n_0(ij)-n_1(ij)}{N}< 1$.
-Let $\{i,j\} \in G_I$ and chose $\epsilon>0$ small enough such that $\frac{n_0(ij)-n_1(ij)}{N}+\epsilon< 1.$
-Now, define the matrix $T^{i,j}$ as a matrix of all zeros except at its entries $ij,ji$ where its value is set to $\epsilon$. I.e, $T^{i,j}$ is of the form
-
+Where
 \[
-T^{ij} = 
- \begin{bmatrix}
-    0 & & & & \\
-   & 0&  &\epsilon  & \\
-   & &\ddots &  &\\
-   &  \epsilon & & 0& \\
-   &  &  &  & 0
-  \end{bmatrix}
-\]
-Notice that the matrix $H^*+T^{ij}$ belongs to $\partial(f)(A^*)$ since all its entries all equal to those of $H^*$, except at $ij$ and $ji$, where its entries are $1-\epsilon$ and therefore
-
-\[\frac{n_0(ij)-n_1(ij)}{N}\leq H_{ij}^*+T^{ij}_{ij} <1\]
-
-We obtain that
-\[
-0 = \left \langle H^*+T^{ij},N \right \rangle = \left \langle H^*,N \right \rangle + \left \langle T^{ij},N \right \rangle = \left \langle T^{ij},N \right \rangle = \epsilon N_{ij} + \epsilon N_{ji}. 
-\]
-By the symmetry of $N$ it follows that $n_{ij}=n_{ji}=0 \ \forall  \ \{ij\} \in G_I$.
-Define the set $G_O$ as the set of pairs $\{i,j\}$ such that $\{i,j\}\in O$, $i\neq j$ and $-1> \frac{n_0(ij)-n_1(ij)}{N}$.
-Using the same argument as before with $-\epsilon$ instead of $\epsilon$, we can show that 
-$n_{ij}=n_{ji}=0 \ \forall  \ \{ij\} \in G_O$.
-
-It only remains to show that that entries of $N$ which are not in $G_I$ or in $G_O$ are $0$. Define the set $B_I$ as $I\setminus G_I$.
-let $\{i,j\} \in B_I$. This means that $\{i,j\}  \in I$ but $\frac{n_0(ij)-n_1(ij)}{N}=1$.
-Define the symmetric matrix $S^{ij}$ as follows:
-\begin{equation}
-S^{ij}_{kl} = 
-\begin{cases}
-0 \text{ if } \{k,l\}\in G_I \text{ or if } \{k,l\}\in G_O. \\
-2\delta \text{ if } k=l \text{ but } k\neq i \text{ or } k\neq j. \\ 
-2\delta \text{ if } \{k,l\}=\{i,j\}. \\
-0 \text{ if } i=k=l \text{ or if } j=k=l.
+P_\epsilon=\begin{cases}
+x - \epsilon \text{ if } x>\epsilon \\
+x+\epsilon \text{ if }x< -\epsilon\\
+0 \text{ in any other case. }
 \end{cases}
-\end{equation}
-In other words, $S^{ij}$ is of the form
-\[
-S^{ij} = 
- \begin{bmatrix}
-    2\delta & & & & & & \\
-   & 2\delta&  &  & & &\\
-   & & 0&  &  &  2\delta& \\
-   & & & 2\delta & & & \\
-   & & & & \ddots & &\\
-   &  & 2\delta & & & 0& \\
-   &  & &  &  &  &2\delta
-  \end{bmatrix}
 \]
-First of all, observe that $\{ij\} \in I $ so $H^*_{ij}=H^*_{ji}=1$, and as the entries in the diagonal of $H^*$ are also $1$, we have that
-\[ \left \langle H^*,S^{ij} \right\rangle =2\delta(Tr(H^*)-H^*_{ii}-H^*_{jj}) + 2\delta H_{ij}+  2\delta H_{ji}  =(n-2) 2\delta+2(2\delta) =2\delta.\]
+and $P_\epsilon$ is applied component-wise.$P_\epsilon$ is usually called the soft-thresholding operator.
+\end{claim}
 
-Moreover, the spectral norm of $S_{ij}$ is bounded by $\sqrt[]{\|S^{ij}\|_1 \|S^{ij}\|_{\infty}}$ by holder inequality. Here these norms are the induced $1$ norm and the induced $\infty$ norm. As the sum of  every row and every column of $S^{ij}$ is $2\delta$, we obtain that
-\[\|S^{ij}\| \leq \sqrt[]{(2\delta)(2\delta)} = 2\delta.\]
-We conclude that $S^{ij} \in \partial(g)(A^*)$ and so,
 
+\begin{claim}
+if $\|\cdot\|_1$ denotes the $l_1$ norm, then
 \[
-0 = \left \langle S^{ij},N \right \rangle = 2\delta (Tr(N)-N_{ii}-N_{jj})+ 2\delta N_{ij} + 2\delta N_{ji} = 4\delta N_{ij}. 
+prox_{\|\cdot\|_1,\rho}(w) = \argmin_x \|x\|_1 + \frac{\rho}{2}\|x-w\|_2^2 = P_{\frac{1}{\rho}}(w).
 \]
-The last equality is given by the fact that $N$ is Symmetric. this means that 
-$N_{ij}=N{ji}=0$ for all ${i,j} \in B_I$.
-Finally, define $B_O$ as $O\setminus G_O$.
-let $\{i,j\} \in B_O$. This means that $\{i,j\}  \in O$ but $\frac{n_0(ij)-n_1(ij)}{N}=-1$.
-A similar argument using $-2\delta$ in the off diagonal entries shows that
-$N_{ij}=N{ji}=0$ for all ${i,j} \in B_O$.
+Where $P_{\frac{1}{\rho}}$ is applied component-wise. Moreover, if $c$ is any $n \times n$ matrix, then
+\[
+P_{\frac{1}{\rho}}(w)+c = \argmin_x \|x-c\|_1+\frac{\rho}{2}\|x-w\|_2^2.
+\]
 
-To summarize, we have shown that all entries of $N$ must equal $0$ since any entry belongs to its diagonal,$ G_I,G_O,B_I$ or $B_O$ are $0$ and these sets are a partition of the entries of $N$.
-We conclude that $\bar{A}=A^*$.
-\end{proof}
+\end{claim}
+
+Let $B_1,..,B_N$ of an $i.i.d$ sample of the random graph $\grG$. Let $n$ be the number of vertices of $\grG$ and $1$ denote the vector [1,..,1] of length $n$. To use the formulation given in \ref{GVC} to solve the problem we need the following change of variables:
 
 
+\begin{itemize}
+\item $C_i = 2B_i-11^t$.
+\item $Z = 2A-11^t$.
+\item $f_i(x_i) = \frac{1}{2}\|x_i-C_i\|_1$.
+\item $g(z)=\|z\|_*$.
+\end{itemize}
+
+Our optimization problem reduces to the one given in \ref{GVC} and an algorithm to solve it is given by:
+
+\begin{enumerate}
+\item $\text{initialize } \rho >0 x_i^0=0, y_i^0=0, \text{for } i=1,..,N \text{ and } z_0= \frac{1}{N}\sum_{i=1}^N C_i$.
+\item $ \text{Set } \bar{x}^{k} = \frac{1}{N}\sum_{i=1}^N x_i $ and $\bar{y}^{k} = \frac{1}{N}\sum_{i=1}^N y_i $.
+\item $x_i^{k+1}=P_{\frac{1}{2\rho}}(z^k-\frac{1}{\rho}y_i^k-C_i)+C_i$
+\item $z^{k+1} = UP_{\frac{\lambda}{N\rho}}(S)V^t$ with $USV^t = SVD(\bar{x}^{k+1}+\frac{1}{\rho}\bar{y}^k)$.
+\item $y^{k+1} =y_i^k + \rho(x_i^{k+1}-z^{k+1}). $ 
+
+\end{enumerate}
+
+
+Using this algorithm, we tested the recovery of graphs generated by the stochastic block model.The simulations are in sink with our theorical results.  Results are shown in figures ... .
+
+
+
+\section{A numerical example: the colombian senate voting record.}
+
+\section{Preliminaries}
+
+
+
+
+
+\subsection{ Preliminaries on graphs and norms}
+
+By a graph $G$ we mean a finite loopless undirected graph. We say that $G$ is weighted if it is endowed with a function $w: E(G)\rightarrow \RR$ which assigns to every edge a real number in $[0,1]$. If $G$ has $n$ vertices then it is completely specified by its adjacency matrix $A\in \{0,1\}^{n\times n}$ defined by $A_{ij}=1$ if and only if vertices $i,j$ are connected. If $G$ is weighted then we use the term adjacency matrix of $G$ to denote the matrix with entries $A_{i,j}=w(i,j)$. 
+
+If $A$ is a matrix then we use $\|\bullet\|$, $\|\bullet\|_1$ to denote its operator norm and $\ell^1$-norm respectively.
+
+
+
+
+
+\bibliographystyle{abbrv}
+\bibliography{lit}
 
 \end{document}
 
@@ -916,9 +947,9 @@ And in particular the following equality holds
 
 
 
+\bibliographystyle{abbrv}
+\bibliography{lit}
 
 
 
 \end{document}
-
-
