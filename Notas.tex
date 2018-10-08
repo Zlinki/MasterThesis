@@ -958,10 +958,21 @@ And in particular the following equality holds
 
 
 
+\section{ADMM and prox}
 
 
+\[ \min_x f_1(x)+\dots + f_n(x)\]
+
+\begin{definition} If $f$ is an upper semicontinuous convex function taking values in $(-\infty, \infty]$ with nonempty domain then for every $x\in \RR^n$ the problem:
+
+\[\min_{y\in \RR} f(y) + \frac{\rho}{2}\|x-y\|_2^2\]
+
+has a unique solution called ${\rm prox}_{f,\rho}(x)$.
+Queremos que $\min f(x)+g(z)$ s.a. $x=z$ 
 
 
+ 
+\end{definition}
 
 
 
