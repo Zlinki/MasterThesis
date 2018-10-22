@@ -151,11 +151,12 @@ The robust worst-case risk is off course dependent on the chosen metric among pr
 The seminal work of Esfahani and Kuhn~\cite{EsfahaniKuhn} shows that robust formulations using the Wasserstein metric lead to tractable convex optimization problems. Our first result is that this is also true for Problem~\ref{ProbRobusto} when the Wasserstein metric is induced by a semidefinitely representable norm.
 
 \begin{theorem}\label{thm: finiteConvex} Let $K$ be the set of $n\times n$ symmetric matrices with entries in $[0,1]$, let $\|\bullet\|$ be a norm on $K$ and let $\delta>0$. Problem~\ref{ProbRobusto} is equivalent to:
-\[\min_{(A,s_1,\dots, s_N,\lambda)\in \mathcal{T}}\left( \lambda\delta +\frac{1}{N}\sum_{i=1}^N s_i + \frac{1}{N}\sum \|A-B_i\|_1\right)\]
+\[\min_{(A,s_1,\dots, s_N,\lambda)\in \mathcal{T}}\left( \lambda\delta +\frac{1}{N}\sum_{i=1}^N s_i + \frac{1}{N}\sum_{i=1}^N \|A-B_i\|_1\right)\]
 where $\mathcal{T}$ is the set of $(A,\vec{s},\lambda)\in K\times \RR^n\times \RR$  satisfying the inequalities $\lambda\geq 0$ and $\eta_{E, i}(\lambda)\leq s_i$ as $i=1,\dots, N$ and $E$ ranges over the set of all $\{0,1\}$-symmetric matrices, where
 \[\eta_{E, i}(\lambda):= \sup_{Y\in K} \left(\langle E, A-Y\rangle -\lambda \|B_i-Y\|\right)\]
 \end{theorem}
 
+\ddr{en la restriccion para $\eta$  no es $\eta_{E, i}(\lambda):= \sup_{Y\in K} \left(\langle E, B_i-Y\rangle -\lambda \|B_i-Y\|\right)$ ? eso es lo que logre probar... sin embargo puede que esté bien y a mi no me salio la prueba.}
 The reformulation in Theorem~\ref{thm: finiteConvex} is a finite-dimensional convex optimization problem which unfortunately contains  an exponential number of constraints. To address this proble we introduce:
 \begin{enumerate}
 \item A more tractable simplification which agrees with the original problem whenever the optimal $\overline{A}$ occurs at a matrix with entries in $\{0,1\}$.
@@ -169,7 +170,7 @@ More specifically, we prove the following
 \[
 R_{\delta}(A)=\min_{\mathcal{H}} \left(\lambda\delta +\frac{1}{N}\sum_{i=1}^N s_i+\frac{1}{N}\sum_{i=1}^N\|A-B_i\|_1\right)
 \]
-where $\mathcal{H}$ is the set of $(\lambda, s_1,\dots, s_N,\Lambda, W)\in \RR\times\RR^N\times \RR^{n\times n} \times \RR^{n\times n}$ \mv{$\Lambda$ y $W$ son sim\'etricas verdad? asi que deberia ser $K$} which satisfy the inequalities:
+where $\mathcal{H}$ is the set of $(\lambda, s_1,\dots, s_N,\Lambda, W)\in \RR\times\RR^N\times \RR^{n\times n} \times \RR^{n\times n}$ \mv{$\Lambda$ y $W$ son sim\'etricas verdad? asi que deberia ser $K$} \ddr{$\Lambda$ si debe ser simetrica, mientras que la unica restriccion de W es que su normal dual sea menor a $\lambda$. } which satisfy the inequalities:
 \[
 \begin{array}{l}
 \|W\|_{*}\leq \lambda\\
@@ -217,24 +218,20 @@ Finally we focus on the practical performance of the proposed algorithm. Solving
 %\mv{Daniel porfa escribir ac\'a los p\'arrafos que me mencion\'o y enriquecer enormemente las referencias (estan en el archivo lit.bib en formato bibtex, para poner nuevas referencias solo pongalas ahi, es facil cargarlas de MathScinet en formato bibtex).} 
 
 
+Understanding structural properties of graphs is a problem of high interest since such objects appear widely on many applications and fields of study. In particular, finding communities on a graph is one of the most studied tasks in machine learning, with  applications to many scientific fields such as Biology \cite{cabreros2016detecting, cline2007integration,xu2002clustering}, social data understanding \cite{domingos2001mining,mishra2007clustering,newman2002random} and other machine learning task such as natural language processing \cite{collobert2011natural,ratinov2009design}. One of the reasons of the importance of this problem is that it allows researchers to organize datasets into sets of similar observations, an then apply learning algorithms on each of the sets.  
 
-Finding clusters on a graph is one of the most studied task in machine learning, with wide applications to Biology \cite{cabreros2016detecting, cline2007integration,xu2002clustering}, social data understanding \cite{domingos2001mining,mishra2007clustering,newman2002random} and other machine learning task such as natural language processing \cite{collobert2011natural,ratinov2009design}. One of it's main uses is to organize datasets into sets of similar observations, an then apply learning algorithms on each of the sets.  
-
-The stochastic block model lies in the center of research in community detection. It's importance rises from the fact that communities are defined a priori and thus are formally specified.
-Two of the most popular approaches to find communities in the stochastic block model are spectral clustering and semidefinite optimization problems.
+Generative random graph models lie in the center of research graph structure as they offer formal ground for the development of theory that can be exhaustively be tested. On of the most studied generative graph model is the stochastic block model. It's importance rises from the fact that communities are defined a priori and thus are formally specified. The flexibility of this model allows one to capture many properties of real graphs, and therefore research on community detection has heavily been based on the study of the stochastic block model \cite{abbe2017community}.Two of the most popular approaches to find communities in the stochastic block model are spectral clustering and semidefinite optimization.
 
 Spectral clustering is based of the study of the spectrum of the Laplacian matrix (or modified versions of it) and has been widely used in the detection of sparse communities \cite{bordenave2015non, chin2015stochastic,krzakala2013spectral, massoulie2014community}. 
-SDP approaches are based on the work of Goemans and Williamson \cite{goemans1995improved},
-where one aims to maximize the trace of a matrix subject to it being positive semidefinite \cite{abbe2016exact,guedon2016community, montanari2016semidefinite}.
-
-The literature on the stochastic block model is extremely vast. For a more detailed picture of the previous comments we refer the reader to the recent survey on the stochastic black model\cite{abbe2017community}.
+SDP approaches are based on the seminal work of Goemans and Williamson \cite{goemans1995improved},
+where one aims to maximize the trace of a certain matrix subject to it being positive semidefinite \cite{abbe2016exact,guedon2016community, montanari2016semidefinite}.The literature on the stochastic block model is extremely vast. For a more detailed picture of the previous comments we refer the reader to the recent survey on the stochastic black model\cite{abbe2017community}.
 
 
-Parallel to the traditional SDP bassed on the max cut, progress in the problem of splitting a matrix into a sparse  plus a low rank components using a convex relaxation based on the nuclear norm \cite{candes2011robust,chandrasekaran2011rank,candes2009exact} have allowed a fruitful development of  convex algorithms to find communities in graphs \cite{ames2011nuclear,vinayak2014sharp,chen2012clustering,chen2014clustering,oymak2011finding,ailon2013breaking}.
+Parallel to the traditional SDP approach based on the max cut, progress in the problem of splitting a matrix into a sparse  plus a low rank components using a convex relaxation based on the nuclear norm \cite{candes2011robust,chandrasekaran2011rank,candes2009exact} have allowed a fruitful development of  convex algorithms to find communities in graphs \cite{ames2011nuclear,vinayak2014sharp,chen2012clustering,chen2014clustering,oymak2011finding,ailon2013breaking}.
 
 To the best of the knowledge of the authors, these works are based on the intuition that the splitting of the adjacency  matrix into a sparse . Our approach using the Wasserstein metric allows to show that this problem arises naturally and has a firm theoretical justification. \ddr{Vale la pena decir esto?}
 
-As is well documented in the literature, the problem as usually just one observation of the graph is available. However, due to the vast increase in data collection more and more datasets with various observations of a graph (for example, in time) have appeared \cite{snapnets}. To work with these datasets, researchers oftentimes use heuristics methods to "summarize" their graphs due to the lack of mature tools to extract information of various observations of the same graph.  \ddr{Vale la pena decir esto?}
+Finding communities on graphs is usually  problem as usually just one observation of the graph is available. However, due to the vast increase in data collection more and more datasets with various observations of a graph (for example, in time) have appeared \cite{snapnets}. To work with these datasets, researchers oftentimes use heuristics methods to "summarize" their graphs due to the lack of mature tools to extract information of various observations of the same graph.  \ddr{Vale la pena decir esto?}
 
 
 
@@ -295,8 +292,157 @@ To mitigate these problems we will use a robust formulation. To this end let $\|
 
 Our first result reformulates the robust optimization above as a finite convex optimization problem.
 \begin{proof}[Proof of Theorem~\ref{thm: finiteConvex}]
+
+
+Denote the set of symmetric matrices with entries in $\{-1,1\}$ by $L$.
+Let $\mathcal{M}(K\times K,\hat{\mu})$ be the set of probability measures in $K\times K$ whose marginal distribution in the first component is given by $\hat{\mu}$. We will refer to this set as $\mathcal{M}$ from now on. Every such measure is of the form 
+\[\mu = \sum_{i=1}^N c_i \delta_{B_i}\otimes \mathbb{Q}_i\]
+where $\mathbb{Q}_i$ is a probability measure on $K$. These measures act on functions on two sets of variables corresponding to each copy of $K$. More concretely
+\[\int_{K\times K} f(x,y) d\mu = \sum_{i=1}^ N c_i \int_K f(B_i,y)d\mathbb{Q}_i(y).\]
+
+
+
+
+\[R_{\delta}(A)=\left(\sup_{\nu\in \mathcal{N}_{\delta}(\hat{\mu})} \EE_{B\sim G}[\|A-B\|_1]\right) = \sup_{\nu\in \mathcal{N}_{\delta}(\hat{\mu})} \int \|A-Y\|_1 d\nu \]
+
+since $ \nu\in \mathcal{N}_{\delta}(\hat{\mu}) $ we can rewrite the right term to obtain that
+
+\begin{equation}\label{rdelta}
+\begin{aligned}
+R_{\delta}(A) &= \sup_{\mu \in \mathcal{M}} \inf_{\lambda \geq 0} \int_{K \times K}\|A-Y\|_1 d\mu + \lambda \left (  \delta - \int_{K \times K} \|X-Y\|d\mu.\right )\\
+&=  \sup_{\mu \in \mathcal{M}} \inf_{\lambda \geq 0} \int_{K \times K}\|A-Y\|_1 d\mu + \lambda \delta - \lambda \frac{1}{N}\sum_{i=1}^{N} \int_K \|B_i-Y\|d\mathbb{Q}_i(y)
+\end{aligned}
+\end{equation}
+\ddr{aqui hay un detalle de notacion.  para la segunda integral ya use la forma de mu, pero para escribimos que el supremo se toma sobre mu en M y no sobre las medidas Q.}
+Now, note that
+\[
+\|A-Y\|_1 = \sup_{E \in L} \left \langle A-Y,E\right \rangle.
+\]
+
+
+
+and using bilinearity, we have that 
+\[
+\sup_{E \in L} \left \langle A-Y,E\right \rangle = \sup_{E \in L} \left ( \left \langle A-X,E\right \rangle +  \left \langle X-Y,E\right \rangle \right ).
+\]
+where $X \sim \hat{\mu}$.
+Given that we know how $\mu \in \mathcal{M}$ acts, we can reformulate  the first integral as follows:
+\[
+\begin{aligned}
+\int_{K \times K} \|A-Y\|_1 d\mu &= \int_{K \times K} \sup_{E \in L} \left ( \left \langle A-X,E\right \rangle +  \left \langle X-Y,E\right \rangle \right ) d\mu \\
+& = \sup_{E \in L} \frac{1}{N} \sum_{i=1}^n   \langle A-B_i,E  \rangle +\frac{1}{N}\sum_{i=1}^N \int_K \sup_{E \in L} \langle B_i-Y,E\rangle d \mathbb{Q}_i \\
+& = \frac{1}{N} \sum_{i=1}^N \|A-B_i\|_1 +\frac{1}{N}\sum_{i=1}^N \int_K \sup_{E \in L} \langle B_i-Y,E\rangle d \mathbb{Q}_i 
+\end{aligned}
+\]
+Replacing this equation in \ref{rdelta} and regrouping the terms we get that:
+\[
+R_{\delta}(A) = \sup_{\mathbb{Q}_i} \inf_{\lambda \geq 0} \lambda \delta + \frac{1}{N} \sum_{i=1}^N \|A-B_i\|_1  +\frac{1}{N}\sum_{i=1}^N \left ( \int_K \sup_{E \in L}(\langle B_i-Y,E \rangle) -\lambda \|B_i-Y\|   d \mathbb{Q}_i   \right )
+\]
+Exchanging sup and inf and noting that the $\mathbb{Q}_i$ are arbitrary measures, we 
+obtain that this quantity is bounded above \ddr{equals?}
+
+\[
+\inf_{\lambda \geq 0} \lambda \delta + \frac{1}{N} \sum_{i=1}^N \|A-B_i\|_1  +\frac{1}{N}\sum_{i=1}^N \sup_{Y \in K} \left ( \sup_{E \in L}(\langle B_i-Y,E \rangle) -\lambda \|B_i-Y\|   \right )
+\]
+
+Finally,we put the supremum into the constraints obtaining the equivalent problem
+
+\[ \min_{A} R_{\delta}(A)=\min_{(A,s_1,\dots, s_N,\lambda)\in \mathcal{T}} \lambda \delta + \frac{1}{N} \sum_{i=1}^N \|A-B_i\|_1  +\frac{1}{N}\sum_{i=1}^N s_i
+\]
+where $\mathcal{T}$ is the set of $(A,\vec{s},\lambda)\in K\times \RR^n\times \RR$  satisfying the inequalities $\lambda\geq 0$ and $\eta_{E, i}(\lambda)\leq s_i$ as $i=1,\dots, N$ and $E$ ranges over the set of all $\{-1,1\}$-symmetric matrices, where
+\[\eta_{E, i}(\lambda):= \sup_{Y\in K} \left(\langle E, B_i-Y\rangle -\lambda \|B_i-Y\|\right)\]
 \end{proof}
 
+Our second results gives a simplification that agrees with the original problem when the optimal of problem \ref{ProbRobusto} occurs at matrix with entries in $\{0,1\}$.
+The proof is similiar to the proof of \ref{thm: finiteConvex}.
+
+
+\begin{proof}[Proof of Theorem~\ref{Thm: tractable}]
+Since $A$ has entries in $\{0,1\}$ and $B$ has entries in $K$ the equality $\|A-B\|_1=\langle 2A-11^t, A-B\rangle=\|A-\hat{B}\|_1+\langle 2A-11^t, \hat{B}-B\rangle$  where $\hat{B}$ is distributed according to the empirical measure holds. Taking expected values and suprema we see that
+\[\alpha=\sum_{i=1}^N c_i\|A-B_i\|_1+\sup_{\nu\in B_{\delta}(\hat{\mathbb{P}_N})}\EE\left[\langle 2A-11^t, \hat{B}-B\rangle\right].\] 
+Recall that if $\mu \in \mathcal{M}$, then $\mu$ is of the form 
+\[\mu = \sum_{i=1}^N c_i \delta_{B_i}\otimes \mathbb{Q}_i\]
+
+where $\mathbb{Q}_i$ is a probability measure on $K$.
+
+This allows us to rewrite
+\[\sup_{\nu\in B_{\delta}(\hat{\mu})}\EE\left[\langle 2A-11^t, \hat{B}-B\rangle\right] = 
+\sup_{\mu\in \mathcal{M}} \inf_{\lambda\geq 0} \int_{K\times K}\langle 2A-11^t, X-Y\rangle d\mu +\lambda\left(\delta -\int_{K\times K} \|X-Y\|_*d\mu\right)\]
+Exchanging sup and inf we obtain that this quantity is bounded above \mv{equals?}
+\[\inf_{\lambda\geq 0} \left(\lambda \delta +\sup_{\mu\in \mathcal{M}}\int_{K\times K} \langle 2A-11^t, X-Y\rangle -\lambda \|X-Y\|_*d\mu\right)\]
+Using the fact that $\mu = \sum_{i=1}^N c_i \delta_{B_i}\otimes \mathbb{Q}_i$ this quantity equals
+                                                                                                                                                                                                                                                                               \[\inf_{\lambda\geq 0} \left(\lambda\delta + \sum_{i=1}^N c_i \sup_{\mathbb{Q}_i} \int_{K} \langle 2A-11^t, B_i-Y\rangle -\lambda \|B_i-Y\|_*d\mathbb{Q}_i\right)\]
+Since $\mathbb{Q}_i$ are arbitrary probability measures this quantity equals
+\[\inf_{\lambda\geq 0} \lambda \delta +\sum_{i=1}^N c_i \sup_{Y\in K} \left(\langle 2A-11^t, B_i-Y\rangle -\lambda \|B_i-Y\|_*\right)\]
+
+Next we put the supremum into the constraints obtaining the equivalent problem
+\[ \inf_{(\lambda,s_1,\dots, s_N)} \lambda\delta +\sum c_is_i\]
+over the set given by the inequalities $\lambda\geq 0$ and for which the following inequalities in $\lambda$ are satisfied for $i=1,\dots, N$.
+\[\sup_{Y\in K} \left(\langle 2A-11^t, B_i-Y\rangle -\lambda \|B_i-Y\|_*\right)\leq s_i\]
+
+
+Next we compute the supremum in the constraints using strong duality \mv{Check hypothesis for strong duality}. We use duality because we are aiming to bound  the supremum above by $s_i$ and for this it suffices to exhibit a point in the dual whose objective function is bounded above by $s_i$. Denote the dual norm of $\|\bullet\|$ by $\|\bullet\|_{d^*}$.
+
+
+
+\[
+\begin{aligned}
+\sup_{Y\in K} \left(\langle 2A-11^t, B_i-Y\rangle -\lambda \|B_i-Y\|_*\right)&=
+\sup_{Y\in K} \inf_{ \|W\|_{d*}\leq \lambda} \langle 2A-11^t-W, B_i-Y\rangle \\ 
+&=\inf_{ \|W\|_{d*}\leq \lambda}\sup_{Y\in K}\langle 2A-11^t-W, B_i-Y\rangle 
+\end{aligned}
+%=\inf_{W: \|W\|_*\leq \lambda} \langle 2A-11^t-W, B_i\rangle+ \sup_{Y\in K} \langle D,-Y \rangle.
+\]
+By the comment above, we wish to bound the last term by $S_i$, so it is enough to exhibit a $W$ such that $W: ||W||_{d*} \leq \lambda$ such that
+\[
+\sup_{Y\in K} \langle 2A-11^t-W, B_i-Y\rangle \leq S_i.
+\]
+For the sake of notation, let 
+$D= 2A-11^t-W$.
+The last inequality then becomes
+\[
+\langle D,B_i\rangle + \sup_{Y \in K}\langle D,-Y \rangle \leq S_i.
+\]
+which is equivalent to 
+\[
+ \sup_{Y \in K}\langle -D,Y \rangle \leq S_i-\langle D,B_i\rangle.
+\]
+We will now compute 
+\[\sup_{Y \in K}\langle -D,Y \rangle.\]
+$K$ is the hipercube, which gives the restrictions $0 \leq Y \leq 11^t$ and $Y=Y^t$. 
+The lagragian is: 
+\[
+L = \langle D,-Y \rangle + \langle \Lambda,11^t-Y \rangle + \langle \eta,Y \rangle + \langle \Omega,Y-Y^t \rangle
+= \langle D+\Lambda -\eta,-Y \rangle + \langle \Lambda,11^t\rangle + \langle \Omega, Y-Y^t\rangle\]
+with $\Lambda,\eta \geq 0$.
+It follows that
+\[
+\sup_{Y \in K}\langle -D,Y \rangle = \sup_{Y \in K} \inf_{\Lambda,\eta \geq 0} L = \begin{cases}
+\langle 2A-11^t-W,-Y \rangle \ \text{if } Y \in K\\
+- \ \infty \text{ in the other case.}
+\end{cases}
+\]
+Exchanging infimum and supremum, we obtain  
+\[
+\sup_{Y \in K}\langle -D,Y \rangle = \inf_{\Lambda,\eta \geq 0}\sup_{Y \in K}L= \inf_{\Lambda,\eta \geq 0} 
+\begin{cases}
+\langle \Lambda, 11^t \rangle \ if \ D+\Lambda + \eta = 0 \ and \ \Omega =0.\rangle \\
+\infty \text{ in the other case.}
+\end{cases}
+\]
+Finally, this problem reduces to, 
+\[
+\inf_{\Lambda \geq0} \|\Lambda\|_1
+\]
+Subject to 
+\[
+\Lambda, \ D+\Lambda \geq 0.
+\]
+
+
+
+
+\end{proof}
 
 \section{Clustering in the stochastic block model and the Wasserstein nuclear norm.}
 
