@@ -1,0 +1,51 @@
+This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: graphLearning.aux
+The style file: abbrv.bst
+Database file #1: lit.bib
+I was expecting an "="---line 30 of file lit.bib
+ : <<<<<<< 
+ :         HEAD
+I'm skipping whatever remains of this entry
+You've used 28 entries,
+            2118 wiz_defined-function locations,
+            677 strings with 9450 characters,
+and the built_in function-call counts, 11691 in all, are:
+= -- 1192
+> -- 547
+< -- 11
++ -- 214
+- -- 186
+* -- 849
+:= -- 1842
+add.period$ -- 92
+call.type$ -- 28
+change.case$ -- 175
+chr.to.int$ -- 0
+cite$ -- 28
+duplicate$ -- 440
+empty$ -- 893
+format.name$ -- 186
+if$ -- 2506
+int.to.chr$ -- 0
+int.to.str$ -- 28
+missing$ -- 28
+newline$ -- 143
+num.names$ -- 56
+pop$ -- 178
+preamble$ -- 1
+purify$ -- 147
+quote$ -- 0
+skip$ -- 336
+stack$ -- 0
+substring$ -- 860
+swap$ -- 140
+text.length$ -- 11
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 112
+warning$ -- 0
+while$ -- 116
+width$ -- 30
+write$ -- 316
+(There was 1 error message)

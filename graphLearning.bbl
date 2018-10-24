@@ -1,0 +1,172 @@
+\begin{thebibliography}{10}
+
+\bibitem{abbe2017community}
+E.~Abbe.
+\newblock Community detection and stochastic block models: recent developments.
+\newblock {\em arXiv preprint arXiv:1703.10146}, 2017.
+
+\bibitem{abbe2016exact}
+E.~Abbe, A.~S. Bandeira, and G.~Hall.
+\newblock Exact recovery in the stochastic block model.
+\newblock {\em IEEE Transactions on Information Theory}, 62(1):471--487, 2016.
+
+\bibitem{ailon2013breaking}
+N.~Ailon, Y.~Chen, and H.~Xu.
+\newblock Breaking the small cluster barrier of graph clustering.
+\newblock In {\em International Conference on Machine Learning}, pages
+  995--1003, 2013.
+
+\bibitem{ames2011nuclear}
+B.~P. Ames and S.~A. Vavasis.
+\newblock Nuclear norm minimization for the planted clique and biclique
+  problems.
+\newblock {\em Mathematical programming}, 129(1):69--89, 2011.
+
+\bibitem{bordenave2015non}
+C.~Bordenave, M.~Lelarge, and L.~Massouli{\'e}.
+\newblock Non-backtracking spectrum of random graphs: community detection and
+  non-regular ramanujan graphs.
+\newblock In {\em Foundations of Computer Science (FOCS), 2015 IEEE 56th Annual
+  Symposium on}, pages 1347--1357. IEEE, 2015.
+
+\bibitem{boyd2011distributed}
+S.~Boyd, N.~Parikh, E.~Chu, B.~Peleato, J.~Eckstein, et~al.
+\newblock Distributed optimization and statistical learning via the alternating
+  direction method of multipliers.
+\newblock {\em Foundations and Trends{\textregistered} in Machine learning},
+  3(1):1--122, 2011.
+
+\bibitem{cabreros2016detecting}
+I.~Cabreros, E.~Abbe, and A.~Tsirigos.
+\newblock Detecting community structures in hi-c genomic data.
+\newblock In {\em Information Science and Systems (CISS), 2016 Annual
+  Conference on}, pages 584--589. IEEE, 2016.
+
+\bibitem{candes2011robust}
+E.~J. Cand{\`e}s, X.~Li, Y.~Ma, and J.~Wright.
+\newblock Robust principal component analysis?
+\newblock {\em Journal of the ACM (JACM)}, 58(3):11, 2011.
+
+\bibitem{candes2009exact}
+E.~J. Cand{\`e}s and B.~Recht.
+\newblock Exact matrix completion via convex optimization.
+\newblock {\em Foundations of Computational mathematics}, 9(6):717, 2009.
+
+\bibitem{chandrasekaran2011rank}
+V.~Chandrasekaran, S.~Sanghavi, P.~A. Parrilo, and A.~S. Willsky.
+\newblock Rank-sparsity incoherence for matrix decomposition.
+\newblock {\em SIAM Journal on Optimization}, 21(2):572--596, 2011.
+
+\bibitem{chen2014clustering}
+Y.~Chen, A.~Jalali, S.~Sanghavi, and H.~Xu.
+\newblock Clustering partially observed graphs via convex optimization.
+\newblock {\em The Journal of Machine Learning Research}, 15(1):2213--2238,
+  2014.
+
+\bibitem{chen2012clustering}
+Y.~Chen, S.~Sanghavi, and H.~Xu.
+\newblock Clustering sparse graphs.
+\newblock In {\em Advances in neural information processing systems}, pages
+  2204--2212, 2012.
+
+\bibitem{chin2015stochastic}
+P.~Chin, A.~Rao, and V.~Vu.
+\newblock Stochastic block model and community detection in sparse graphs: A
+  spectral algorithm with optimal rate of recovery.
+\newblock In {\em Conference on Learning Theory}, pages 391--423, 2015.
+
+\bibitem{cline2007integration}
+M.~S. Cline, M.~Smoot, E.~Cerami, A.~Kuchinsky, N.~Landys, C.~Workman,
+  R.~Christmas, I.~Avila-Campilo, M.~Creech, B.~Gross, et~al.
+\newblock Integration of biological networks and gene expression data using
+  cytoscape.
+\newblock {\em Nature protocols}, 2(10):2366, 2007.
+
+\bibitem{collobert2011natural}
+R.~Collobert, J.~Weston, L.~Bottou, M.~Karlen, K.~Kavukcuoglu, and P.~Kuksa.
+\newblock Natural language processing (almost) from scratch.
+\newblock {\em Journal of Machine Learning Research}, 12(Aug):2493--2537, 2011.
+
+\bibitem{domingos2001mining}
+P.~Domingos and M.~Richardson.
+\newblock Mining the network value of customers.
+\newblock In {\em Proceedings of the seventh ACM SIGKDD international
+  conference on Knowledge discovery and data mining}, pages 57--66. ACM, 2001.
+
+\bibitem{goemans1995improved}
+M.~X. Goemans and D.~P. Williamson.
+\newblock Improved approximation algorithms for maximum cut and satisfiability
+  problems using semidefinite programming.
+\newblock {\em Journal of the ACM (JACM)}, 42(6):1115--1145, 1995.
+
+\bibitem{guedon2016community}
+O.~Gu{\'e}don and R.~Vershynin.
+\newblock Community detection in sparse networks via grothendieck’s
+  inequality.
+\newblock {\em Probability Theory and Related Fields}, 165(3-4):1025--1049,
+  2016.
+
+\bibitem{krzakala2013spectral}
+F.~Krzakala, C.~Moore, E.~Mossel, J.~Neeman, A.~Sly, L.~Zdeborov{\'a}, and
+  P.~Zhang.
+\newblock Spectral redemption in clustering sparse networks.
+\newblock {\em Proceedings of the National Academy of Sciences},
+  110(52):20935--20940, 2013.
+
+\bibitem{massoulie2014community}
+L.~Massouli{\'e}.
+\newblock Community detection thresholds and the weak ramanujan property.
+\newblock In {\em Proceedings of the forty-sixth annual ACM symposium on Theory
+  of computing}, pages 694--703. ACM, 2014.
+
+\bibitem{mishra2007clustering}
+N.~Mishra, R.~Schreiber, I.~Stanton, and R.~E. Tarjan.
+\newblock Clustering social networks.
+\newblock In {\em International Workshop on Algorithms and Models for the
+  Web-Graph}, pages 56--67. Springer, 2007.
+
+\bibitem{EsfahaniKuhn}
+P.~Mohajerin~Esfahani and D.~Kuhn.
+\newblock Data-driven distributionally robust optimization using the
+  {W}asserstein metric: performance guarantees and tractable reformulations.
+\newblock {\em Math. Program.}, 171(1-2, Ser. A):115--166, 2018.
+
+\bibitem{montanari2016semidefinite}
+A.~Montanari and S.~Sen.
+\newblock Semidefinite programs on sparse random graphs and their application
+  to community detection.
+\newblock In {\em Proceedings of the forty-eighth annual ACM symposium on
+  Theory of Computing}, pages 814--827. ACM, 2016.
+
+\bibitem{newman2002random}
+M.~E. Newman, D.~J. Watts, and S.~H. Strogatz.
+\newblock Random graph models of social networks.
+\newblock {\em Proceedings of the National Academy of Sciences}, 99(suppl
+  1):2566--2572, 2002.
+
+\bibitem{oymak2011finding}
+S.~Oymak and B.~Hassibi.
+\newblock Finding dense clusters via" low rank+ sparse" decomposition.
+\newblock {\em arXiv preprint arXiv:1104.5186}, 2011.
+
+\bibitem{ratinov2009design}
+L.~Ratinov and D.~Roth.
+\newblock Design challenges and misconceptions in named entity recognition.
+\newblock In {\em Proceedings of the Thirteenth Conference on Computational
+  Natural Language Learning}, pages 147--155. Association for Computational
+  Linguistics, 2009.
+
+\bibitem{vinayak2014sharp}
+R.~K. Vinayak, S.~Oymak, and B.~Hassibi.
+\newblock Sharp performance bounds for graph clustering via convex
+  optimization.
+\newblock In {\em Acoustics, Speech and Signal Processing (ICASSP), 2014 IEEE
+  International Conference on}, pages 8297--8301. IEEE, 2014.
+
+\bibitem{xu2002clustering}
+Y.~Xu, V.~Olman, and D.~Xu.
+\newblock Clustering gene expression data using a graph-theoretic approach: an
+  application of minimum spanning trees.
+\newblock {\em Bioinformatics}, 18(4):536--545, 2002.
+
+\end{thebibliography}

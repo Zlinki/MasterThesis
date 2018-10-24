@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.8.23)  3 OCT 2018 15:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.19)  24 OCT 2018 10:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -599,14 +599,7 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layoutvoffset=\dimen263
 \Gm@dimlist=\toks49
 )
-(./graphLearning.aux
-
-LaTeX Warning: Label `ProbRobusto' multiply defined.
-
-
-LaTeX Warning: Label `SumaSubDif' multiply defined.
-
-)
+(./graphLearning.aux)
 \openout1 = `graphLearning.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 100.
@@ -626,8 +619,7 @@ LaTeX Font Info:    Try loading font information for U+msa on input line 100.
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 LaTeX Font Info:    Try loading font information for U+msb on input line 100.
-
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Try loading font information for U+lasy on input line 100.
@@ -730,63 +722,111 @@ Package xypdf Info: Line width: 0.47998pt on input line 100.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+Missing character: There is no Ã in font cmss12!
+Missing character: There is no © in font cmss12!
 
-LaTeX Warning: Citation `EsfahaniKuhn' on page 2 undefined on input line 151.
+Overfull \hbox (21.636pt too wide) in paragraph at lines 159--162
+[]$\OMS/cmsy/m/n/12 |||$ \OT1/cmss/m/n/12 Daniel: [en la re-stric-cion para $\O
+ML/cmm/m/it/12 ^^Q$ \OT1/cmss/m/n/12 no es $\OML/cmm/m/it/12 ^^Q[]\OT1/cmr/m/n/
+12 (\OML/cmm/m/it/12 ^^U\OT1/cmr/m/n/12 ) := [][] []$
+ []
 
-[2] [3]
+[2] [3] [4] [5] [6]
+Overfull \hbox (13.81967pt too wide) detected at line 341
+\OML/cmm/m/it/12 R[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 A\OT1/cmr/m/n/12 ) = [] [
+] \OML/cmm/m/it/12 ^^U^^N \OT1/cmr/m/n/12 + [] [] \OMS/cmsy/m/n/12 k\OML/cmm/m/
+it/12 A \OMS/cmsy/m/n/12 ^^@ \OML/cmm/m/it/12 B[]\OMS/cmsy/m/n/12 k[] \OT1/cmr/
+m/n/12 + [] [] []
+ []
 
-LaTeX Warning: Reference `' on page 4 undefined on input line 212.
+[7]
+Overfull \hbox (56.41844pt too wide) detected at line 371
+[] \U/msb/m/n/12 E [] \OT1/cmr/m/n/12 = [] [] [][]\OMS/cmsy/m/n/12 h\OT1/cmr/m/
+n/12 2\OML/cmm/m/it/12 A \OMS/cmsy/m/n/12 ^^@ \OT1/cmr/m/n/12 11[]\OML/cmm/m/it
+/12 ; X \OMS/cmsy/m/n/12 ^^@ \OML/cmm/m/it/12 Y\OMS/cmsy/m/n/12 i\OML/cmm/m/it/
+12 d^^V \OT1/cmr/m/n/12 + \OML/cmm/m/it/12 ^^U []
+ []
 
+[8]
+Overfull \hbox (13.08972pt too wide) detected at line 417
+\OML/cmm/m/it/12 L \OT1/cmr/m/n/12 = \OMS/cmsy/m/n/12 h\OML/cmm/m/it/12 D; \OMS
+/cmsy/m/n/12 ^^@\OML/cmm/m/it/12 Y\OMS/cmsy/m/n/12 i \OT1/cmr/m/n/12 + \OMS/cms
+y/m/n/12 h\OT1/cmr/m/n/12 ^^C\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 11[] \OMS/cmsy/
+m/n/12 ^^@ \OML/cmm/m/it/12 Y\OMS/cmsy/m/n/12 i \OT1/cmr/m/n/12 + \OMS/cmsy/m/n
+/12 h\OML/cmm/m/it/12 ^^Q; Y\OMS/cmsy/m/n/12 i \OT1/cmr/m/n/12 + \OMS/cmsy/m/n/
+12 h\OT1/cmr/m/n/12 
+\OML/cmm/m/it/12 ; Y \OMS/cmsy/m/n/12 ^^@ \OML/cmm/m/it/12 Y[]\OMS/cmsy/m/n/12 
+i \OT1/cmr/m/n/12 = \OMS/cmsy/m/n/12 h\OML/cmm/m/it/12 D \OT1/cmr/m/n/12 + ^^C 
+\OMS/cmsy/m/n/12 ^^@ \OML/cmm/m/it/12 ^^Q; \OMS/cmsy/m/n/12 ^^@\OML/cmm/m/it/12
+ Y\OMS/cmsy/m/n/12 i \OT1/cmr/m/n/12 + \OMS/cmsy/m/n/12 h\OT1/cmr/m/n/12 ^^C\OM
+L/cmm/m/it/12 ; \OT1/cmr/m/n/12 11[]\OMS/cmsy/m/n/12 i \OT1/cmr/m/n/12 + \OMS/c
+msy/m/n/12 h\OT1/cmr/m/n/12 
+\OML/cmm/m/it/12 ; Y \OMS/cmsy/m/n/12 ^^@ \OML/cmm/m/it/12 Y[]\OMS/cmsy/m/n/12 
+i
+ []
 
-LaTeX Warning: Reference `WNNC' on page 4 undefined on input line 214.
-
-
-LaTeX Warning: Reference `Numerics' on page 4 undefined on input line 214.
-
-
-LaTeX Warning: Reference `Senadores' on page 4 undefined on input line 214.
-
-[4] [5] [6] [7] [8] [9] [10] [11]
-Overfull \hbox (10.24985pt too wide) in paragraph at lines 623--625
-[]\OT1/cmr/bx/n/12 Lemma 9.4. []\OT1/cmr/m/it/12 As-sume there are $\OML/cmm/m/
+[9] [10] [11] [12] [13] [14]
+Overfull \hbox (10.24985pt too wide) in paragraph at lines 761--763
+[]\OT1/cmr/bx/n/12 Lemma 3.5. []\OT1/cmr/m/it/12 As-sume there are $\OML/cmm/m/
 it/12 l$ \OT1/cmr/m/it/12 clus-ters. Sup-pose that $\OML/cmm/m/it/12 b\OT1/cmr/
 m/n/12 (^^@\OML/cmm/m/it/12 ; ^^N\OT1/cmr/m/n/12 ) \OML/cmm/m/it/12 < min\OT1/c
 mr/m/n/12 (\OML/cmm/m/it/12 ^^N; a\OT1/cmr/m/n/12 (^^@\OML/cmm/m/it/12 ; ^^N\OT
 1/cmr/m/n/12 ))$\OT1/cmr/m/it/12 .Then,
  []
 
-[12]
-Overfull \hbox (1.7798pt too wide) detected at line 668
+[15]
+Overfull \hbox (1.7798pt too wide) detected at line 806
 [] [] [] \OT1/cmr/m/n/12 = [] [] = [] [] \OMS/cmsy/m/n/12 j\OML/cmm/m/it/12 C[]
 \OMS/cmsy/m/n/12 j \OT1/cmr/m/n/12 + \OMS/cmsy/m/n/12 j\OML/cmm/m/it/12 C[]\OMS
 /cmsy/m/n/12 j \OT1/cmr/m/n/12 = 2\OML/cmm/m/it/12 ^^N:
  []
 
-[13]
+[16]
 
-LaTeX Warning: Reference `eqn: WRGS2' on page 14 undefined on input line 732.
+LaTeX Warning: Reference `eqn: WRGS2' on page 17 undefined on input line 870.
 
-[14]
-Overfull \hbox (5.43199pt too wide) detected at line 754
+[17]
+Overfull \hbox (5.43199pt too wide) detected at line 892
 \U/msb/m/n/12 P [] \OT1/cmr/m/n/12 = \U/msb/m/n/12 P [] \OMS/cmsy/m/n/12 ^^T
  []
 
-[15] [16] [17] [18] [19] [20] (./graphLearning.aux)
+[18] [19]
+Overfull \hbox (6.27643pt too wide) in paragraph at lines 953--954
+ \OT1/cmr/m/n/12 4.1.\OT1/cmr/bx/n/12 Global Vari-able con-sen-sus with reg-u-l
+ar-iza-tion.[] \OT1/cmr/m/n/12 The gen-eral form of Global
+ []
+
+[20] [21] (./graphLearning.bbl
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 36.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 36.
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 36.
+ [22]
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ™ in font cmr10!
+) [23]
+(./graphLearning.aux)
 
 LaTeX Warning: There were undefined references.
 
 
-LaTeX Warning: There were multiply-defined labels.
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  ) 
 Here is how much of TeX's memory you used:
- 16183 strings out of 493029
- 290097 string characters out of 6136234
- 389419 words of memory out of 5000000
- 19208 multiletter control sequences out of 15000+600000
- 15451 words of font info for 66 fonts, out of 8000000 for 9000
+ 16233 strings out of 493029
+ 291043 string characters out of 6136233
+ 388538 words of memory out of 5000000
+ 19253 multiletter control sequences out of 15000+600000
+ 15146 words of font info for 65 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
- 55i,12n,54p,3246b,351s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,12n,54p,3246b,361s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/tex
@@ -800,20 +840,19 @@ amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
 s/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
 7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></
 usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/texlive/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/font
-s/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/s
-ymbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/sy
-mbols/msbm10.pfb>
-Output written on graphLearning.pdf (20 pages, 368655 bytes).
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
+onts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
+nts/symbols/msbm10.pfb>
+Output written on graphLearning.pdf (23 pages, 389590 bytes).
 PDF statistics:
- 169 PDF objects out of 1000 (max. 8388607)
- 121 compressed objects within 2 object streams
+ 174 PDF objects out of 1000 (max. 8388607)
+ 124 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
