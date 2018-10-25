@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.19)  24 OCT 2018 10:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.19)  25 OCT 2018 10:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -721,26 +721,9 @@ Package xypdf Info: Line width: 0.47998pt on input line 100.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Missing character: There is no Ã in font cmss12!
-Missing character: There is no © in font cmss12!
-
-Overfull \hbox (21.636pt too wide) in paragraph at lines 159--162
-[]$\OMS/cmsy/m/n/12 |||$ \OT1/cmss/m/n/12 Daniel: [en la re-stric-cion para $\O
-ML/cmm/m/it/12 ^^Q$ \OT1/cmss/m/n/12 no es $\OML/cmm/m/it/12 ^^Q[]\OT1/cmr/m/n/
-12 (\OML/cmm/m/it/12 ^^U\OT1/cmr/m/n/12 ) := [][] []$
- []
-
-[2] [3] [4] [5] [6]
-Overfull \hbox (13.81967pt too wide) detected at line 341
-\OML/cmm/m/it/12 R[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 A\OT1/cmr/m/n/12 ) = [] [
-] \OML/cmm/m/it/12 ^^U^^N \OT1/cmr/m/n/12 + [] [] \OMS/cmsy/m/n/12 k\OML/cmm/m/
-it/12 A \OMS/cmsy/m/n/12 ^^@ \OML/cmm/m/it/12 B[]\OMS/cmsy/m/n/12 k[] \OT1/cmr/
-m/n/12 + [] [] []
- []
-
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4] [5] [6]
 [7]
-Overfull \hbox (56.41844pt too wide) detected at line 371
+Overfull \hbox (56.41844pt too wide) detected at line 341
 [] \U/msb/m/n/12 E [] \OT1/cmr/m/n/12 = [] [] [][]\OMS/cmsy/m/n/12 h\OT1/cmr/m/
 n/12 2\OML/cmm/m/it/12 A \OMS/cmsy/m/n/12 ^^@ \OT1/cmr/m/n/12 11[]\OML/cmm/m/it
 /12 ; X \OMS/cmsy/m/n/12 ^^@ \OML/cmm/m/it/12 Y\OMS/cmsy/m/n/12 i\OML/cmm/m/it/
@@ -748,7 +731,7 @@ n/12 2\OML/cmm/m/it/12 A \OMS/cmsy/m/n/12 ^^@ \OT1/cmr/m/n/12 11[]\OML/cmm/m/it
  []
 
 [8]
-Overfull \hbox (13.08972pt too wide) detected at line 417
+Overfull \hbox (13.08972pt too wide) detected at line 387
 \OML/cmm/m/it/12 L \OT1/cmr/m/n/12 = \OMS/cmsy/m/n/12 h\OML/cmm/m/it/12 D; \OMS
 /cmsy/m/n/12 ^^@\OML/cmm/m/it/12 Y\OMS/cmsy/m/n/12 i \OT1/cmr/m/n/12 + \OMS/cms
 y/m/n/12 h\OT1/cmr/m/n/12 ^^C\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 11[] \OMS/cmsy/
@@ -766,7 +749,7 @@ i
  []
 
 [9] [10] [11] [12] [13] [14]
-Overfull \hbox (10.24985pt too wide) in paragraph at lines 761--763
+Overfull \hbox (10.24985pt too wide) in paragraph at lines 731--733
 []\OT1/cmr/bx/n/12 Lemma 3.5. []\OT1/cmr/m/it/12 As-sume there are $\OML/cmm/m/
 it/12 l$ \OT1/cmr/m/it/12 clus-ters. Sup-pose that $\OML/cmm/m/it/12 b\OT1/cmr/
 m/n/12 (^^@\OML/cmm/m/it/12 ; ^^N\OT1/cmr/m/n/12 ) \OML/cmm/m/it/12 < min\OT1/c
@@ -775,7 +758,7 @@ mr/m/n/12 (\OML/cmm/m/it/12 ^^N; a\OT1/cmr/m/n/12 (^^@\OML/cmm/m/it/12 ; ^^N\OT
  []
 
 [15]
-Overfull \hbox (1.7798pt too wide) detected at line 806
+Overfull \hbox (1.7798pt too wide) detected at line 776
 [] [] [] \OT1/cmr/m/n/12 = [] [] = [] [] \OMS/cmsy/m/n/12 j\OML/cmm/m/it/12 C[]
 \OMS/cmsy/m/n/12 j \OT1/cmr/m/n/12 + \OMS/cmsy/m/n/12 j\OML/cmm/m/it/12 C[]\OMS
 /cmsy/m/n/12 j \OT1/cmr/m/n/12 = 2\OML/cmm/m/it/12 ^^N:
@@ -783,15 +766,15 @@ Overfull \hbox (1.7798pt too wide) detected at line 806
 
 [16]
 
-LaTeX Warning: Reference `eqn: WRGS2' on page 17 undefined on input line 870.
+LaTeX Warning: Reference `eqn: WRGS2' on page 17 undefined on input line 840.
 
 [17]
-Overfull \hbox (5.43199pt too wide) detected at line 892
+Overfull \hbox (5.43199pt too wide) detected at line 862
 \U/msb/m/n/12 P [] \OT1/cmr/m/n/12 = \U/msb/m/n/12 P [] \OMS/cmsy/m/n/12 ^^T
  []
 
 [18] [19]
-Overfull \hbox (6.27643pt too wide) in paragraph at lines 953--954
+Overfull \hbox (6.27643pt too wide) in paragraph at lines 923--924
  \OT1/cmr/m/n/12 4.1.\OT1/cmr/bx/n/12 Global Vari-able con-sen-sus with reg-u-l
 ar-iza-tion.[] \OT1/cmr/m/n/12 The gen-eral form of Global
  []
@@ -821,8 +804,8 @@ LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
  ) 
 Here is how much of TeX's memory you used:
  16233 strings out of 493029
- 291043 string characters out of 6136233
- 388538 words of memory out of 5000000
+ 291045 string characters out of 6136233
+ 388534 words of memory out of 5000000
  19253 multiletter control sequences out of 15000+600000
  15146 words of font info for 65 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
@@ -849,7 +832,7 @@ t/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts
 c/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
 onts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
 nts/symbols/msbm10.pfb>
-Output written on graphLearning.pdf (23 pages, 389590 bytes).
+Output written on graphLearning.pdf (23 pages, 389637 bytes).
 PDF statistics:
  174 PDF objects out of 1000 (max. 8388607)
  124 compressed objects within 2 object streams

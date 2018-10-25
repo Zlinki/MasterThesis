@@ -143,7 +143,7 @@ A possible approach to problem~\ref{Prob} is to use the samples to construct the
 This approach is consistent and will lead to an optimal solution as the sample size $N\rightarrow \infty$. However, when the sample size $N$ is not sufficienly large (typicaly one has few samples of very large graphs) for $\hat{\mu}$ to be a good approximation for the distribution of $\grG$ this approach leads to overfitting. To mitigate this problem we propose a robust version of Problem~\ref{Prob}. In the robust version one aims to minimize the worst-case risk when the distribution of $B$ is allowed to vary in a ball $\mathcal{N}_{\delta}(\hat{\mu})$ of radius $\delta>0$ centered at the empirical measure $\hat{\mu}$ in a suitable metric, leading to 
 
 \begin{problem}\label{ProbRobusto} Given adjacency matrices $B_1,\dots, B_N$ of an independent sample of $\grG$ find a symmetric matrix $\overline{A}$ which minimizes the robust worst-case risk 
-\[R_{\delta}(A):=\left(\sup_{\nu\in \mathcal{N}_{\delta}(\hat{\mu})} \EE_{B\sim G}[\|A-B\|_1]\right).\] 
+\[R_{\delta}(A):=\left(\sup_{\nu\in \mathcal{N}_{\delta}(\hat{\mu})} \EE_{B\sim \grG}[\|A-B\|_1]\right).\] 
 \end{problem}
 The robust worst-case risk is obviously dependent on the chosen metric among probability distributions. In this article we will use the Wasserstein metric $W_{\|\bullet\|}$ induced by a norm $\|\bullet\|$ on the space $K$ of symmetric matrices with entries in $[0,1]$. More precisely, if $\nu_1,\nu_2$ are probability measures on $K$ and $\Pi(\nu_1,\nu_2)$ is the set of random variables $(Z_1,Z_2)$ taking values in $K\times K$  with $Z_i\sim \nu_i$ then the Wasserstein distance between $\nu_1$ and $\nu_2$ is given by 
 \[ W_{\|\bullet\|}(\nu_1,\nu_2):=\inf_{(Z_1,Z_2)\in \Pi(\nu_1,\nu_2)} \EE[\|Z_1-Z_2\|].\]
@@ -152,12 +152,11 @@ The seminal work of Esfahani and Kuhn~\cite{EsfahaniKuhn} shows that robust form
 
 \begin{theorem}\label{thm: finiteConvex} Let $K$ be the set of $n\times n$ symmetric matrices with entries in $[0,1]$, let $\|\bullet\|$ be a norm on $K$ and let $\delta>0$. Problem~\ref{ProbRobusto} is equivalent to:
 \[\min_{(A,s_1,\dots, s_N,\lambda)\in \mathcal{T}}\left( \lambda\delta +\frac{1}{N}\sum_{i=1}^N s_i + \frac{1}{N}\sum_{i=1}^N \|A-B_i\|_1\right)\]
-where $\mathcal{T}$ is the set of $(A,\vec{s},\lambda)\in K\times \RR^n\times \RR$  satisfying the inequalities $\lambda\geq 0$ and $\eta_{E, i}(\lambda)\leq s_i$ as $i=1,\dots, N$ and $E$ ranges over the set of all $\{0,1\}$-symmetric matrices, where
+where $\mathcal{T}$ is the set of $(A,\vec{s},\lambda)\in K\times \RR^n\times \RR$  satisfying the inequalities $\lambda\geq 0$ and $\eta_{E, i}(\lambda)\leq s_i$ as $i=1,\dots, N$ and $E$ ranges over the set of all $\{-1,1\}$-symmetric matrices, where
 \[\eta_{E, i}(\lambda):= \sup_{Y\in K} \left(\langle E, A-Y\rangle -\lambda \|B_i-Y\|\right)\]
 \end{theorem}
 
-\ddr{en la restriccion para $\eta$  no es $\eta_{E, i}(\lambda):= \sup_{Y\in K} \left(\langle E, B_i-Y\rangle -\lambda \|B_i-Y\|\right)$ ? eso es lo que logre probar... sin embargo puede que esté bien y a mi no me salio la prueba.}
-The reformulation in Theorem~\ref{thm: finiteConvex} makes our problem into a finite-dimensional convex optimization problem which unfortunately contains  an exponential number of constraints. To address this problem we introduce:
+The reformulation in Theorem~\ref{thm: finiteConvex} transforms the problem into a finite-dimensional convex optimization problem which unfortunately contains  an exponential number of constraints. To address this problem we introduce:
 \begin{enumerate}
 \item A more tractable simplification which agrees with the original problem whenever the optimal $\overline{A}$ occurs at a matrix with entries in $\{0,1\}$.
 \item A relaxation of $(1)$ which takes the form of a regularized empirical risk minimization problem.
@@ -182,7 +181,7 @@ where $\mathcal{H}$ is the set of $(\lambda, s_1,\dots, s_N,\Lambda, W)\in \RR\t
 \item The following inequality holds:
 \[R_{\delta}(A)\leq \frac{1}{N}\sum_{i=1}^N\|A-B_i\|_1+ \delta\|2A-11^t\|_*.\]
 \end{enumerate}
-Moreover, if $\|\cdot\|$ is a semidefinitely representable function then both $(1)$ and the minimization of the right hand side of $(2)$ are semidefinite programming problems.
+Moreover, if $\|\cdot\|$ is a semidefinitely representable function then both $(1)$ and the minimization of the right hand side of $(2)$ for $A\in K$ are semidefinite programming problems.
 \end{theorem}
 
 Solving the optimization problems in Theorem~\ref{Thm: tractable} leads to a new algorithm for estimating deterministic graph summaries which we call {\it Wasserstein robust graph summarization}. We carried out extensive numerical experiments applying this algorithm to a variety of graphs $G$ distributed according to the stochastic block model and observed that the regularized problem with the Wasserstein metric {\it induced by the spectral norm} was able to recover the correct cluster structure using only very few samples outperforming all others. This leads us to propose the {\it Wasserstein robust nuclear norm summarization problem}, given by
@@ -231,7 +230,7 @@ There are three main approaches for the problem of community detection on a (sin
 The results in this article differ from previous work in two main accounts:
 
 \begin{enumerate}
-\item Our methods apply to the problem of learning from {\it several} samples while, to the best of our knowledge, the above algorithms must be applied apply to a single graph. Practicioners resort to several ``graph combination" methods to transform datasets consisting of several samples into one. Our methods do not require this additional pre-processing step.
+\item Our methods apply to the problem of learning from {\it several} samples while, to the best of our knowledge, the above algorithms must be applied apply to a single graph. Practicioners resort to several ``graph combination" methods to transform datasets consisting of several samples into one. Our methods do not require this additional pre-processing step and are able to use the additional information contained in several samples to obtain more accurate recovery (see Section~\ref{Numerics})
 
 \item Formulating learning problems as Wasserstein robust optimization problems leads to regularization algorithms in a principled way. Even in the single-sample case this leads to improvements in performance when compared for instance with the sparse+low-rank approach (see Section~\ref{Numerics}).
 \end{enumerate}
@@ -243,10 +242,12 @@ We wish to thank Fabrice Gamboa, Mauricio Junca and Thierry Klein for useful con
 
 \section{Robust learning of deterministic summaries}
 Let $[n]:=\{1,2,\dots, n\}$. By a graph $G$ on $[n]$ we mean a finite loopless undirected graph with vertex set $[n]$. The adjacency matrix of such a graph is a symmetric $n\times n$ matrix with entries in $\{0,1\}$ and ones in positions $(i,j)$ whenever vertices $i$ and $j$ are adjacent. Let $\mathcal{A}_n$ be the set of adjacency matrices of graphs on $[n]$ (i.e. $\{0,1\}$-matrices of size $n\times n$ which are symmetric and have zeroes in the diagonal). Throughout the article we will use graphs and their adjacency matrices interchangeably. By a random graph $\grG$ on $[n]$ we mean a random variable $B$ taking values in $\mathcal{A}_n$.
+For a matrix $B$ we let $\|B\|_p$ to be the $p$-th root of the sum of the $p$-th powers of its entries. We denote by $\langle A,B\rangle:={\rm Tr}(AB)$ the Frobenius inner product on symmetric matrices.
+
 
 \begin{definition} A {\it deterministic summary} of a random graph $\grG$ on $[n]$ is a graph $A^*$ with $A^*\in \argmin_{A\in\mathcal{A}_n} \EE[\|A-\grG\|_1]$.
 \end{definition}
-Here the norm $\|\bullet\|_1$ means the sum of absolute values of all entries of the matrix. Therefore the deterministic summary $A^*$ is a graph which, on average, differs from $\grG$ by the smallest possible number of edges. If the distribution of $\grG$ is known it is easy to find a deterministic summary (which is often unique). More precisely,
+The deterministic summary $A^*$ is a graph which, on average, differs from $\grG$ by the smallest possible number of edges. If the distribution of $\grG$ is known it is easy to find a deterministic summary (which is often unique). More precisely,
 
 \begin{lemma}\label{lem: withDist} If $\PP\{(i,j)\in \grG\}\neq \frac{1}{2}$ for all $i,j\in [n]$ then the unique deterministic summary of $\grG$ is given by $A^*$ with
 \[A^*_{ij}=
@@ -255,19 +256,19 @@ Here the norm $\|\bullet\|_1$ means the sum of absolute values of all entries of
 0\text{, if $\PP\{(i,j)\in \grG\}< \PP\{(i,j)\not\in \grG\}$}
 \end{cases}\]
 \end{lemma}
-\begin{proof} If $A\in \mathcal{A}_n$ then the term coming from entry $(i,j)$ in $\EE[\|A-\grG\|_1]$ is given by $|A_{ij}-1|p+|A_{ij}|q$ where $p$ (resp $q$) is the probability that $(i,j)$ is (resp. is not) an edge of $\grG$. This quantity is greater than $\min(p,q)$ and equality is achieved, for all $i,j$ with $A=A^*$. 
+\begin{proof} If $A\in \mathcal{A}_n$ then the term coming from entry $(i,j)$ in $\EE[\|A-\grG\|_1]$ is given by $|A_{ij}-1|p+|A_{ij}|q$ where $p$ (resp $q$) is the probability that $(i,j)$ is (resp. is not) an edge of $\grG$. This quantity is greater than $\min(p,q)$ and equality is achieved, for all $i,j$ when $A=A^*$. 
 \end{proof}
 
 Motivated by the previous Lemma we define a cluster structure on a random graph.
 
-\begin{definition} A random graph $\grG$ has a {\it cluster structure} if it has a unique deterministic summary $A^*$ and the corresponding graph is a disjoint union of cliques. We call these cliques the clusters of $\grG$.
+\begin{definition} A random graph $\grG$ has a {\it cluster structure} or a {\it community structure} if it has a unique deterministic summary $A^*$ and the corresponding graph is a disjoint union of cliques. We call these cliques the clusters of $\grG$.
 \end{definition}
 
-The main problem that we address in this article is that of {\it learning} deterministic summaries (an in particular the problem of learning cluster structures on random graphs who have them). By this we mean that our only knowledge about the distribution of the random graph $\grG$ is encoded in an independent sample $B_1,\dots, B_N$ of adjacency matrices with the same distribution as $\grG$, leading to Problem~\ref{Prob} in the Introduction. 
+The main problem that we address in this article is that of {\it learning} deterministic summaries (and in particular the problem of learning cluster structures on random graphs who have them). By this we mean that our only knowledge about the distribution of the random graph $\grG$ is encoded in an independent sample $B_1,\dots, B_N$ of adjacency matrices with the same distribution as $\grG$, leading to Problem~\ref{Prob} in the Introduction. 
 
 
 
-Given the sample, define the empirical measure $\hat{\mu}:=\frac{1}{N}\sum_{j=1}^N \delta_{B_j}$ as a sum of Dirac delta measures at the sample points. As the number of sample points increases the measure $\hat{\mu}$ converges to the distribution of $\grG$ and it is therefore reasonable to try to minimize the objective function in Problem~\ref{Prob} with respect to the measure $\hat{\mu}$ instead of $\grG$, that is by finding a minimizer of the empirical risk
+Given the sample, define the empirical measure $\hat{\mu}:=\frac{1}{N}\sum_{j=1}^N \delta_{B_j}$ as a sum of Dirac delta measures at the sample points. As the number of sample points increases the measure $\hat{\mu}$ converges to the distribution of $\grG$~\cite{Fournier} and it is therefore reasonable to try to minimize the objective function in Problem~\ref{Prob} with respect to the measure $\hat{\mu}$ instead of $\grG$, that is by finding a minimizer of the empirical risk
 \[\overline{A}\in\argmin _{A\in K} \EE_{Z\sim \hat{\mu}}[\|A-Z\|]\]
 Arguing as in Lemma~\ref{lem: withDist} it is immediate that a (generally unique) minimizer $\overline{A}$ is given by counting edge frequencies, that is
 \[ 
@@ -284,78 +285,47 @@ The empirical risk minimization approach has lots of advantages, it is easy to i
 \item The estimation of $\overline{A}$ is done independently edge by edge and in particular it does not use any global information, for instance the existence of a cluster structure as part of the estimation process.
 \end{enumerate}
 
-To mitigate these problems we will use a robust formulation. To this end let $\|\bullet\|$ be a norm in the space of symmetric $n\times n$ matrices and let $W_{\|\bullet\|}$ be the Wasserstein distance induced by $\|\bullet\|$ on probability distributions taking values on $K$. For a real number $\delta\geq 0$ let $\mathcal{N}_{\delta}(\hat{\mu})$ be the (closed) ball of radius $\delta$ centered at $\hat{\mu}$. We would like to solve the following
+To mitigate these problems we will use a robust formulation. To this end let $\|\bullet\|$ be a norm in the space of symmetric $n\times n$ matrices and let $W_{\|\bullet\|}$ be the Wasserstein distance induced by a given norm $\|\bullet\|$ on $K$. For a real number $\delta\geq 0$ let $\mathcal{N}_{\delta}(\hat{\mu})$ be the (closed) ball of radius $\delta$ centered at $\hat{\mu}$. We would like to solve the following
 
 
 \begin{problem*}\label{ProbRobusto2} Given adjacency matrices $B_1,\dots, B_N$ of an independent sample of $\grG$ find a symmetric matrix $\overline{A}$ which minimizes the robust worst-case risk 
-\[R_{\delta}(A):=\left(\sup_{\nu\in \mathcal{N}_{\delta}(\hat{\mu})} \EE_{B\sim G}[\|A-B\|_1]\right).\] 
+\[R_{\delta}(A):=\left(\sup_{\nu\in \mathcal{N}_{\delta}(\hat{\mu})} \EE_{B\sim \grG}[\|A-B\|_1]\right).\] 
 \end{problem*}
 
-Our first result reformulates the robust optimization above as a finite convex optimization problem.
+Our first result reformulates the robust optimization above as a finite convex optimization problem by closely following the ideas of Esfahani and Kuhn. The proof is included for the reader's benefit.
+
 \begin{proof}[Proof of Theorem~\ref{thm: finiteConvex}]
 
 
-Denote the set of symmetric matrices with entries in $\{-1,1\}$ by $L$.
-Let $\mathcal{M}(K\times K,\hat{\mu})$ be the set of probability measures in $K\times K$ whose marginal distribution in the first component is given by $\hat{\mu}$. We will refer to this set as $\mathcal{M}$ from now on. Every such measure is of the form 
-\[\mu = \sum_{i=1}^N c_i \delta_{B_i}\otimes \mathbb{Q}_i\]
-where $\mathbb{Q}_i$ is a probability measure on $K$. These measures act on functions on two sets of variables corresponding to each copy of $K$. More concretely
-\[\int_{K\times K} f(x,y) d\mu = \sum_{i=1}^ N c_i \int_K f(B_i,y)d\mathbb{Q}_i(y).\]
+Let $\mathcal{M}$ be the set of probability measures in $K\times K$ whose marginal distribution in the first component is given by the empirical measure $\hat{\mu}$. Every such measure is of the form 
+\[\nu = \sum_{i=1}^N \frac{1}{N} \delta_{B_i}\otimes \mathbb{Q}_i\]
+where $\mathbb{Q}_i$ is a probability measure on $K$. Conditioning on the value of $X$ it is immediate that these measures act on functions on two sets of variables corresponding to each copy of $K$ via the formula
+\[\int_{K\times K} f(x,y) d\nu = \sum_{i=1}^ N \frac{1}{N} \int_K f(B_i,y)d\mathbb{Q}_i(y).\]
+The distribution of a random variable $Y\in K$ lies in the Wasserstein ball $\mathcal{N}_{\delta}(\hat{\mu})$ iff there exists a random vector $(X,Y)\in K\times K$ with distribution $\nu\in \mathcal{M}$ which satisfies $\int_{K\times K} \|X-Y\|d\nu\leq \delta$. This description will allow us to optimize over  $\mathcal{N}_{\delta}(\hat{\mu})$.
+If $A\in K$ then the following equalities hold:
 
+\[R_{\delta}(A)=\sup_{\nu\in\mathcal{M}}\left( \int_{K\times K}\|A-Y\|_1d\nu :  \int_{K\times K} \|X-Y\|d\nu\leq \delta\right)\]
+which can be written as
+\[\sup_{\nu\in \mathcal{M}} \inf_{\lambda\geq 0} \int_{K\times K}\|A-Y\|_1d\nu+\lambda\left(\delta-\int_{K\times K} \|X-Y\|d\nu\right)\]
+By strong duality for moment problems this quantity equals
+\[\inf_{\lambda\geq 0} \sup_{\nu\in \mathcal{M}}  \int_{K\times K}\|A-Y\|_1d\nu+\lambda\left(\delta-\int_{K\times K} \|X-Y\|d\nu\right)\]
+and conditioning on the value of $X$ we compute the integrals obtaining
+\[\inf_{\lambda\geq 0} \lambda\delta +\frac{1}{N}\sup_{\mathbb{Q}_1,\dots, \mathbb{Q}_N}\left( \int_K \left(\|A-Y\|_1-\lambda\|B_i-Y\| \right) d\mathbb{Q}_i(Y)\right).\]
+Since the integrals are maximized when the $\mathbb{Q}_i$ are Dirac deltas at optima of their corresponding functions we conclude that this quantity equals
+\[\inf_{\lambda\geq 0} \lambda\delta + \frac{1}{N} \sup_{Y\in K} \|A-Y\|_1-\lambda\|B_i-Y\|\]
+Next we move the supremum into the constraints obtaining
+\[ \inf_{(\lambda,s_1,\dots,s_n)}\left( \lambda\delta +\frac{1}{N}\sum_{i=1}^N s_i: \sup_{Y\in K}\left(\|A-Y\|_1-\lambda\|B_i-Y\|\right)\leq s_i\text{ , for $i=1,\dots, N$ }\right).\]
 
-
-
-\[R_{\delta}(A)=\left(\sup_{\nu\in \mathcal{N}_{\delta}(\hat{\mu})} \EE_{B\sim G}[\|A-B\|_1]\right) = \sup_{\nu\in \mathcal{N}_{\delta}(\hat{\mu})} \int \|A-Y\|_1 d\nu \]
-
-since $ \nu\in \mathcal{N}_{\delta}(\hat{\mu}) $ we can rewrite the right term to obtain that
-
-\begin{equation}\label{rdelta}
-\begin{aligned}
-R_{\delta}(A) &= \sup_{\mu \in \mathcal{M}} \inf_{\lambda \geq 0} \int_{K \times K}\|A-Y\|_1 d\mu + \lambda \left (  \delta - \int_{K \times K} \|X-Y\|d\mu.\right )\\
-&=  \sup_{\mu \in \mathcal{M}} \inf_{\lambda \geq 0} \int_{K \times K}\|A-Y\|_1 d\mu + \lambda \delta - \lambda \frac{1}{N}\sum_{i=1}^{N} \int_K \|B_i-Y\|d\mathbb{Q}_i(y)
-\end{aligned}
-\end{equation}
-\ddr{aqui hay un detalle de notacion.  para la segunda integral ya use la forma de mu, pero para escribimos que el supremo se toma sobre mu en M y no sobre las medidas Q.}
-Now, note that
-\[
-\|A-Y\|_1 = \sup_{E \in L} \left \langle A-Y,E\right \rangle.
-\]
-
-
-
-and using bilinearity, we have that 
-\[
-\sup_{E \in L} \left \langle A-Y,E\right \rangle = \sup_{E \in L} \left ( \left \langle A-X,E\right \rangle +  \left \langle X-Y,E\right \rangle \right ).
-\]
-where $X \sim \hat{\mu}$.
-Given that we know how $\mu \in \mathcal{M}$ acts, we can reformulate  the first integral as follows:
-\[
-\begin{aligned}
-\int_{K \times K} \|A-Y\|_1 d\mu &= \int_{K \times K} \sup_{E \in L} \left ( \left \langle A-X,E\right \rangle +  \left \langle X-Y,E\right \rangle \right ) d\mu \\
-& = \sup_{E \in L} \frac{1}{N} \sum_{i=1}^n   \langle A-B_i,E  \rangle +\frac{1}{N}\sum_{i=1}^N \int_K \sup_{E \in L} \langle B_i-Y,E\rangle d \mathbb{Q}_i \\
-& = \frac{1}{N} \sum_{i=1}^N \|A-B_i\|_1 +\frac{1}{N}\sum_{i=1}^N \int_K \sup_{E \in L} \langle B_i-Y,E\rangle d \mathbb{Q}_i 
-\end{aligned}
-\]
-Replacing this equation in \ref{rdelta} and regrouping the terms we get that:
-\[
-R_{\delta}(A) = \sup_{\mathbb{Q}_i} \inf_{\lambda \geq 0} \lambda \delta + \frac{1}{N} \sum_{i=1}^N \|A-B_i\|_1  +\frac{1}{N}\sum_{i=1}^N \left ( \int_K \sup_{E \in L}(\langle B_i-Y,E \rangle) -\lambda \|B_i-Y\|   d \mathbb{Q}_i   \right )
-\]
-Exchanging sup and inf and noting that the $\mathbb{Q}_i$ are arbitrary measures, we 
-obtain that this quantity is bounded above \ddr{equals?}
-
-\[
-\inf_{\lambda \geq 0} \lambda \delta + \frac{1}{N} \sum_{i=1}^N \|A-B_i\|_1  +\frac{1}{N}\sum_{i=1}^N \sup_{Y \in K} \left ( \sup_{E \in L}(\langle B_i-Y,E \rangle) -\lambda \|B_i-Y\|   \right )
-\]
-
-Finally,we put the supremum into the constraints obtaining the equivalent problem
-
-\[ \min_{A} R_{\delta}(A)=\min_{(A,s_1,\dots, s_N,\lambda)\in \mathcal{T}} \lambda \delta + \frac{1}{N} \sum_{i=1}^N \|A-B_i\|_1  +\frac{1}{N}\sum_{i=1}^N s_i
-\]
-where $\mathcal{T}$ is the set of $(A,\vec{s},\lambda)\in K\times \RR^n\times \RR$  satisfying the inequalities $\lambda\geq 0$ and $\eta_{E, i}(\lambda)\leq s_i$ as $i=1,\dots, N$ and $E$ ranges over the set of all $\{-1,1\}$-symmetric matrices, where
-\[\eta_{E, i}(\lambda):= \sup_{Y\in K} \left(\langle E, B_i-Y\rangle -\lambda \|B_i-Y\|\right)\]
+Finally, if $L$ denotes the set of symmetric matrices with entries in $\{-1,1\}$ then the following equalities hold for every symmetric matrix $B$ 
+\[\|B\|_1=\sup_{H:\|H\|_{\infty}\leq 1} \langle B,H\rangle = \max_{E\in L}\langle B,E\rangle.\]
+Defining the concave function
+\[\eta_{E, i}(\lambda):= \sup_{Y\in K} \left(\langle E, A-Y\rangle -\lambda \|B_i-Y\|\right)\]
+we therefore conclude that
+\[R_{\delta}(A)=\inf_{(\lambda,s_1,\dots,s_n)}\left(\lambda\delta +\frac{1}{N}\sum_{i=1}^N s_i: \eta_{i,E}(\lambda)\leq s_i\text{ for all $E\in L$ and $i=1,\dots, N$}\right).\]
+Letting $A$ vary in $K$ we prove the Theorem.
 \end{proof}
 
-Our second results gives a simplification that agrees with the original problem when the optimal of problem \ref{ProbRobusto} occurs at matrix with entries in $\{0,1\}$.
-The proof is similiar to the proof of \ref{thm: finiteConvex}.
+Our second results gives a simplification of the previous problem which agrees with it when problem \ref{ProbRobusto} has an optima which occurs at a matrix with entries in $\{0,1\}$. The proof is similiar to the proof of \ref{thm: finiteConvex}.
 
 
 \begin{proof}[Proof of Theorem~\ref{Thm: tractable}]

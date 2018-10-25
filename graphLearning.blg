@@ -7,45 +7,45 @@ I was expecting an "="---line 30 of file lit.bib
  : <<<<<<< 
  :         HEAD
 I'm skipping whatever remains of this entry
-You've used 28 entries,
+You've used 29 entries,
             2118 wiz_defined-function locations,
-            677 strings with 9450 characters,
-and the built_in function-call counts, 11691 in all, are:
-= -- 1192
-> -- 547
+            684 strings with 9620 characters,
+and the built_in function-call counts, 12024 in all, are:
+= -- 1227
+> -- 560
 < -- 11
-+ -- 214
-- -- 186
-* -- 849
-:= -- 1842
-add.period$ -- 92
-call.type$ -- 28
-change.case$ -- 175
++ -- 219
+- -- 190
+* -- 875
+:= -- 1897
+add.period$ -- 95
+call.type$ -- 29
+change.case$ -- 180
 chr.to.int$ -- 0
-cite$ -- 28
-duplicate$ -- 440
-empty$ -- 893
-format.name$ -- 186
-if$ -- 2506
+cite$ -- 29
+duplicate$ -- 451
+empty$ -- 920
+format.name$ -- 190
+if$ -- 2574
 int.to.chr$ -- 0
-int.to.str$ -- 28
-missing$ -- 28
-newline$ -- 143
-num.names$ -- 56
-pop$ -- 178
+int.to.str$ -- 29
+missing$ -- 29
+newline$ -- 148
+num.names$ -- 58
+pop$ -- 181
 preamble$ -- 1
-purify$ -- 147
+purify$ -- 151
 quote$ -- 0
-skip$ -- 336
+skip$ -- 344
 stack$ -- 0
-substring$ -- 860
-swap$ -- 140
+substring$ -- 890
+swap$ -- 141
 text.length$ -- 11
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 112
+type$ -- 116
 warning$ -- 0
-while$ -- 116
-width$ -- 30
-write$ -- 316
+while$ -- 120
+width$ -- 31
+write$ -- 327
 (There was 1 error message)

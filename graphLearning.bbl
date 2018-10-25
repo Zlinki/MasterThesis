@@ -93,6 +93,12 @@ P.~Domingos and M.~Richardson.
 \newblock In {\em Proceedings of the seventh ACM SIGKDD international
   conference on Knowledge discovery and data mining}, pages 57--66. ACM, 2001.
 
+\bibitem{Fournier}
+N.~Fournier and A.~Guillin.
+\newblock On the rate of convergence in {W}asserstein distance of the empirical
+  measure.
+\newblock {\em Probab. Theory Related Fields}, 162(3-4):707--738, 2015.
+
 \bibitem{goemans1995improved}
 M.~X. Goemans and D.~P. Williamson.
 \newblock Improved approximation algorithms for maximum cut and satisfiability
