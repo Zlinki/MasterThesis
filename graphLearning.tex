@@ -151,7 +151,7 @@ The robust worst-case risk is obviously dependent on the chosen metric among pro
 The seminal work of Esfahani and Kuhn~\cite{EsfahaniKuhn} shows that robust formulations defined using the Wasserstein metric often lead to tractable convex optimization problems. Our first result is that this is also true for Problem~\ref{ProbRobusto} when the Wasserstein metric is induced by any semidefinitely representable norm.
 
 \begin{theorem}\label{thm: finiteConvex} Let $K$ be the set of $n\times n$ symmetric matrices with entries in $[0,1]$, let $\|\bullet\|$ be a norm on $K$ and let $\delta>0$. Problem~\ref{ProbRobusto} is equivalent to:
-\[\min_{(A,s_1,\dots, s_N,\lambda)\in \mathcal{T}}\left( \lambda\delta +\frac{1}{N}\sum_{i=1}^N s_i + \frac{1}{N}\sum_{i=1}^N \|A-B_i\|_1\right)\]
+\[\min_{(A,s_1,\dots, s_N,\lambda)\in \mathcal{T}}\left( \lambda\delta +\frac{1}{N}\sum_{i=1}^N s_i \right)\]
 where $\mathcal{T}$ is the set of $(A,\vec{s},\lambda)\in K\times \RR^n\times \RR$  satisfying the inequalities $\lambda\geq 0$ and $\eta_{E, i}(\lambda)\leq s_i$ as $i=1,\dots, N$ and $E$ ranges over the set of all $\{-1,1\}$-symmetric matrices, where
 \[\eta_{E, i}(\lambda):= \sup_{Y\in K} \left(\langle E, A-Y\rangle -\lambda \|B_i-Y\|\right)\]
 \end{theorem}
@@ -161,7 +161,7 @@ The reformulation in Theorem~\ref{thm: finiteConvex} transforms the problem into
 \item A more tractable simplification which agrees with the original problem whenever the optimal $\overline{A}$ occurs at a matrix with entries in $\{0,1\}$.
 \item A relaxation of $(1)$ which takes the form of a regularized empirical risk minimization problem.
 \end{enumerate}
-leading to practical algorithms for graph summarization. More specifically, we prove the following 
+leading to practical algorithms for graph summarization. More specifically, if $\mathcal{S}^{n\times n}$ denotes the space of real symmetric $n\times n$ matrices we prove the following 
 
 \begin{theorem}\label{Thm: tractable}If $A$ is a symmetric $\{0,1\}$-matrix and $\delta>0$ then:
 \begin{enumerate}
@@ -169,7 +169,7 @@ leading to practical algorithms for graph summarization. More specifically, we p
 \[
 R_{\delta}(A)=\min_{\mathcal{H}} \left(\lambda\delta +\frac{1}{N}\sum_{i=1}^N s_i+\frac{1}{N}\sum_{i=1}^N\|A-B_i\|_1\right)
 \]
-where $\mathcal{H}$ is the set of $(\lambda, s_1,\dots, s_N,\Lambda, W)\in \RR\times\RR^N\times \RR^{n\times n} \times \RR^{n\times n}$ \mv{$\Lambda$ y $W$ son sim\'etricas verdad? asi que deberia ser $K$} \ddr{$\Lambda$ si debe ser simetrica, mientras que la unica restriccion de W es que su normal dual sea menor a $\lambda$. } which satisfy the inequalities:
+where $\mathcal{H}$ is the set of $(\lambda, s_1,\dots, s_N,\Lambda, W)\in \RR\times\RR^N\times \mathcal{S}^{n\times n} \times \mathcal{S}^{n\times n}$ which satisfy the inequalities:
 \[
 \begin{array}{l}
 \|W\|_{*}\leq \lambda\\
@@ -310,9 +310,9 @@ which can be written as
 By strong duality for moment problems this quantity equals
 \[\inf_{\lambda\geq 0} \sup_{\nu\in \mathcal{M}}  \int_{K\times K}\|A-Y\|_1d\nu+\lambda\left(\delta-\int_{K\times K} \|X-Y\|d\nu\right)\]
 and conditioning on the value of $X$ we compute the integrals obtaining
-\[\inf_{\lambda\geq 0} \lambda\delta +\frac{1}{N}\sup_{\mathbb{Q}_1,\dots, \mathbb{Q}_N}\left( \int_K \left(\|A-Y\|_1-\lambda\|B_i-Y\| \right) d\mathbb{Q}_i(Y)\right).\]
+\[\inf_{\lambda\geq 0} \lambda\delta +\frac{1}{N}\sup_{\mathbb{Q}_1,\dots, \mathbb{Q}_N}\left( \int_K \|A-Y\|_1-\lambda\|B_i-Y\|  d\mathbb{Q}_i(Y)\right).\]
 Since the integrals are maximized when the $\mathbb{Q}_i$ are Dirac deltas at optima of their corresponding functions we conclude that this quantity equals
-\[\inf_{\lambda\geq 0} \lambda\delta + \frac{1}{N} \sup_{Y\in K} \|A-Y\|_1-\lambda\|B_i-Y\|\]
+\[\inf_{\lambda\geq 0} \lambda\delta + \frac{1}{N} \sup_{Y\in K} \left(\|A-Y\|_1-\lambda\|B_i-Y\|\right)\]
 Next we move the supremum into the constraints obtaining
 \[ \inf_{(\lambda,s_1,\dots,s_n)}\left( \lambda\delta +\frac{1}{N}\sum_{i=1}^N s_i: \sup_{Y\in K}\left(\|A-Y\|_1-\lambda\|B_i-Y\|\right)\leq s_i\text{ , for $i=1,\dots, N$ }\right).\]
 
@@ -329,91 +329,53 @@ Our second results gives a simplification of the previous problem which agrees w
 
 
 \begin{proof}[Proof of Theorem~\ref{Thm: tractable}]
-Since $A$ has entries in $\{0,1\}$ and $B$ has entries in $K$ the equality $\|A-B\|_1=\langle 2A-11^t, A-B\rangle=\|A-\hat{B}\|_1+\langle 2A-11^t, \hat{B}-B\rangle$  where $\hat{B}$ is distributed according to the empirical measure holds. Taking expected values and suprema we see that
-\[\alpha=\sum_{i=1}^N c_i\|A-B_i\|_1+\sup_{\nu\in B_{\delta}(\hat{\mathbb{P}_N})}\EE\left[\langle 2A-11^t, \hat{B}-B\rangle\right].\] 
-Recall that if $\mu \in \mathcal{M}$, then $\mu$ is of the form 
-\[\mu = \sum_{i=1}^N c_i \delta_{B_i}\otimes \mathbb{Q}_i\]
+If the symmetric matrix $A$ has entries in $\{0,1\}$ and $X, Y$ are matrices in $K$ then the following equalities hold
+\[\|A-Y\|_1 =\langle 2A-11^t, A-Y\rangle=\|A-X\|_1+\langle 2A-11^t, X-Y\rangle\]
+Now suppose $(X,Y)$ is a random vector taking values in $K\times K$ with distribution $\nu$ in the set $\mathcal{M}$ of the proof of Theorem~\ref{thm: finiteConvex}. Taking expected values and suprema we see that
 
-where $\mathbb{Q}_i$ is a probability measure on $K$.
+\begin{equation}\label{eq: util}
+R_{\delta}(A)= \frac{1}{N}\sum_{i=1}^N \|A-B_i\|_1 + \sup_{\nu\in \mathcal{M}} \int_{K\times K} \langle 2A-11^t, X-Y\rangle d\nu
+\end{equation}
 
-This allows us to rewrite
-\[\sup_{\nu\in B_{\delta}(\hat{\mu})}\EE\left[\langle 2A-11^t, \hat{B}-B\rangle\right] = 
-\sup_{\mu\in \mathcal{M}} \inf_{\lambda\geq 0} \int_{K\times K}\langle 2A-11^t, X-Y\rangle d\mu +\lambda\left(\delta -\int_{K\times K} \|X-Y\|_*d\mu\right)\]
-Exchanging sup and inf we obtain that this quantity is bounded above \mv{equals?}
-\[\inf_{\lambda\geq 0} \left(\lambda \delta +\sup_{\mu\in \mathcal{M}}\int_{K\times K} \langle 2A-11^t, X-Y\rangle -\lambda \|X-Y\|_*d\mu\right)\]
-Using the fact that $\mu = \sum_{i=1}^N c_i \delta_{B_i}\otimes \mathbb{Q}_i$ this quantity equals
-                                                                                                                                                                                                                                                                               \[\inf_{\lambda\geq 0} \left(\lambda\delta + \sum_{i=1}^N c_i \sup_{\mathbb{Q}_i} \int_{K} \langle 2A-11^t, B_i-Y\rangle -\lambda \|B_i-Y\|_*d\mathbb{Q}_i\right)\]
-Since $\mathbb{Q}_i$ are arbitrary probability measures this quantity equals
-\[\inf_{\lambda\geq 0} \lambda \delta +\sum_{i=1}^N c_i \sup_{Y\in K} \left(\langle 2A-11^t, B_i-Y\rangle -\lambda \|B_i-Y\|_*\right)\]
-
-Next we put the supremum into the constraints obtaining the equivalent problem
-\[ \inf_{(\lambda,s_1,\dots, s_N)} \lambda\delta +\sum c_is_i\]
-over the set given by the inequalities $\lambda\geq 0$ and for which the following inequalities in $\lambda$ are satisfied for $i=1,\dots, N$.
-\[\sup_{Y\in K} \left(\langle 2A-11^t, B_i-Y\rangle -\lambda \|B_i-Y\|_*\right)\leq s_i\]
-
-
-Next we compute the supremum in the constraints using strong duality \mv{Check hypothesis for strong duality}. We use duality because we are aiming to bound  the supremum above by $s_i$ and for this it suffices to exhibit a point in the dual whose objective function is bounded above by $s_i$. Denote the dual norm of $\|\bullet\|$ by $\|\bullet\|_{d^*}$.
-
-
-
+Since $\langle 2A-11^t, X-Y\rangle\leq \|2A-11^t\|_*\|X-Y\|$ by definition of dual norm and $\int_{K\times K} \|X-Y\|d\nu\leq \delta$ for all $Y$ whose distribution is in the Wasserstein ball $\mathcal{N}_{\delta}(\hat{\mu})$ we conclude that
+\[R_{\delta}(A)\leq  \frac{1}{N}\sum_{i=1}^N \|A-B_i\|_1 + \delta\|2A-11^t\|_*\]
+proving the inequality claimed in part $(2)$ of the Theorem.
+Repeating the argument used in the proof of Theorem~\ref{thm: finiteConvex} we also conclude from equation~(\ref{eq: util}) that
+\[ R_{\delta}(A)= \inf_{\lambda\geq 0}\left( \lambda\delta+ \frac{1}{N}\sum_{i=1}^N \|A-B_i\|_1 + \frac{1}{N}\sum_{i=1}^N s_i\right)\]
+where 
+\[\sup_{Y\in K} \left(\langle 2A-11^t,B_i-Y\rangle -\lambda \|B_i-Y\|\right)\leq s_i\]
+Using the definition of dual norm this inequality can be rewritten as 
+\[ \sup_{Y\in K}\inf_{\|W\|_*\leq \lambda} \langle 2A-11^t-W, B_i-Y\rangle\leq s_i \]
+which by duality is equivalent to
+\[ \inf_{\|W\|_*\leq \lambda} \sup_{Y\in K} \langle 2A-11^t-W, B_i-Y\rangle\leq s_i \]
+which in turn is equivalent to the existence of a symmetric matrix $W$ with $\|W\|_*\leq \lambda$ such that
+\[\sup_{Y\in K} \langle 2A-11^t-W, B_i-Y\rangle\leq s_i.\]
+Moreover, letting $D=2A-11^t-W$ the previous inequality can be rewritten as
+\[\sup_{Y\in K} \langle D,-Y\rangle \leq s_i-\langle D,B_i\rangle\] 
+and we will compute the supremum of the left-hand side using linear programming duality on the hypercube $K$. In $\mathcal{S}^{n\times n}$ the set $K$ is defined by the restrictions $0 \leq Y \leq 11^t$  and thus the Lagragian of our maximization problem is given by 
 \[
-\begin{aligned}
-\sup_{Y\in K} \left(\langle 2A-11^t, B_i-Y\rangle -\lambda \|B_i-Y\|_*\right)&=
-\sup_{Y\in K} \inf_{ \|W\|_{d*}\leq \lambda} \langle 2A-11^t-W, B_i-Y\rangle \\ 
-&=\inf_{ \|W\|_{d*}\leq \lambda}\sup_{Y\in K}\langle 2A-11^t-W, B_i-Y\rangle 
-\end{aligned}
-%=\inf_{W: \|W\|_*\leq \lambda} \langle 2A-11^t-W, B_i\rangle+ \sup_{Y\in K} \langle D,-Y \rangle.
-\]
-By the comment above, we wish to bound the last term by $S_i$, so it is enough to exhibit a $W$ such that $W: ||W||_{d*} \leq \lambda$ such that
-\[
-\sup_{Y\in K} \langle 2A-11^t-W, B_i-Y\rangle \leq S_i.
-\]
-For the sake of notation, let 
-$D= 2A-11^t-W$.
-The last inequality then becomes
-\[
-\langle D,B_i\rangle + \sup_{Y \in K}\langle D,-Y \rangle \leq S_i.
-\]
-which is equivalent to 
-\[
- \sup_{Y \in K}\langle -D,Y \rangle \leq S_i-\langle D,B_i\rangle.
-\]
-We will now compute 
-\[\sup_{Y \in K}\langle -D,Y \rangle.\]
-$K$ is the hipercube, which gives the restrictions $0 \leq Y \leq 11^t$ and $Y=Y^t$. 
-The lagragian is: 
-\[
-L = \langle D,-Y \rangle + \langle \Lambda,11^t-Y \rangle + \langle \eta,Y \rangle + \langle \Omega,Y-Y^t \rangle
-= \langle D+\Lambda -\eta,-Y \rangle + \langle \Lambda,11^t\rangle + \langle \Omega, Y-Y^t\rangle\]
-with $\Lambda,\eta \geq 0$.
+L = \langle D,-Y \rangle + \langle \Lambda,11^t-Y \rangle + \langle \eta,Y \rangle 
+= \langle D+\Lambda -\eta,-Y \rangle + \langle \Lambda,11^t\rangle \]
+where the symmetric matrices $\Lambda,\eta \geq 0$.
 It follows that
 \[
-\sup_{Y \in K}\langle -D,Y \rangle = \sup_{Y \in K} \inf_{\Lambda,\eta \geq 0} L = \begin{cases}
-\langle 2A-11^t-W,-Y \rangle \ \text{if } Y \in K\\
-- \ \infty \text{ in the other case.}
-\end{cases}
+\sup_{Y \in K}\langle -D,Y \rangle = \sup_{Y \in \mathcal{S}^{n\times n}} \inf_{\Lambda,\eta \geq 0} L 
 \]
-Exchanging infimum and supremum, we obtain  
+and exchanging infimum and supremum, we obtain  
 \[
 \sup_{Y \in K}\langle -D,Y \rangle = \inf_{\Lambda,\eta \geq 0}\sup_{Y \in K}L= \inf_{\Lambda,\eta \geq 0} 
 \begin{cases}
-\langle \Lambda, 11^t \rangle \ if \ D+\Lambda + \eta = 0 \ and \ \Omega =0.\rangle \\
-\infty \text{ in the other case.}
+\langle \Lambda, 11^t \rangle \text{ if $D+\Lambda + \eta = 0$ }\\
+\infty \text{ otherwise.}
 \end{cases}
 \]
-Finally, this problem reduces to, 
-\[
-\inf_{\Lambda \geq0} \|\Lambda\|_1
-\]
-Subject to 
-\[
-\Lambda, \ D+\Lambda \geq 0.
-\]
-
-
-
-
+which is equivalent to $\inf_{\Lambda \geq0}\|\Lambda\|_1$ subject to $\Lambda, D+\Lambda\geq 0$, proving part $(1)$ of the Theorem. If $\|\bullet\|$ is a semidefinitely representable function then so is the dual norm and therefore the feasible set of the optimization problem is the intersection of an SDr set and a polyhedron and thus an SDr set. Since the objective function is linear it is therefore a semidefinite programming problem as claimed.
 \end{proof}
+
+\begin{remark} We believe that the inequality in part $(2)$ of the Theorem is in fact an equality under very mild assumptions. The idea that regularization algorithms naturally arise from Wasserstein robust formulations has appeared in the literature, see for instance~\cite{ColumbiaAlvaro}.
+\end{remark}
+
+
 
 \section{Clustering in the stochastic block model and the Wasserstein nuclear norm.}
 \label{Clustering}
