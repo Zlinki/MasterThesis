@@ -398,7 +398,7 @@ Our analysis of the WRNS algorithm will consist of two steps. In Section~\ref{Se
 \subsection{Geometry of subdifferentials and sufficient conditions for exactness.}
 \label{Sec: subdifferential}
 
-Let $h$ be a real valued convex function on a vector space $V$ with an inner product. The subdifferential of $h$ at a point $a\in {\rm dom}(h)$ is the closed convex set given by
+In this section we will study some basic properties of the subdifferential of $\Delta(A)$. Recall that if $h$ is a real valued convex function on an inner product space $V$ then the subdifferential of $h$ at a point $a\in {\rm dom}(h)$ is the closed convex set given by
 \[ \partial h(a):=\left\{g\in V: \forall z\in {\rm dom}(h)\left(h(z)\geq h(a)+\langle g, z-a\rangle\right)\right\}.\]
 Subdifferentials are a very useful tool for proving that a point $x^*$ is a minimizer of $h$ because this occurs if and only if $\vec{0}\in \partial h(x^*)$. 
 
@@ -409,7 +409,7 @@ And define functions $f$, $g$:
 f:= \frac{1}{N}\sum_{k=1}^N\|A-B_k\|_1, \ \ g:= \delta\|2A-11^t\|_{*}
 \]
 
-For vertices $i,j\in [n]$ let $n_1(ij)$ (resp. $n_0(ij)$) be the random variable which counts the number of times that a given pair is (resp is not) an edge of some $B_j$, $j=1,\dots N$ and let $\Gamma$ be the symmetric matrix with zero diagonal and off-diagonal entries given by $\Gamma_{ij}=\frac{n_0(ij)-n_1(ij)}{N}$. The following Lemma summarizes basic subdifferentiability properties of our function $\Delta(A)$ at $A^*$.
+For vertices $i,j\in [n]$ let $n_1(ij)$ (resp. $n_0(ij)$) be the random variable which counts the number of times that a given pair is (resp is not) an edge of some $B_j$, $j=1,\dots N$ and let $\Gamma$ be the symmetric matrix with zero diagonal and off-diagonal entries given by $\Gamma_{ij}=\frac{n_0(ij)-n_1(ij)}{N}$. The following Lemma summarizes basic subdifferentiability properties of the functions $f$ and $g$ at $A^*$.
 
 \begin{lemma} The following statements hold:
 \label{lem: subdiff}
@@ -455,40 +455,40 @@ By Lemma~\ref{lem: subdiff} a symmetric matrix $C$ lies in the subdifferential i
 \[ \Gamma_{ij}\leq C_{ij}\leq 1 \text{, if $\{i,j\}\subseteq C_t$ for some $t$,}\]
 \[-1\leq C_{ij} \leq \Gamma_{ij} \text{ if $\{i,j\}$ does not belong to any cluster and } \]
 \[-N \leq C_{ii} \leq N \text{ for all }i.\]
-To simplify these inequalities we let $I\subseteq [n]\times [n]$ be the set of pairs $(i,j)$ with $i\neq j$ which simultaneously belong to some cluster $C_t$ and the set $O$ to be the set of pairs $(i,j)$with $i\neq j$ for which $\{i,j\}$ is not contained in any cluster. Define a linear operator $\widetilde{\bullet}: \mathcal{S}^{n\times n}\rightarrow \mathcal{S}^{n\times n}$ on symmetric matrices by the formula:
+To simplify these inequalities we let $I\subseteq [n]\times [n]$ be the set of pairs $(i,j)$ with $i\neq j$ for which $\{i,j\}\subseteq C_t$ for some $t$ and $O\subseteq [n]\times [n]$ to be the set of pairs $(i,j)$ with $i\neq j$ for which $\{i,j\}$ is not contained in any cluster. Define a linear operator $\widetilde{\bullet}: \mathcal{S}^{n\times n}\rightarrow \mathcal{S}^{n\times n}$ on symmetric matrices by the formula:
 \[ \widetilde{A} = 
 \begin{cases}
 A_{ij}\text{ if $i=j$ or $ij\in I$ and}\\
 -A_{ij}\text{ if $ij\in O$.} 
 \end{cases}
 \]
-In this language $C_{ij}$ belongs to the subdifferential of $f$ if and only if $\widetilde{\Gamma}_{ij}\leq \widetilde{C}_{ij}$ for $i\neq j$.
+In this language a symmetric matrix $C_{ij}$ belongs to the subdifferential of $f$ at $A^*$ if and only if $\widetilde{\Gamma}_{ij}\leq \widetilde{C}_{ij}$ for $i\neq j$.
 
-Our next Lemma gives sufficient conditions for the true cluster structure $A^*$ to be a minimizer of the proposed optimization problem. In order to describe it we introduce the following notation. 
+Our next Lemma gives sufficient conditions for the true cluster structure $A^*$ to be a minimizer of $\Delta(A)$ in $K$. In order to describe it we introduce the following two quantities. 
 
 \begin{definition} Let $\delta$ be a positive real number. For a symmetric matrix $\Gamma$ define the quantities
 \[b(\Gamma,\delta):=\sum_{i\neq j} \max\left(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n},0\right)
 \text{ and } a(\Gamma,\delta):=\sum_{i\neq j} \max\left(-\widetilde{\Gamma_{ij}}-\frac{2\delta}{n},0\right)
 \]\end{definition}
-The quantity $b(\Gamma,\delta)$ (resp. $a(\Gamma,\delta)$) measures the total amount by which the matrix $\widetilde{-\frac{2\delta}{n}11^t}$ fails (resp. succeeds) to be in the subdifferential of Lemma~\ref{lem: subdiff} in the sense that it sums over all $ij$ the amount by which the inequalities $\widetilde{\Gamma_{ij}}\leq \frac{2\delta}{n} 11^t$ fail (resp. succeed). The key point of the following Theorem is that if the inequality fails by less than it succeeds then the subdifferential of the spectral norm is sufficiently rich so as to allow us to redistribute these quantities. In this sense the following Theorem explains the success of the spectral norm in cluster recovery algorithms. 
+The quantity $b(\Gamma,\delta)$ (resp. $a(\Gamma,\delta)$) measures the total amount by which the matrix $\widetilde{-\frac{2\delta}{n}11^t}$ fails (resp. succeeds) to be in the subdifferential of Lemma~\ref{lem: subdiff}. This is because $b(\Gamma,\delta)$ (resp. $a(\Gamma,\delta)$) is the result of summing over all $ij$ the amount by which the inequalities $\widetilde{\Gamma_{ij}}\leq \frac{2\delta}{n} 11^t$ fail (resp. succeed). The key point of the following Theorem is that if the inequality fails by less than it succeeds then the subdifferential of the spectral norm is sufficiently rich so as to allow us to redistribute these quantities using transportation matrices. In this sense the following Theorem explains the success of the spectral norm in cluster recovery algorithms.
 
-
+For ease of  exposition we will split the proof into two parts. First we will prove that this occurs when our graph involves only two clusters and then will generalize the result to any number $l\geq 2$ of clusters. 
 Recall that 
 \[\Delta(A)= \delta\|2A-11^t\|_{*}+\frac{1}{N}\sum_{k=1}^N\|A-B_k\|_1\] 
-And define functions $f$, $g$:
+And that the functions $f$ and $g$ are given by
 \[
 f:= \frac{1}{N}\sum_{k=1}^N\|A-B_k\|_1, \ \ g:= \delta\|2A-11^t\|_{*}
 \]
-In this vocabulary, we have that
+so the following equality holds
 \begin{equation}\label{SumaSubDif}
-\partial(\Delta) = \partial(f)(A^*)+\partial(g)(A^*)
+\partial(\Delta)(A^*) = \partial(f)(A^*)+\partial(g)(A^*)
 \end{equation}
 
 
 
 
-\begin{theorem}\label{thm: transport} [Alternative proof of theorem 6.2] Assume there are only two clusters. Let $\delta>0$ with $ \left(\frac{\delta}{n}+b(\Gamma,\delta) \right)  < \frac{N}{2}$. If $b(\Gamma,\delta)< \min(\delta, a(\Gamma,\delta))$ then $A^*$ is a minimizer of the optimization problem $\min_A\Delta(A)$.
-\end{theorem} 
+\begin{lemma}\label{thm: transport}  Assume there are only two clusters. Let $\delta>0$ with $ \left(\frac{\delta}{n}+b(\Gamma,\delta) \right)  < \frac{N}{2}$. If $b(\Gamma,\delta)< \min(\delta, a(\Gamma,\delta))$ then $A^*$ is a minimizer of the optimization problem $\min_A\Delta(A)$.
+\end{lemma} 
 
 
 \begin{proof}
@@ -518,7 +518,7 @@ define the symmetric matrix  $e^{ij}$ as follows:
 e^{ij}=\begin{cases}
 1 \text{ if }(i,j) \in I. \\
 -1 \text{ if }(i,j) \in O. \\
--1 \textit{ in the entry } ii \text{ and in } jj. \\
+-1 \text{ in the entry } ii \text{ and in } jj. \\
 0 \text{ otherwise}. 
 \end{cases}
 \end{equation}
@@ -684,11 +684,11 @@ The operator norm of the first term in the maximum equals $2\delta$ and that of 
 
 %\mv{Como extendemos este razonamiento al caso de tres o m\'as clusters? Debe ser posible utilizar otras matrices de transporte para este caso que vivan en el kernel. Algo interesante es que con tres clusters es necesario que los promedios de una matriz aniquilada por $H^*$ dentro de cada uno de los bloques $C_i\times C_j$ deban ser cero.} 
 
-We will now prove the general case when there are more than two clusters. The proof will be similar the proof of the previous theorem. We will start with the candidate matrix $\frac{-2\delta}{n}H^*$ and correct it by adding transport matrices that assure that the corrected matrix belong to the subdifferential of $\Delta(A)$ at $A^*$.
+Next we will now prove the case when there are any number of clusters. The proof will be similar that of the previous theorem. We will start with the candidate matrix $\frac{-2\delta}{n}H^*$ and correct it by adding transportation matrices that assure that the corrected matrix belongs to the subdifferential of $\Delta(A)$ at $A^*$.
 The difficulty in applying the tools of the previous theorem to solve the general case is that the matrices $K$ that transport weight from one cluster to another do not, in general, satisfy the relation $KH^* = H^*K = 0$ when there are more than two clusters. This problem can be solved by splitting the matrix $H^*$ into matrices than only take into account $2$ clusters, and using the previous theorem.
 We begin recalling the following simple result:
 
-\begin{claim}
+\begin{lemma}
 Let $a_i,b_i \geq 0, \ i = 1,\dots,p$ be two non-negative, finite sequences of real numbers such that
 \[
 \sum_{i=1}^{p}a_i \geq \sum_{i=1}^{p}b_i.
@@ -698,7 +698,7 @@ Then there exist a finite sequence of reals $c_i$ such that
 \item $\sum_{i=1}^p c_i=0.$
 \item $a_i \geq b_i+c_i \  \forall i.$
 \end{itemize}
-\end{claim}
+\end{lemma}
 
 
 Now we proceed to do the proof. For  clusters $C_s\neq C_t$ define the matrix $H^{C_sC_t}$ whose entries are given by: 
@@ -710,16 +710,16 @@ H^{C_iC_j}_{uv}=
 0 \text{ in any other case.}
 \end{cases}
 \]
-Notice that this matrix has $4$ blocs. Two with only $1$ and two with only $-1$. Moreover, its spectral norm is equal to $|C_s+|C_t|$.
+Notice that this matrix has $4$ blocks. Two with only $1$ and two with only $-1$. Moreover, its spectral norm is equal to $|C_s+|C_t|$.
 
-\begin{lemma}\label{lemma: transport2}
-Assume there are $l$ clusters. Suppose that $ b(\Gamma,\delta) < min(\delta,a(\Gamma,\delta))$.Then,
+\begin{theorem}\label{lemma: transport2}
+Suppose that $ b(\Gamma,\delta) < min(\delta,a(\Gamma,\delta))$.Then,
 $A^*$ is a minimizer of the optimization problem $\min_A\Delta(A)$. 
-\end{lemma}
+\end{theorem}
 
 \begin{proof}
 
-First of all, observe that
+Assume that there are $l$ clusters. First of all, observe that
 \[
 \frac{-2\delta}{n}H^* = \frac{-2\delta}{n}\frac{1}{l-1}\sum_{1\leq s<t\leq l}H^{C_sC_t}.
 \]
@@ -764,11 +764,11 @@ $\|C\| \leq 2\delta$.
 
 \end{proof}
 \ddr{toca revisar que $<h^*,C>$ es igual a $-2\delta n$ o eso es obvio?}
-
+\mv{Toca revisar. Porfa revisa y me cuenta}
 
 \subsection*{Uniqueness of the minimizer}
 In this brief section we discuss an important corollary: $A^*$ is the unique minimizer of the optimization problem $min_A\Delta (A)$.
-We begin proving a well known lemma. 
+We begin by proving a well-known lemma for which we could not find a specific reference.
 
 \begin{lemma}{\label{lemUniqueness}}
 Let f be a convex function defined over a region $D$. Let $\hat{x}$ be a point in it's domain such that the subdifferential of $f$ at $\hat{x}$ is full dimensional and $0$ belongs to it's interior. Then, $\hat{x}$ is the unique minimizer of $f$.
@@ -800,7 +800,7 @@ Under the conditions of theorem \ref{thm: transport}, The matrix $C^1$ we constr
 
 
 \begin{cor}
-Under the conditions of theorem \ref{thm: transport}, $A^*$ is the unique minimizer of the optimization problem $min_A\Delta (A)$.
+Under the conditions of Theorem \ref{thm: transport}, $A^*$ is the unique minimizer of the optimization problem $min_A\Delta (A)$.
 \end{cor}
 \begin{proof}
 By \ref{remUnicity}, the matrix $C$ constructed in \ref{lemma: transport2} is an interior point of  $\partial(f)(A^*)$. Therefore, as the subdifferential of $\Delta$ at $A^*$ is equal to the Minkowski sum of the subdifferentials of $g$ and $f$ at $A^*$,$0=C-C$ is an interior point of $\partial(\Delta)(A^*)$. It follows by lemma \ref{lemUniqueness} that $A^*$ is the unique minimizer of the optimization problem  $min_A\Delta (A)$.
@@ -816,17 +816,13 @@ Using  Theorem \ref{thm: transport} we now estimate the probabilities of perfect
 
 \subsection{A bound for recovery probabilities}
 
-In this section we will bound the probability that the correct $A^*$ is not an optimal solution of our proposed optimization problem. A key tool will be the following version of Hoeffding's inequality: If $X_1,\dots, X_T$ are independent random variables with values in $[c_i,d_i]$ and $\Lambda_T:=\sum_{i=1}^T X_i$ then the following inequality holds for all $t\geq 0$ 
+In this section we will prove Theorem~\ref{thm. performance} which gives an upper bound on the probability that the correct $A^*$ is not the unique optimal solution of our optimization problem. Our main tools will be concentration inequalities and in particular the ideas used in the proof of Hoeffding's inequality. Recall that Hoeffding's inequality says that if $X_1,\dots, X_T$ are independent random variables with values in $[c_i,d_i]$ and $\Lambda_T:=\sum_{i=1}^T X_i$ then the following holds for all $t\geq 0$ 
 \[\PP\{\Lambda_T-\EE[\Lambda_T]\geq t\}\leq \exp\left(-\frac{2t^2}{\sum_{i=1}^T (d_i-c_i)^2}\right).\]
 
 
 
 
-\begin{theorem} Suppose $B_1,\dots, B_N$ are independent and have the same distribution as $\grG$. If $\alpha = \min (|p_t-\frac{1}{2}|, |q-\frac{1}{2}|)$ and $\delta^*$ is the maximum of $a(\delta):=\frac{\delta\left(\alpha-\frac{\delta}{n}\right)^2}{\left(1+\frac{2\delta}{n}\right)}$ in $[0,\alpha n]$ then the probability that $A^*$ is not a minimizer of~(\ref{eqn: WRGS2}) is bounded above by
-\[ \exp\left(-\frac{2N(n-1)^3(\alpha n-\delta^*)^2}{n}\right) + e^{-N\left(\delta^* a(\delta^*)\right)}\prod_{i\neq j}\left(1+ (e^{-4a}p_{ij}+q_{ij})^{\frac{N}{2}}\right).\] 
-Moreover this quantity decreases exponentially with the sample size $N$.
-\end{theorem}
-\begin{proof} By Lemma~\ref{lemma: transport2} and the union bound the probability that $A^*$ is not an optimal solution of problem~(\ref{ProbRobusto}) is bounded above by
+\begin{proof} [proof of Theorem~\ref{thm. performance}]By Lemma~\ref{lemma: transport2} and the union bound the probability that $A^*$ is not an optimal solution of problem~(\ref{ProbRobusto}) is bounded above by
 
 \begin{equation}\label{Eq: 2Probs}
 \PP\{b(\Gamma,\delta)\geq a(\Gamma,\delta)\}+\PP\{b(\Gamma,\delta)\geq \delta\}.
@@ -1014,20 +1010,6 @@ Using this algorithm, we tested the recovery of graphs generated by the stochast
 \end{enumerate}
 
 }
-
-\section{Preliminaries}
-
-
-
-
-
-\subsection{ Preliminaries on graphs and norms}
-
-By a graph $G$ we mean a finite loopless undirected graph. We say that $G$ is weighted if it is endowed with a function $w: E(G)\rightarrow \RR$ which assigns to every edge a real number in $[0,1]$. If $G$ has $n$ vertices then it is completely specified by its adjacency matrix $A\in \{0,1\}^{n\times n}$ defined by $A_{ij}=1$ if and only if vertices $i,j$ are connected. If $G$ is weighted then we use the term adjacency matrix of $G$ to denote the matrix with entries $A_{i,j}=w(i,j)$. 
-
-If $A$ is a matrix then we use $\|\bullet\|$, $\|\bullet\|_1$ to denote its operator norm and $\ell^1$-norm respectively.
-
-
 
 
 

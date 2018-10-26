@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.19)  26 OCT 2018 09:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.19)  26 OCT 2018 12:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -732,33 +732,20 @@ LaTeX Warning: Citation `ColumbiaAlvaro' on page 9 undefined on input line 375.
 LaTeX Warning: Reference `Sec: probabilistic' on page 10 undefined on input lin
 e 395.
 
-[10] [11] [12] [13] [14]
-Overfull \hbox (10.24985pt too wide) in paragraph at lines 716--718
-[]\OT1/cmr/bx/n/12 Lemma 3.5. []\OT1/cmr/m/it/12 As-sume there are $\OML/cmm/m/
-it/12 l$ \OT1/cmr/m/it/12 clus-ters. Sup-pose that $\OML/cmm/m/it/12 b\OT1/cmr/
-m/n/12 (^^@\OML/cmm/m/it/12 ; ^^N\OT1/cmr/m/n/12 ) \OML/cmm/m/it/12 < min\OT1/c
-mr/m/n/12 (\OML/cmm/m/it/12 ^^N; a\OT1/cmr/m/n/12 (^^@\OML/cmm/m/it/12 ; ^^N\OT
-1/cmr/m/n/12 ))$\OT1/cmr/m/it/12 .Then,
- []
-
-[15]
+[10] [11] [12] [13] [14] [15]
 Overfull \hbox (1.7798pt too wide) detected at line 761
 [] [] [] \OT1/cmr/m/n/12 = [] [] = [] [] \OMS/cmsy/m/n/12 j\OML/cmm/m/it/12 C[]
 \OMS/cmsy/m/n/12 j \OT1/cmr/m/n/12 + \OMS/cmsy/m/n/12 j\OML/cmm/m/it/12 C[]\OMS
 /cmsy/m/n/12 j \OT1/cmr/m/n/12 = 2\OML/cmm/m/it/12 ^^N:
  []
 
-[16]
-
-LaTeX Warning: Reference `eqn: WRGS2' on page 17 undefined on input line 825.
-
-[17]
-Overfull \hbox (5.43199pt too wide) detected at line 847
+[16] [17]
+Overfull \hbox (5.43199pt too wide) detected at line 843
 \U/msb/m/n/12 P [] \OT1/cmr/m/n/12 = \U/msb/m/n/12 P [] \OMS/cmsy/m/n/12 ^^T
  []
 
 [18] [19]
-Overfull \hbox (6.27643pt too wide) in paragraph at lines 908--909
+Overfull \hbox (6.27643pt too wide) in paragraph at lines 904--905
  \OT1/cmr/m/n/12 4.1.\OT1/cmr/bx/n/12 Global Vari-able con-sen-sus with reg-u-l
 ar-iza-tion.[] \OT1/cmr/m/n/12 The gen-eral form of Global
  []
@@ -777,20 +764,17 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [23])
-[24] (./graphLearning.aux)
+) [23]
+(./graphLearning.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 16237 strings out of 493029
- 291113 string characters out of 6136233
+ 16236 strings out of 493029
+ 291101 string characters out of 6136233
  387553 words of memory out of 5000000
- 19257 multiletter control sequences out of 15000+600000
+ 19256 multiletter control sequences out of 15000+600000
  15146 words of font info for 65 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
  55i,12n,54p,3246b,351s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -816,10 +800,10 @@ t/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts
 c/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
 onts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
 nts/symbols/msbm10.pfb>
-Output written on graphLearning.pdf (24 pages, 392117 bytes).
+Output written on graphLearning.pdf (23 pages, 389584 bytes).
 PDF statistics:
- 177 PDF objects out of 1000 (max. 8388607)
- 126 compressed objects within 2 object streams
+ 174 PDF objects out of 1000 (max. 8388607)
+ 124 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
