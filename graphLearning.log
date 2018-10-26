@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.19)  26 OCT 2018 06:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.19)  26 OCT 2018 09:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -727,23 +727,13 @@ Package xypdf Info: Line width: 0.47998pt on input line 100.
 LaTeX Warning: Citation `ColumbiaAlvaro' on page 9 undefined on input line 375.
 
 
-
-Overfull \hbox (6.14671pt too wide) in paragraph at lines 381--382
-[]\OT1/cmr/bx/n/12 Definition 2.5. []\OT1/cmr/m/it/12 The Wasser-stein ro-bust 
-nu-clear norm graph sum-ma-riza-tion (WRNS)
- []
-
 [9]
-
-LaTeX Warning: Reference `Sec: subdifferential' on page 10 undefined on input l
-ine 395.
-
 
 LaTeX Warning: Reference `Sec: probabilistic' on page 10 undefined on input lin
 e 395.
 
 [10] [11] [12] [13] [14]
-Overfull \hbox (10.24985pt too wide) in paragraph at lines 713--715
+Overfull \hbox (10.24985pt too wide) in paragraph at lines 716--718
 []\OT1/cmr/bx/n/12 Lemma 3.5. []\OT1/cmr/m/it/12 As-sume there are $\OML/cmm/m/
 it/12 l$ \OT1/cmr/m/it/12 clus-ters. Sup-pose that $\OML/cmm/m/it/12 b\OT1/cmr/
 m/n/12 (^^@\OML/cmm/m/it/12 ; ^^N\OT1/cmr/m/n/12 ) \OML/cmm/m/it/12 < min\OT1/c
@@ -752,7 +742,7 @@ mr/m/n/12 (\OML/cmm/m/it/12 ^^N; a\OT1/cmr/m/n/12 (^^@\OML/cmm/m/it/12 ; ^^N\OT
  []
 
 [15]
-Overfull \hbox (1.7798pt too wide) detected at line 758
+Overfull \hbox (1.7798pt too wide) detected at line 761
 [] [] [] \OT1/cmr/m/n/12 = [] [] = [] [] \OMS/cmsy/m/n/12 j\OML/cmm/m/it/12 C[]
 \OMS/cmsy/m/n/12 j \OT1/cmr/m/n/12 + \OMS/cmsy/m/n/12 j\OML/cmm/m/it/12 C[]\OMS
 /cmsy/m/n/12 j \OT1/cmr/m/n/12 = 2\OML/cmm/m/it/12 ^^N:
@@ -760,15 +750,15 @@ Overfull \hbox (1.7798pt too wide) detected at line 758
 
 [16]
 
-LaTeX Warning: Reference `eqn: WRGS2' on page 17 undefined on input line 822.
+LaTeX Warning: Reference `eqn: WRGS2' on page 17 undefined on input line 825.
 
 [17]
-Overfull \hbox (5.43199pt too wide) detected at line 844
+Overfull \hbox (5.43199pt too wide) detected at line 847
 \U/msb/m/n/12 P [] \OT1/cmr/m/n/12 = \U/msb/m/n/12 P [] \OMS/cmsy/m/n/12 ^^T
  []
 
 [18] [19]
-Overfull \hbox (6.27643pt too wide) in paragraph at lines 905--906
+Overfull \hbox (6.27643pt too wide) in paragraph at lines 908--909
  \OT1/cmr/m/n/12 4.1.\OT1/cmr/bx/n/12 Global Vari-able con-sen-sus with reg-u-l
 ar-iza-tion.[] \OT1/cmr/m/n/12 The gen-eral form of Global
  []
@@ -799,7 +789,7 @@ LaTeX Warning: There were undefined references.
 Here is how much of TeX's memory you used:
  16237 strings out of 493029
  291113 string characters out of 6136233
- 387541 words of memory out of 5000000
+ 387553 words of memory out of 5000000
  19257 multiletter control sequences out of 15000+600000
  15146 words of font info for 65 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
@@ -826,7 +816,7 @@ t/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts
 c/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
 onts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
 nts/symbols/msbm10.pfb>
-Output written on graphLearning.pdf (24 pages, 391418 bytes).
+Output written on graphLearning.pdf (24 pages, 392117 bytes).
 PDF statistics:
  177 PDF objects out of 1000 (max. 8388607)
  126 compressed objects within 2 object streams
