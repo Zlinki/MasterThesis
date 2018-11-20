@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.19)  26 OCT 2018 12:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.19)  19 NOV 2018 21:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -573,8 +573,31 @@ Package: enumerate 2015/07/23 v3.00 enumerate extensions (DPC)
 \Urlmuskip=\muskip11
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-\c@lemma=\count129
-\c@claim*=\count130
+(/usr/share/texlive/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2016/02/20 v1.1-142 Sub-captions (AR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2016/02/04 v1.7-139 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 67.
+\captionmargin=\dimen256
+\captionmargin@=\dimen257
+\captionwidth=\dimen258
+\caption@tempdima=\dimen259
+\caption@indent=\dimen260
+\caption@parindent=\dimen261
+\caption@hangindent=\dimen262
+)
+Package caption Info: AMS or SMF document class.
+\c@ContinuedFloat=\count129
+)
+\c@subfigure=\count130
+\c@subtable=\count131
+)
+\c@lemma=\count132
+\c@claim*=\count133
 
 (/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2010/09/12 v5.6 Page Geometry
@@ -586,59 +609,59 @@ Package ifvtex Info: VTeX not detected.
 (/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
-\Gm@cnth=\count131
-\Gm@cntv=\count132
-\c@Gm@tempcnt=\count133
-\Gm@bindingoffset=\dimen256
-\Gm@wd@mp=\dimen257
-\Gm@odd@mp=\dimen258
-\Gm@even@mp=\dimen259
-\Gm@layoutwidth=\dimen260
-\Gm@layoutheight=\dimen261
-\Gm@layouthoffset=\dimen262
-\Gm@layoutvoffset=\dimen263
+\Gm@cnth=\count134
+\Gm@cntv=\count135
+\c@Gm@tempcnt=\count136
+\Gm@bindingoffset=\dimen263
+\Gm@wd@mp=\dimen264
+\Gm@odd@mp=\dimen265
+\Gm@even@mp=\dimen266
+\Gm@layoutwidth=\dimen267
+\Gm@layoutheight=\dimen268
+\Gm@layouthoffset=\dimen269
+\Gm@layoutvoffset=\dimen270
 \Gm@dimlist=\toks49
 )
 (./graphLearning.aux)
 \openout1 = `graphLearning.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 100.
-LaTeX Font Info:    ... okay on input line 100.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 100.
-LaTeX Font Info:    ... okay on input line 100.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 100.
-LaTeX Font Info:    ... okay on input line 100.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 100.
-LaTeX Font Info:    ... okay on input line 100.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 100.
-LaTeX Font Info:    ... okay on input line 100.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 100.
-LaTeX Font Info:    ... okay on input line 100.
-LaTeX Font Info:    Try loading font information for U+msa on input line 100.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 102.
+LaTeX Font Info:    ... okay on input line 102.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 102.
+LaTeX Font Info:    ... okay on input line 102.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 102.
+LaTeX Font Info:    ... okay on input line 102.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 102.
+LaTeX Font Info:    ... okay on input line 102.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 102.
+LaTeX Font Info:    ... okay on input line 102.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 102.
+LaTeX Font Info:    ... okay on input line 102.
+LaTeX Font Info:    Try loading font information for U+msa on input line 102.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 100.
+LaTeX Font Info:    Try loading font information for U+msb on input line 102.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+lasy on input line 100.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 102.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count134
-\scratchdimen=\dimen264
+\scratchcounter=\count137
+\scratchdimen=\dimen271
 \scratchbox=\box44
-\nofMPsegments=\count135
-\nofMParguments=\count136
+\nofMPsegments=\count138
+\nofMParguments=\count139
 \everyMPshowfont=\toks50
-\MPscratchCnt=\count137
-\MPscratchDim=\dimen265
-\MPnumerator=\count138
-\makeMPintoPDFobject=\count139
+\MPscratchCnt=\count140
+\MPscratchDim=\dimen272
+\MPnumerator=\count141
+\makeMPintoPDFobject=\count142
 \everyMPtoPDFconversion=\toks51
 ) ABD: EveryShipout initializing macros
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
@@ -685,7 +708,9 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package xypdf Info: Line width: 0.47998pt on input line 100.
+Package xypdf Info: Line width: 0.47998pt on input line 102.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -724,33 +749,165 @@ Package xypdf Info: Line width: 0.47998pt on input line 100.
 [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4] [5] [6]
 [7] [8]
 
-LaTeX Warning: Citation `ColumbiaAlvaro' on page 9 undefined on input line 375.
+LaTeX Warning: Citation `ColumbiaAlvaro' on page 9 undefined on input line 377.
 
 
-[9]
-
-LaTeX Warning: Reference `Sec: probabilistic' on page 10 undefined on input lin
-e 395.
-
-[10] [11] [12] [13] [14] [15]
-Overfull \hbox (1.7798pt too wide) detected at line 761
+[9] [10] [11] [12] [13] [14] [15]
+Overfull \hbox (1.7798pt too wide) detected at line 771
 [] [] [] \OT1/cmr/m/n/12 = [] [] = [] [] \OMS/cmsy/m/n/12 j\OML/cmm/m/it/12 C[]
 \OMS/cmsy/m/n/12 j \OT1/cmr/m/n/12 + \OMS/cmsy/m/n/12 j\OML/cmm/m/it/12 C[]\OMS
 /cmsy/m/n/12 j \OT1/cmr/m/n/12 = 2\OML/cmm/m/it/12 ^^N:
  []
 
 [16] [17]
-Overfull \hbox (5.43199pt too wide) detected at line 843
+Overfull \hbox (5.43199pt too wide) detected at line 853
 \U/msb/m/n/12 P [] \OT1/cmr/m/n/12 = \U/msb/m/n/12 P [] \OMS/cmsy/m/n/12 ^^T
  []
 
 [18] [19]
-Overfull \hbox (6.27643pt too wide) in paragraph at lines 904--905
+Overfull \hbox (6.27643pt too wide) in paragraph at lines 915--916
  \OT1/cmr/m/n/12 4.1.\OT1/cmr/bx/n/12 Global Vari-able con-sen-sus with reg-u-l
 ar-iza-tion.[] \OT1/cmr/m/n/12 The gen-eral form of Global
  []
 
-[20] [21] (./graphLearning.bbl
+[20] [21] <./Pictures/ErrorRecovery.PNG, id=92, 437.38406pt x 347.04657pt>
+File: ./Pictures/ErrorRecovery.PNG Graphic file (type png)
+
+<use ./Pictures/ErrorRecovery.PNG>
+Package pdftex.def Info: ./Pictures/ErrorRecovery.PNG used on input line 1060.
+(pdftex.def)             Requested size: 426.79135pt x 338.64705pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<./Pictures/recupera0.png, id=94, 505.89pt x 505.89pt>
+File: ./Pictures/recupera0.png Graphic file (type png)
+
+<use ./Pictures/recupera0.png>
+Package pdftex.def Info: ./Pictures/recupera0.png used on input line 1074.
+(pdftex.def)             Requested size: 157.9107pt x 157.91269pt.
+
+<./Pictures/recupera1.png, id=95, 505.89pt x 505.89pt>
+File: ./Pictures/recupera1.png Graphic file (type png)
+
+<use ./Pictures/recupera1.png>
+Package pdftex.def Info: ./Pictures/recupera1.png used on input line 1080.
+(pdftex.def)             Requested size: 157.9107pt x 157.91269pt.
+
+<./Pictures/recupera2.png, id=96, 505.89pt x 505.89pt>
+File: ./Pictures/recupera2.png Graphic file (type png)
+
+<use ./Pictures/recupera2.png>
+Package pdftex.def Info: ./Pictures/recupera2.png used on input line 1086.
+(pdftex.def)             Requested size: 157.9107pt x 157.91269pt.
+
+<./Pictures/recupera4.png, id=97, 505.89pt x 505.89pt>
+File: ./Pictures/recupera4.png Graphic file (type png)
+
+<use ./Pictures/recupera4.png>
+Package pdftex.def Info: ./Pictures/recupera4.png used on input line 1092.
+(pdftex.def)             Requested size: 157.9107pt x 157.91269pt.
+
+<./Pictures/recupera5.png, id=98, 505.89pt x 505.89pt>
+File: ./Pictures/recupera5.png Graphic file (type png)
+
+<use ./Pictures/recupera5.png>
+Package pdftex.def Info: ./Pictures/recupera5.png used on input line 1098.
+(pdftex.def)             Requested size: 157.9107pt x 157.91269pt.
+
+<./Pictures/recupera6.png, id=99, 505.89pt x 505.89pt>
+File: ./Pictures/recupera6.png Graphic file (type png)
+
+<use ./Pictures/recupera6.png>
+Package pdftex.def Info: ./Pictures/recupera6.png used on input line 1104.
+(pdftex.def)             Requested size: 157.9107pt x 157.91269pt.
+
+<./Pictures/recupera7.png, id=100, 505.89pt x 505.89pt>
+File: ./Pictures/recupera7.png Graphic file (type png)
+
+<use ./Pictures/recupera7.png>
+Package pdftex.def Info: ./Pictures/recupera7.png used on input line 1110.
+(pdftex.def)             Requested size: 157.9107pt x 157.91269pt.
+
+<./Pictures/recupera8.png, id=101, 505.89pt x 505.89pt>
+File: ./Pictures/recupera8.png Graphic file (type png)
+
+<use ./Pictures/recupera8.png>
+Package pdftex.def Info: ./Pictures/recupera8.png used on input line 1116.
+(pdftex.def)             Requested size: 157.9107pt x 157.91269pt.
+
+
+LaTeX Warning: Float too large for page by 90.54681pt on input line 1121.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[22] <./Pictures/Variapq1.PNG, id=105, 475.7775pt x 347.04657pt>
+File: ./Pictures/Variapq1.PNG Graphic file (type png)
+
+<use ./Pictures/Variapq1.PNG>
+Package pdftex.def Info: ./Pictures/Variapq1.PNG used on input line 1134.
+(pdftex.def)             Requested size: 213.39568pt x 155.65584pt.
+
+<./Pictures/Variapq3.PNG, id=106, 478.03593pt x 348.55219pt>
+File: ./Pictures/Variapq3.PNG Graphic file (type png)
+
+<use ./Pictures/Variapq3.PNG>
+Package pdftex.def Info: ./Pictures/Variapq3.PNG used on input line 1140.
+(pdftex.def)             Requested size: 213.39568pt x 155.59186pt.
+
+<./Pictures/Variapq7.PNG, id=107, 476.53032pt x 339.51843pt>
+File: ./Pictures/Variapq7.PNG Graphic file (type png)
+
+<use ./Pictures/Variapq7.PNG>
+Package pdftex.def Info: ./Pictures/Variapq7.PNG used on input line 1146.
+(pdftex.def)             Requested size: 213.39568pt x 152.04105pt.
+
+<./Pictures/Variapq25.PNG, id=108, 499.11469pt x 348.55219pt>
+File: ./Pictures/Variapq25.PNG Graphic file (type png)
+
+<use ./Pictures/Variapq25.PNG>
+Package pdftex.def Info: ./Pictures/Variapq25.PNG used on input line 1152.
+(pdftex.def)             Requested size: 213.39568pt x 149.02354pt.
+
+
+LaTeX Warning: Float too large for page by 99.20834pt on input line 1157.
+
+<./Pictures/differentNorms.PNG, id=109, 773.89125pt x 350.81062pt>
+File: ./Pictures/differentNorms.PNG Graphic file (type png)
+
+<use ./Pictures/differentNorms.PNG>
+Package pdftex.def Info: ./Pictures/differentNorms.PNG used on input line 1185.
+
+(pdftex.def)             Requested size: 426.79135pt x 193.47101pt.
+
+<./Pictures/differentNorms7.PNG, id=110, 759.58781pt x 348.55219pt>
+File: ./Pictures/differentNorms7.PNG Graphic file (type png)
+
+<use ./Pictures/differentNorms7.PNG>
+Package pdftex.def Info: ./Pictures/differentNorms7.PNG used on input line 1191
+.
+(pdftex.def)             Requested size: 426.79135pt x 195.84737pt.
+ [23 <./Pictures/ErrorRecovery.PNG>]
+<./Pictures/speedMean.PNG, id=115, 554.07pt x 350.05782pt>
+File: ./Pictures/speedMean.PNG Graphic file (type png)
+
+<use ./Pictures/speedMean.PNG>
+Package pdftex.def Info: ./Pictures/speedMean.PNG used on input line 1215.
+(pdftex.def)             Requested size: 341.43437pt x 215.71425pt.
+
+<./Pictures/speedspectral.PNG, id=116, 540.51938pt x 335.00156pt>
+File: ./Pictures/speedspectral.PNG Graphic file (type png)
+
+<use ./Pictures/speedspectral.PNG>
+Package pdftex.def Info: ./Pictures/speedspectral.PNG used on input line 1221.
+(pdftex.def)             Requested size: 341.43437pt x 211.61949pt.
+
+
+LaTeX Warning: Citation `ColumbiaAlvaro' on page 24 undefined on input line 126
+4.
+
+[24] (./graphLearning.bbl
 LaTeX Font Info:    Try loading font information for OMS+cmr on input line 36.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
@@ -760,24 +917,32 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 36.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 36.
- [22]
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
-) [23]
+
+Underfull \vbox (badness 1596) has occurred while \output is active []
+
+ [25])
+[26] [27 <./Pictures/recupera0.png> <./Pictures/recupera1.png> <./Pictures/recu
+pera2.png> <./Pictures/recupera4.png> <./Pictures/recupera5.png> <./Pictures/re
+cupera6.png> <./Pictures/recupera7.png> <./Pictures/recupera8.png>] [28 <./Pict
+ures/Variapq1.PNG> <./Pictures/Variapq3.PNG> <./Pictures/Variapq7.PNG> <./Pictu
+res/Variapq25.PNG>] [29 <./Pictures/differentNorms.PNG> <./Pictures/differentNo
+rms7.PNG>] [30 <./Pictures/speedMean.PNG> <./Pictures/speedspectral.PNG>]
 (./graphLearning.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 16236 strings out of 493029
- 291101 string characters out of 6136233
- 387553 words of memory out of 5000000
- 19256 multiletter control sequences out of 15000+600000
- 15146 words of font info for 65 fonts, out of 8000000 for 9000
+ 17450 strings out of 493029
+ 313687 string characters out of 6136233
+ 411183 words of memory out of 5000000
+ 20441 multiletter control sequences out of 15000+600000
+ 17101 words of font info for 73 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
- 55i,12n,54p,3246b,351s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,12n,54p,3246b,523s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/tex
@@ -800,10 +965,10 @@ t/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts
 c/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
 onts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
 nts/symbols/msbm10.pfb>
-Output written on graphLearning.pdf (23 pages, 389584 bytes).
+Output written on graphLearning.pdf (30 pages, 1008806 bytes).
 PDF statistics:
- 174 PDF objects out of 1000 (max. 8388607)
- 124 compressed objects within 2 object streams
+ 231 PDF objects out of 1000 (max. 8388607)
+ 140 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 13 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 98 words of extra memory for PDF output out of 10000 (max. 10000000)
 
