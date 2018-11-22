@@ -414,7 +414,7 @@ f(A):= \frac{1}{N}\sum_{k=1}^N\|A-B_k\|_1, \ \ g(A):= \delta\|2A-11^t\|_{*}
 \]
 
 For vertices $i,j\in [n]$ let $n_1(ij)$ (resp. $n_0(ij)$) be the random variable which counts the number of times that a given pair is (resp is not) an edge of some $B_k$ with $k=1,\dots N$ and let $\Gamma$ be the symmetric matrix with entries given by $\Gamma_{ij}=\frac{n_0(ij)-n_1(ij)}{N}$. 
-Finally let $I:=\{(i,j): \exists t\in \{1,\dots,l\} \left( \{i,j\}\subseteq C_t\right)\}$ and let $O=[n]\times [n]\setminus I$ so $I$ contains edges which belong to some cluster while $O$ contains all edges which connect distinct clusters. Henceforth we will adopt the convention that adjacency matrices have diagonal entries equal to one.
+Finally let $I:=\{(i,j): \exists t\in \{1,\dots,l\} \left( \{i,j\}\subseteq C_t\right)\}$ and let $O=[n]\times [n]\setminus I$ so $I$ contains edges which belong to some cluster while $O$ contains all edges which connect distinct clusters. Henceforth we will adopt the convention that adjacency matrices have diagonal entries equal to one and in particular $\Gamma_{ii}=-1$ for all $i$.
 
 
 The following Lemma summarizes some basic subdifferential properties of the functions $f$ and $g$ at $A^*$. Define the matrix $H^*:=2A^*-11^t$ so $H^*$ is an $\ell\times \ell$ block-matrix whose blocks correspond to the clusters. The diagonal blocks of $H^*$ have all entries equal to $1$ and all the off-diagonal blocks have all entries equal to $-1$.
@@ -425,7 +425,8 @@ The following Lemma summarizes some basic subdifferential properties of the func
 \item The subdifferential of $f$ at $A^*$ is the set of symmetric matrices $C$ satisfying the inequalities
 \[
 \begin{cases}
-\Gamma_{ij} \leq C_{ij}\leq 1 \text{, if $\{i,j\}\in I$ and }\\
+-1 \leq C_{ij}\leq 1 \text{, if $i=j$, }\\
+\Gamma_{ij} \leq C_{ij}\leq 1 \text{, if $\{i,j\}\in I, i\neq j$}\\
 -1\leq C_{ij} \leq \Gamma_{ij}\text{, if $\{i,j\} \in O$.}\\
 \end{cases}
 \]
@@ -434,15 +435,20 @@ The following Lemma summarizes some basic subdifferential properties of the func
 \end{enumerate}
 
 \end{lemma}
-\begin{proof} $(1)$ Since the subdifferential is additive it suffices to understand the subdifferential of the absolute value. If $i,j\in C_t$ with $i\neq j$ then $A^*_{ij}=1$ and the entry $ij$ of the subdifferential of the sum at $A^*$ is $[-1,1]$ for each $B_i$ containing the edge and it is $1$ for each $B_i$ for which $ij$ is not an edge. If $i=j$ then the entry $ii$ of the subdifferential at $A^*$ is $[-1,1]$ leading to the inequality $-1\leq C_{ii}\leq 1$ which is implicit in the statement since $ij\in I$ and $\Gamma_{ii}=-1$ by definition. Finally $i,j$ is not contained in any cluster then $A^*_{ij}=0$ and the entry $ij$ of the subdifferential of the sum at $A^*$ is $-1$ for each $B_i$ which contains the edge $ij$ and $[-1,1]$ for each $B_i$ which does not, proving the claim. $(2)$ It follows immediately from the definition that the subdifferential of any norm $\|\bullet\|$ at a point $X$ is given by those $C$ for which the dual norm $\|C\|_*\leq 1$ and $\langle C,X\rangle =\|X\|$ from which claim $(2)$ follows immediately.
+\begin{proof} $(1)$ Since the subdifferential is additive it suffices to understand the subdifferential of the absolute value which is given by
+\[
+\partial(|x-a|)(b)=
+\begin{cases}
+1\text{, if $b>a$}\\
+[-1,1]\text{, if $b=a$}\\
+-1\text{, if $b<a$}
+\end{cases}
+\]
+
+ If $i,j\in C_t$ with $i\neq j$ then $A^*_{ij}=1$ and the entry $ij$ of the subdifferential of the sum at $A^*$ is $[-1,1]$ for each $B_k$ containing the edge and it is $1$ for each $B_k$ for which $ij$ is not an edge. If $i=j$ then the entry $ii$ of the subdifferential at $A^*$ is $[-1,1]$ leading to the inequality $-1\leq C_{ii}\leq 1$. Finally $i,j$ is not contained in any cluster then $A^*_{ij}=0$ and the entry $ij$ of the subdifferential of the sum at $A^*$ is $-1$ for each $B_k$ which contains the edge $ij$ and $[-1,1]$ for each $B_k$ which does not, proving the claim. $(2)$ It follows from the definition of subdifferential that for any norm $\|\bullet\|$ and any point $X$ the subdifferential of the norm at $X$ is given by those $C$ for which the dual norm $\|C\|_*\leq 1$ and $\langle C,X\rangle =\|X\|$ from which claim $(2)$ follows immediately.
 \end{proof}
 
 
-%\begin{lemma} If $\delta=0$ then 
-%\[\PP\{A^*\in\argmin\Delta \} =\prod_{ij\in O} \PP\{n_1(ij)\leq n_0(ij)\} \prod_{t=1}^k \left(\prod_{(ij)\in C_t}\PP\{n_0(ij)\leq n_1(ij)\}\right)\]
-%where $\PP\{n_0(ij)\leq n_1(ij)\}$ is given by the following formula 
-%\mv{Ejercicio para Daniel: Encontrar una f\'ormula, es la probabilidad de que haya mas caras que sellos en $N$ lanzamientos de una moneda trucada donde las probabilidades de la moneda dependen s\'olo de la arista $ij$}.
-%\end{lemma}
 
 %\begin{proof} The matrix $A^*$ is a minimizer of the above convex function if and only if its subdifferential at $A^*$ contains the matrix $0$. By part $(1)$ of the previous Lemma this occurs if and only if $\frac{n_0(ij)-n_1(ij)}{N}\leq 0$ for $(ij)$ in a cluster and 
 %$\frac{n_0(ij)-n_1(ij)}{N}\geq 0$ for $(ij)$ in $O$. Independence of the edges then implies the above formula.  
@@ -460,196 +466,104 @@ The following Lemma summarizes some basic subdifferential properties of the func
 
 %However it is easy to see that we cannot do this improvement simultaneously in all components, because $n=\langle S, 2A-11^t\rangle = Tr(S)+\sum_{ij \in O^c} S_{ij} -\sum_{ij \in O} S_{ij}\leq n+u$ where $u$ is the objective function in the problem above. We conclude that $u$ must be nonnegative so we cannot improve simultaneously in all directions at once.
 
-
-By Lemma~\ref{lem: subdiff} a symmetric matrix $C$ lies in the subdifferential if and only if it satisfies the inequalities
-\[ \Gamma_{ij}\leq C_{ij}\leq 1 \text{, if $\{i,j\}\subseteq C_t$ for some $t$,}\]
-\[-1\leq C_{ij} \leq \Gamma_{ij} \text{ if $\{i,j\}$ does not belong to any cluster and } \]
-\[-N \leq C_{ii} \leq N \text{ for all }i.\]
-To simplify these inequalities we let $I\subseteq [n]\times [n]$ be the set of pairs $(i,j)$ with $i\neq j$ for which $\{i,j\}\subseteq C_t$ for some $t$ and $O\subseteq [n]\times [n]$ to be the set of pairs $(i,j)$ with $i\neq j$ for which $\{i,j\}$ is not contained in any cluster. Define a linear operator $\widetilde{\bullet}: \mathcal{S}^{n\times n}\rightarrow \mathcal{S}^{n\times n}$ on symmetric matrices by the formula:
+To simplify the inequalities in the previous Theorem we define a linear operator $\widetilde{\bullet}: \mathcal{S}^{n\times n}\rightarrow \mathcal{S}^{n\times n}$ on symmetric matrices by the formula:
 \[ \widetilde{A} = 
 \begin{cases}
 A_{ij}\text{ if $i=j$ or $ij\in I$ and}\\
 -A_{ij}\text{ if $ij\in O$.} 
 \end{cases}
 \]
-In this language a symmetric matrix $C_{ij}$ belongs to the subdifferential of $f$ at $A^*$ if and only if $\widetilde{\Gamma}_{ij}\leq \widetilde{C}_{ij}$ for $i\neq j$.
+The operator $\widetilde{\bullet}$ is an involution which satisfies $\langle A,B\rangle = \langle \widetilde{A}, \widetilde{B}\rangle$ for any two symmetric matrices $A$ and $B$. Moreover using this operator, the previous Lemma can ve restated by saying that $C_{ij}$ belongs to the subdifferential of $f$ at $A^*$ if and only if $\widetilde{\Gamma}_{ij}\leq \widetilde{C}_{ij}\leq 1$ for all $i,j$. Note also that $\widetilde{H^*}=11^t$
 
 Our next Lemma gives sufficient conditions for the true cluster structure $A^*$ to be a minimizer of $\Delta(A)$ in $K$. In order to describe it we introduce the following two quantities. 
 
 \begin{definition} Let $\delta$ be a positive real number. For a symmetric matrix $\Gamma$ define the quantities
 \[b(\Gamma,\delta):=\sum_{i\neq j} \max\left(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n},0\right)
-\text{ and } a(\Gamma,\delta):=\sum_{i\neq j} \max\left(-\widetilde{\Gamma_{ij}}-\frac{2\delta}{n},0\right)
+\text{ and } a(\Gamma, \delta):=\sum_{i\neq j} \max\left(-\widetilde{\Gamma_{ij}}-\frac{2\delta}{n},0\right)
 \]\end{definition}
-The quantity $b(\Gamma,\delta)$ (resp. $a(\Gamma,\delta)$) measures the total amount by which the matrix $\widetilde{-\frac{2\delta}{n}11^t}$ fails (resp. succeeds) to be in the subdifferential of Lemma~\ref{lem: subdiff}. This is because $b(\Gamma,\delta)$ (resp. $a(\Gamma,\delta)$) is the result of summing over all $ij$ the amount by which the inequalities $\widetilde{\Gamma_{ij}}\leq \frac{2\delta}{n} 11^t$ fail (resp. succeed). The key point of the following Theorem is that if the inequality fails by less than it succeeds then the subdifferential of the spectral norm is sufficiently rich so as to allow us to redistribute these quantities using transportation matrices. In this sense the following Theorem explains the success of the spectral norm in cluster recovery algorithms.
+The quantity $b(\Gamma, \delta)$ (resp. $a(\Gamma, \delta)$) measures the total amount by which the matrix $-\frac{2\delta}{n}H^*=\widetilde{-\frac{2\delta}{n}11^t}$ fails (resp. succeeds) to be in the subdifferential of Lemma~\ref{lem: subdiff}. This is because $b(\Gamma,\delta)$ (resp. $a(\Gamma,\delta)$) is the result of summing over all $ij$ the amount by which the inequalities $\widetilde{\Gamma_{ij}}\leq \frac{2\delta}{n} 11^t$ fail (resp. succeed). The key point of the following Theorem is that if the inequality fails by less than it succeeds then the subdifferential of the spectral norm is sufficiently rich so as to allow us to redistribute these quantities using transportation matrices. In this sense the following Theorem explains the success of the spectral norm in cluster recovery algorithms.
 
 For ease of  exposition we will split the proof into two parts. First we will prove that this occurs when our graph involves only two clusters and then will generalize the result to any number $l\geq 2$ of clusters. 
-Recall that 
-\[\Delta(A)= \delta\|2A-11^t\|_{*}+\frac{1}{N}\sum_{k=1}^N\|A-B_k\|_1\] 
-And that the functions $f$ and $g$ are given by
-\[
-f:= \frac{1}{N}\sum_{k=1}^N\|A-B_k\|_1, \ \ g:= \delta\|2A-11^t\|_{*}
-\]
-so the following equality holds
-\begin{equation}\label{SumaSubDif}
-\partial(\Delta)(A^*) = \partial(f)(A^*)+\partial(g)(A^*)
-\end{equation}
 
-
+We will use that $\langle H^*,H^*\rangle= n^2$ and that the equalities $\|H^*\|_*=\|H\|=n$ hold  when there are only two clusters.
 
 
 \begin{lemma}\label{thm: transport}  Assume there are only two clusters. Let $\delta>0$ with $ \left(\frac{\delta}{n}+b(\Gamma,\delta) \right)  < \frac{N}{2}$. If $b(\Gamma,\delta)< \min(\delta, a(\Gamma,\delta))$ then $A^*$ is a minimizer of the optimization problem $\min_A\Delta(A)$.
 \end{lemma} 
-
-
-\begin{proof}
-We will show that there exists a matrix $C $ such that 
-$-C \in \partial(g)(A^*) $ for which $\widetilde{\Gamma}_{ij}\leq \widetilde{C_{ij}}$ for $i\neq j$. This implies that $C_{ij} \in \partial(f)(A^*)$ and therefore $0=C-C$ belongs to the subdifferential $\partial(\Delta)(A^*)$ and thus $A^*$ is a minimizer of $\Delta(A)$.
-
-Recall that $-C \in  \partial(g)(A^*) $ if and only if 
-\[
-\left \langle H^*,C \right \rangle = -2\delta n \text{ and } \|C\| \leq 2\delta
+\begin{proof} We will construct a matrix $C$ such that 
+$-C \in \partial(g)(A^*)$ and $C \in \partial(f)(A^*)$. As a result $0=C-C$ belongs to the subdifferential $\partial(\Delta)(A^*)$ proving that $A^*$ is a minimizer of $\Delta(A)$ as claimed. As a first candidate for $C$ we could choose $C=-\frac{2\delta}{n}H^*$. Since \[
+ \frac{-2\delta}{n}\left \langle H^*,H^* \right \rangle =  \frac{-2\delta}{n}n^2 = -2\delta n \text{ and } \|C\|= \frac{2\delta}{n}\|H^*\|= 2\delta.
 \]
-where $H^* = 2A-11^t$ and $\|\bullet\|$ is the spectral norm.
+we conclude that $-C\in \partial g(A^*)$. Moreover $C\in \partial f(A^*)$ precisely if $\widetilde{\Gamma_{ij}} \leq \widetilde{C_{ij}}= -\frac{2\delta}{n} \leq 1$ for all $ij$. 
+In general, the first inequality need not hold and we can split the entries $ij$ into two sets $U$ and $V$ where this inequality is valid or (strictly) fails respectively. More precisely, define 
+\[U=\left\{(i,j): i\neq j \text{ and $\widetilde{\Gamma_{ij}}\leq -\frac{2\delta}{n}$}\right\}\text{ and } V=\left\{(i,j): i\neq j \text{ and $\widetilde{\Gamma_{ij}}>-\frac{2\delta}{n}$}\right\}\] 
 
-Notice that both these conditions are satisfied by setting
-$C^0 = -\frac{2\delta}{n}H^*$ as
+and note that
 \[
- \frac{-2\delta}{n}\left \langle H^*,H^* \right \rangle =  \frac{-2\delta}{n}n^2 = -2\delta n \text{ and } \|C^0\|= \frac{2\delta}{n}\|H^*\|= 2\delta.
+a(\Gamma,\delta) = -\sum_{ij \in U}\left( \widetilde{\Gamma}_{ij}+ \frac{2\delta}{n}\right) \text{ and } b(\Gamma,\delta) =  \sum_{ij \in V} \widetilde{\Gamma}_{ij} + \frac{2\delta}{n}.
 \]
 
-However this choice of $C^0$ will not, in general, satisfy the inequalities $\widetilde{\Gamma}_{ij}\leq \widetilde{-\frac{2\delta}{n} H^*}_{ij}$ for $i\neq j$. 
-Therefore, we will correct our candidate matrix $C^0$ so that it satisfies these inequalities and still belongs to $\partial(g)(A^*)$.
 
-To do this, we will construct a matrix $K$ and add it to $C^0$. Crucially, $K$ will satisfy that $KH^* = H^*K = 0$ so that we can control the spectral norm of $C^0+K$.
+If $b(\Gamma,\delta)< a(\Gamma,\delta)$ then we could modify the matrix $\widetilde{C}$ by increasing the entries of $\widetilde{C}$ in $V$ and decreasing those in $U$ by the same amount by adding transportation matrices so as to make the inequality valid in all entries. In the remainder of the proof we show that this process can be carried out while at the same time controlling the spectral norm of $C$.
 
-Let $i<j$ and 
-define the symmetric matrix  $e^{ij}$ as follows:
-\begin{equation}
-e^{ij}=\begin{cases}
-1 \text{ if }(i,j) \in I. \\
--1 \text{ if }(i,j) \in O. \\
--1 \text{ in the entry } ii \text{ and in } jj. \\
-0 \text{ otherwise}. 
+Since $b(\Gamma,\delta)<a(\Gamma,\delta)$ there exist nonnegative scalars $\gamma_{ij}^{st}$ for $ij\in U$ and $st\in V$ which tell us how much of the amount in entry $ij\in U$ has to be moved to entry $st\in V$. These numbers satisfy the following inequalities:
+
+\begin{equation}\label{ineqs1}
+\forall st\in V\left( \widetilde{\Gamma_{st}}  \leq -\frac{2\delta}{n} +\sum_{ij\in U}\gamma_{ij}^{st}\right) \text{ and } \forall st\in U\left( \widetilde{\Gamma_{st}} \leq -\frac{2\delta}{n} -\sum_{ij\in V}\gamma_{st}^{ij}\right).
+\end{equation} 
+
+In order to transport the smallest possible total amount we can moreover assume that the $\gamma_{st}^{ij}$ are chosen so the first inequality is an equality.
+
+\[\forall st\in V\left( \widetilde{\Gamma_{st}}  = -\frac{2\delta}{n} +\sum_{ij\in U}\gamma_{ij}^{st}\right)\]
+
+
+For $st\in V$ define $W^{st}=\sum_{ij\in U} \gamma_{ij}^{st}(r_{st}-r_{ij})$ where $r_{st}$ is the $n\times n$ symmetric matrix given by
+\[(r_{ij})_{ab}=
+\begin{cases}
+-1\text{, if $(a,b)=(i,i)$ or $(a,b)=(j,j)$}\\
+1\text{, if $(a,b)=(i,j)$ or $(a,b)=(j,i)$}\\
+0\text{, else.}
+\end{cases}\]
+and let $C:=-\frac{2\delta}{n}H^* +\sum_{st\in V} \widetilde{W^{st}}$. We will show that $C\in \partial f(A^*)$ and that $-C\in \partial g(A^*)$ finishing the proof of the Theorem.
+Since $\widetilde{C}=-\frac{2\delta}{n}11^t+\sum_{st\in V} W^{st}$ we know that
+\[
+\widetilde{C}_{ab}= 
+\begin{cases}
+-\frac{2\delta}{n} +\sum_{ij\in U} \gamma_{ij}^{ab}\text{ if $ab\in V$}\\
+-\frac{2\delta}{n} -\sum_{ij\in V} \gamma_{ab}^{ij}\text{ if $ab\in U$}\\
+-\frac{2\delta}{n} -\sum_{st\in V}\sum_{aj\in U} \gamma_{aj}^{st} + \sum_{ij\in U}\sum_{at\in V} \gamma_{ij}^{at}\text{ if $a=b$}\\
 \end{cases}
-\end{equation}
+\]
+we conclude that $\widetilde{\Gamma}_{ab}\leq \widetilde{C_{ab}}\leq 1$ for $a\neq b$. The first inequality follows from those in~(\ref{ineqs1}). The second inequality follows since for $ab\in V$ we have $\widetilde{C_{ab}}=\widetilde{\Gamma_{ab}}\leq 1$ and for $ab\in U$ we have $\widetilde{C_{ab}}\leq -\frac{2\delta}{n}\leq 1$. 
 
-Observe that for any $(i,j)$ the matrix $e^{ij}$ satisfies the following  properties:
+ \mv{PROBLEMA DIAGONAL: Querr\'iamos demostrar que $\widetilde{C}$ esta en el subdiferencial de $f$ en $A^*$. Nos falta chequear la diagonal. Creo que lo que podemos demostrar es que se permiten ciertos tipos de transportes en los que no se mueve demasiada masa. Mejor a\'un, sera que siempre existe un transporte \'util? Por \'util quiero decir qu la suma con $a=b$ sea peque\~na para todo v\'ertice $i$. Esa suma se puede interpretar as\'i: en un v\'ertice $a$ del grafo llamemos positivas a las aristas en $V$ y negativas a las aristas en $U$ (porque de $U$ quitamos masa y en $V$ la subimos. Lo que la suma mide es: cu\'anto sumamos en las aristas que tienen mas menos la cantidad que restamos (en valor absoluto) de las aristas que tienen menos. Eso podr\'ia pensarse como el "badness" de un v\'ertice. La suma de los badness de todos los v\'erices es el doble del badness total (porque toda arista tiene dos v\'ertices).
+Asi que concluimos que el transporte es v\'alido (la matriz $C$ estar\'a en el subdiferencial) si y solo si para todo v\'ertice el badness del v\'ertice respecto al transporte $\gamma_{ij}^{st}$ cumple que 
+$|b_v-\frac{2\delta}{n}|\leq 1$ 
+ 
+ 
+ } 
 
+Moreover, we know that
+\[\langle C, H^*\rangle = \langle \widetilde{C}, \widetilde{H^*}\rangle = \left\langle -\frac{2\delta}{n}11^t-\sum_{st\in V} W^{st}, 11^t\right\rangle = -2\delta n\] 
+where the last equality occurs since $\langle 11^t, r_{st}\rangle =0$ for all $st$. For $i\neq j$ let $e^{ij}:=\widetilde{r_{ij}}$ and note that the matrix $e^{ij}$ satisfies the following  properties:
 \begin{enumerate}
-\item  $H^*e^{ij}=0=e^{ij}H^*$. 
-\item The inequality $\|-e^{ij}+e^{st}\|\leq 2$ holds for all $ij$ and $st$. This is immediate noting that the spectral norm is bounded by the product of the induced $1-norm$ and the induced $\infty-$norm. (The inequality is strict only if $|\{i,j\}\cap\{s,t\}|\geq 1$ and in this case it can take values of $\sqrt{3}$ and $0$).  
+\item  $H^*e^{ij}=0=e^{ij}H^*$ for all $ij$. This is immediate from the fact that $e^{ij}$ is given by
+\[
+(e^{ij})_{ab}=\begin{cases}
+1 \text{, if $ij\in I$ and $\{i,j\}=\{a,b\}$} . \\
+-1 \text{, if $ij\in O$ and $\{i,j\}=\{a,b\}$} \\
+-1 \text{, if $a=b$ and $a\in \{i,j\}$}\\
+0 \text{, otherwise}. 
+\end{cases}
+\]
+ 
+\item The inequality $\|e^{ij}-e^{st}\|\leq 2$ holds for all $ij$ and $st$. This is immediate from the fact that the square of the spectral norm is bounded by the product of the induced $1$-norm and the induced $\infty$-norm. The inequality is strict only if $|\{i,j\}\cap\{s,t\}|\geq 1$ and in this case the norm of the difference takes the values of $\sqrt{3}$ and $0$ when the intersection has sizes one and two respectively.   
 \end{enumerate}
-
-The idea is to use that $b(\Gamma,\delta) < a(\Gamma,\delta)$ so there exists a way to redistribute the quantity $b(\Gamma,\delta)$ by subtracting it from the $ij$ for which $\frac{2\delta}{n}< \widetilde{\Gamma}_{ij}$  and adding it into those $st$ for which $\widetilde{\Gamma}_{st}\leq \frac{2\delta}{n}$.
-
-
-Let $U$ be the set of entries $\{i,j\}$ where $\widetilde{\Gamma}_{ij}+ \frac{2\delta}{n} \leq 0$ and $V$ be the  set of entries $\{i,j\}$ where $-(\widetilde{\Gamma}_{ij}+ \frac{2\delta}{n}) > 0$.
-Observe that 
-
-\[
-b(\Gamma,\delta) = \sum_{ij \in U}( \widetilde{\Gamma}_{ij}+ \frac{2\delta}{n}) \text{ and } a(\Gamma,\delta) =  \sum_{ij \in V} -(\widetilde{\Gamma}_{ij} + \frac{2\delta}{n}).
-\]
-
- By hypothesis $b(\Gamma,\delta)< a(\Gamma,\delta)$.
-Let $l_1,..,l_k$ be an enumeration of $V$ were $k$ is it's cardinality. For each entry $ij \in U$, there exists nonnegative coefficients $\gamma^{ij}_{l_1},..,\gamma^{ij}_{l_k}$ such that:
-
-\[
- \widetilde{\Gamma}_{ij}+\frac{2\delta}{n}-\gamma^{ij}_{l_1}-...-\gamma^{ij}_{l_k} < 0. 
-\]
-and that such that for each  $\gamma_{l_p}$ with $p \in \{1,..,k\}$
-\begin{equation}{\label{desA}}
--(\widetilde{\Gamma}_{l_p}+\frac{2\delta}{n})-\sum_{ij \in U}\gamma^{ij}_{l_p}>0.
-\end{equation}
-
-
-
-
-For $ij \in U$ define the matrix
-\[
-W^{ij}:= \gamma^{ij}_{l_1}(\widetilde{e^{ij}-e^{l_1}} )+...+\gamma^{ij}_{l_k}(\widetilde{e^{ij}-e^{l_k}})
-\]
-Given that $ij \in U$, $l_1,..,l_k \in V$ and the sets $U$ and $V$ are disjoint, the support of $e^{ij}$ is disjoint from the support of any of the matrices $e^{l_1},..,e^{l_k}$ (except probably at the diagonal). In particular, if $ij\in I$ the entry $ij$ of the matrix $W^{ij}$, namely $W^{ij}_{ij}$ is equal to:
-\[
-\gamma^{ij}_{l_1}(1-0)+...+\gamma^{ij}_{l_k}(1-0)= \gamma^{ij}_{l_1}+...+\gamma^{ij}_{l_k}.
-\]
-and if  $ij\in O$,
-\[
-\gamma^{ij}_{l_1}(-1-0)+...+\gamma^{ij}_{l_k}(-1-0)= -\gamma^{ij}_{l_1}-...-\gamma^{ij}_{l_k}.
-\]
-
-Define the matrix $C^1$ as:
-\[C^1:= C^0 + \sum_{ij \in U} W^{ij} \]
-We will now verify that $C^1 \in \partial(f)(A^*)$.
-For $ij \in V$, we have by definition of $V$ and by equation \ref{desA} that $\widetilde{\Gamma}_{ij}< \widetilde{C}^1_{ ij}$.  
-
-Let $ij \in I\cap U$. We have that $\Gamma_{ij}+\frac{2\delta}{n}>0$.
-Now, the entry of $C^1$ in $ij$ is given by:
-\[
-C^1_{ij} = -\frac{2\delta}{n}H_{ij}+W^{ij}_{ij} = - \frac{2\delta}{n}+\gamma^{ij}_{l_1}+...+\gamma^{ij}_{l_k}
-\]
-By the construction of the $\gamma$'s, we have that
-\[
-\Gamma_{ij}+\frac{2\delta}{n}-\gamma^{ij}_{l_1}-...-\gamma^{ij}_{l_k}<0
-\]
-it follows that 
-\[
-\Gamma_{ij}-C^1_{ij}<0
-\]
-so that
-\[
-C^1_{ij}>\Gamma_{ij}.
-\]
-For $ij \in O\cap U$, we have that $\frac{2\delta}{n}-\Gamma_{ij}>0$.
-The entry of $C^1$ in $ij$ is given by:
-\[
-C^1_{ij}=-\frac{2\delta}{n}H_{ij}+W^{ij}_{ij} = \frac{2\delta}{n}-\gamma^{ij}_{l_1}-...-\gamma^{ij}_{l_k}
-\]
-Since
-\[
-\frac{2\delta}{n}-\Gamma_{ij}-\gamma^{ij}_{l_1}-...-\gamma^{ij}_{l_k}<0
-\]
-it follows that
-\[
--C_{ij}>-\Gamma_{ij}.
-\]
-
-and that $\widetilde{\Gamma}_{ij} < \widetilde{C}^1_{ ij}$ for $i\neq j$. 
-
-It remains to show that the entries of the diagonal of $C^1$ are bounded by $n$. The diagonal entries $\{ss\}$ of $C^1$ are given by
-\[
--\frac{2\delta}{n}+ \sum_{ij\in U} W^{ij}_{ss}.
-\]
-
-
-Notice that by the definition of $W^{ij}$, each of the matrices $(\widetilde{e^{ij}-e^{l_p}} )$ has, in the worst case, a $-2$ in the entry $ss$ so the entry $ss$ of $C^1$ is bounded below by 
-\[
--\frac{2\delta}{n}+-2 \left(\sum_{ij\in U}\sum_{l_p \in V} \gamma_{l_p}^{ij}\right)
-\]
-the quantity in the parentheses is all the weight that we have to distribute, i.e $b(\Gamma,\delta)$.
-Therefore, 
-\[
-C^1 \geq -\frac{2\delta}{n}-2(b(\Gamma,\delta)) =-2\left(\frac{\delta}{n}+b(\Gamma,\delta)\right).
-\]
-By hypothesis, $ \frac{N}{2} > \left(\frac{\delta}{n}+b(\Gamma,\delta) \right) $ so we obtain that
-\[
-C^1_{ss} > -N.
-\]
-It is obvious that $N > C^1_{ss}$.
-We conclude that $C^1 \in \partial(f)(A^*)$.
-
-For each $ij$, $H^*e^{ij}=0=e^{ij}H^*$ so the equality $\langle H^*, C^1\rangle =\langle H^*,-\frac{2\delta}{n}H^*\rangle = -2\delta n$ holds and moreover
-
-\[ \| C^1\|=\max\left(\left\|-\frac{2\delta}{n}H^*\right\|, \left\|\sum_{ij\in U} W^{ij} \right\|\right).
-\]
-
-
-The operator norm of the first term in the maximum equals $2\delta$ and that of the second term is bounded by $2b(\Gamma,\delta)$ by the triangle inequality and the definition of $b(\Gamma,\delta)$. We conclude that $\|C\|$ is bounded by $2\delta$ because $b(\Gamma,\delta)\leq \delta$. As a result $-C\in \partial\left(g\right)(A^*)$ proving the Theorem. Note that $C^1$ satisfies all the inequalities that define the membership to $\partial(f)(A^*)$ in \ref{lem: subdiff} strictly, so $C^1$ belongs is interior point of $\partial(f)(A^*)$.
-
-
-
-
-
+It follows from $(1)$ that the two summands in $C=-\frac{2\delta}{n}H^* +\sum_{st\in V} \widetilde{W^{st}}$ are symmetric matrices with product zero. We conclude that they are simultaneously diagonalizable and that the spectral norm of $C$ is given by
+\[\|C\|=\max\left(\left\|\frac{2\delta}{n}H^*\right\|, \left\|\sum_{st\in V} \widetilde{W^{st}}\right\|\right)\]
+by the triangle inequality and $(2)$ the second term is bounded by $2b(\Gamma,\delta)$ and thus the spectral norm equals $2\delta$ since $b(\Gamma,\delta)<\delta$. We conclude that $-C\in \partial g(A^*)$ as claimed.
 \end{proof}
+
 
 
 
