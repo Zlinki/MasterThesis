@@ -203,7 +203,7 @@ q\text{, else.}
 \] 
 Such a random graph $\grG$ has a unique deterministic summary $A^*$ obtained by putting edges only between vertices belonging to the same cluster.
 
-\begin{theorem}\label{thm. performance} Suppose $B_1,\dots, B_N$ are independent and are distributed according to $\grG$. If $\alpha = \min (|p_t-\frac{1}{2}|, |q-\frac{1}{2}|)$ and $\delta^*$ is the maximum of $a(\delta):=\frac{\delta\left(\alpha-\frac{\delta}{n}\right)^2}{\left(1+\frac{2\delta}{n}\right)}$ in $[0,\alpha n]$ then the probability that $A^*$ is not the unique minimizer of~(\ref{WRNNS}) is bounded above by
+\begin{theorem}\label{thm. performance} Assume $\grG$ is a stochastic block model with $\ell=2$ clusters. Suppose $B_1,\dots, B_N$ are independent and are distributed according to $\grG$. If $\alpha = \min (|p_t-\frac{1}{2}|, |q-\frac{1}{2}|)$, $\delta^*=\frac{n\alpha}{4}$ and $a(\delta):=\frac{\delta\left(\alpha-\frac{\delta}{n}\right)^2}{n\left(1+\frac{2\delta}{n}\right)}$ then the probability that $A^*$ is not the unique minimizer of~(\ref{WRNNS}) is bounded above by
 \[ \exp\left(-\frac{2N(n-1)^3(\alpha n-\delta^*)^2}{n}\right) + e^{-N\left(\delta^* a(\delta^*)\right)}\prod_{i\neq j}\left(1+ (e^{-4a}\widetilde{p_{ij}}+\widetilde{q_{ij}})^{\frac{N}{2}}\right).\] 
 which decreases exponentially with the sample size $N$.
 \end{theorem}
@@ -483,19 +483,18 @@ Our next Lemma gives sufficient conditions for the true cluster structure $A^*$ 
 \]\end{definition}
 The quantity $b(\Gamma, \delta)$ (resp. $a(\Gamma, \delta)$) measures the total amount by which the matrix $-\frac{2\delta}{n}H^*=\widetilde{-\frac{2\delta}{n}11^t}$ fails (resp. succeeds) to be in the subdifferential of Lemma~\ref{lem: subdiff}. This is because $b(\Gamma,\delta)$ (resp. $a(\Gamma,\delta)$) is the result of summing over all $ij$ the amount by which the inequalities $\widetilde{\Gamma_{ij}}\leq \frac{2\delta}{n} 11^t$ fail (resp. succeed). The key point of the following Theorem is that if the inequality fails by less than it succeeds then the subdifferential of the spectral norm is sufficiently rich so as to allow us to redistribute these quantities using transportation matrices. In this sense the following Theorem explains the success of the spectral norm in cluster recovery algorithms.
 
-For ease of  exposition we will split the proof into two parts. First we will prove that this occurs when our graph involves only two clusters and then will generalize the result to any number $l\geq 2$ of clusters. 
+ 
+We will begin with the case when our graph involves only two clusters. We will use that $\langle H^*,H^*\rangle= n^2$ and that the equalities $\|H^*\|_*=\|H\|=n$ hold  when there are only two clusters.
 
-We will use that $\langle H^*,H^*\rangle= n^2$ and that the equalities $\|H^*\|_*=\|H\|=n$ hold  when there are only two clusters.
 
-
-\begin{lemma}\label{thm: transport}  Assume there are only two clusters. Let $\delta>0$ with $ \left(\frac{\delta}{n}+b(\Gamma,\delta) \right)  < \frac{N}{2}$. If $b(\Gamma,\delta)< \min(\delta, a(\Gamma,\delta))$ then $A^*$ is a minimizer of the optimization problem $\min_A\Delta(A)$.
-\end{lemma} 
+\begin{thm}\label{thm: transport}  Assume there are only two clusters. Let $\delta$ be a real number satisfying $0<\delta< \frac{n}{4}$. If $b(\Gamma,\delta)< \min(\frac{\delta}{n}, a(\Gamma,\delta))$ then $A^*$ is a minimizer of the optimization problem $\min_A\Delta(A)$.
+\end{thm} 
 \begin{proof} We will construct a matrix $C$ such that 
 $-C \in \partial(g)(A^*)$ and $C \in \partial(f)(A^*)$. As a result $0=C-C$ belongs to the subdifferential $\partial(\Delta)(A^*)$ proving that $A^*$ is a minimizer of $\Delta(A)$ as claimed. As a first candidate for $C$ we could choose $C=-\frac{2\delta}{n}H^*$. Since \[
  \frac{-2\delta}{n}\left \langle H^*,H^* \right \rangle =  \frac{-2\delta}{n}n^2 = -2\delta n \text{ and } \|C\|= \frac{2\delta}{n}\|H^*\|= 2\delta.
 \]
 we conclude that $-C\in \partial g(A^*)$. Moreover $C\in \partial f(A^*)$ precisely if $\widetilde{\Gamma_{ij}} \leq \widetilde{C_{ij}}= -\frac{2\delta}{n} \leq 1$ for all $ij$. 
-In general, the first inequality need not hold and we can split the entries $ij$ into two sets $U$ and $V$ where this inequality is valid or (strictly) fails respectively. More precisely, define 
+In general, the first inequality need not hold and we can split the entries $ij$ into two sets $U$ and $V$ where this inequality is valid and where it (strictly) fails respectively. More precisely, define 
 \[U=\left\{(i,j): i\neq j \text{ and $\widetilde{\Gamma_{ij}}\leq -\frac{2\delta}{n}$}\right\}\text{ and } V=\left\{(i,j): i\neq j \text{ and $\widetilde{\Gamma_{ij}}>-\frac{2\delta}{n}$}\right\}\] 
 
 and note that
@@ -506,7 +505,7 @@ a(\Gamma,\delta) = -\sum_{ij \in U}\left( \widetilde{\Gamma}_{ij}+ \frac{2\delta
 
 If $b(\Gamma,\delta)< a(\Gamma,\delta)$ then we could modify the matrix $\widetilde{C}$ by increasing the entries of $\widetilde{C}$ in $V$ and decreasing those in $U$ by the same amount by adding transportation matrices so as to make the inequality valid in all entries. In the remainder of the proof we show that this process can be carried out while at the same time controlling the spectral norm of $C$.
 
-Since $b(\Gamma,\delta)<a(\Gamma,\delta)$ there exist nonnegative scalars $\gamma_{ij}^{st}$ for $ij\in U$ and $st\in V$ which tell us how much of the amount in entry $ij\in U$ has to be moved to entry $st\in V$. These numbers satisfy the following inequalities:
+Since $b(\Gamma,\delta)<a(\Gamma,\delta)$ there exist nonnegative scalars $\gamma_{ij}^{st}$ for $ij\in U$ and $st\in V$ which tell us how much of the amount in entry $ij\in U$ has to be moved to entry $st\in V$. More preciselt, the numbers $\gamma_{ij}^{st}$ satisfy the following inequalities:
 
 \begin{equation}\label{ineqs1}
 \forall st\in V\left( \widetilde{\Gamma_{st}}  \leq -\frac{2\delta}{n} +\sum_{ij\in U}\gamma_{ij}^{st}\right) \text{ and } \forall st\in U\left( \widetilde{\Gamma_{st}} \leq -\frac{2\delta}{n} -\sum_{ij\in V}\gamma_{st}^{ij}\right).
@@ -525,6 +524,7 @@ For $st\in V$ define $W^{st}=\sum_{ij\in U} \gamma_{ij}^{st}(r_{st}-r_{ij})$ whe
 0\text{, else.}
 \end{cases}\]
 and let $C:=-\frac{2\delta}{n}H^* +\sum_{st\in V} \widetilde{W^{st}}$. We will show that $C\in \partial f(A^*)$ and that $-C\in \partial g(A^*)$ finishing the proof of the Theorem.
+
 Since $\widetilde{C}=-\frac{2\delta}{n}11^t+\sum_{st\in V} W^{st}$ we know that
 \[
 \widetilde{C}_{ab}= 
@@ -535,13 +535,11 @@ Since $\widetilde{C}=-\frac{2\delta}{n}11^t+\sum_{st\in V} W^{st}$ we know that
 \end{cases}
 \]
 we conclude that $\widetilde{\Gamma}_{ab}\leq \widetilde{C_{ab}}\leq 1$ for $a\neq b$. The first inequality follows from those in~(\ref{ineqs1}). The second inequality follows since for $ab\in V$ we have $\widetilde{C_{ab}}=\widetilde{\Gamma_{ab}}\leq 1$ and for $ab\in U$ we have $\widetilde{C_{ab}}\leq -\frac{2\delta}{n}\leq 1$. 
+Finally, for $a=b$ we see that 
 
- \mv{PROBLEMA DIAGONAL: Querr\'iamos demostrar que $\widetilde{C}$ esta en el subdiferencial de $f$ en $A^*$. Nos falta chequear la diagonal. Creo que lo que podemos demostrar es que se permiten ciertos tipos de transportes en los que no se mueve demasiada masa. Mejor a\'un, sera que siempre existe un transporte \'util? Por \'util quiero decir qu la suma con $a=b$ sea peque\~na para todo v\'ertice $i$. Esa suma se puede interpretar as\'i: en un v\'ertice $a$ del grafo llamemos positivas a las aristas en $V$ y negativas a las aristas en $U$ (porque de $U$ quitamos masa y en $V$ la subimos. Lo que la suma mide es: cu\'anto sumamos en las aristas que tienen mas menos la cantidad que restamos (en valor absoluto) de las aristas que tienen menos. Eso podr\'ia pensarse como el "badness" de un v\'ertice. La suma de los badness de todos los v\'erices es el doble del badness total (porque toda arista tiene dos v\'ertices).
-Asi que concluimos que el transporte es v\'alido (la matriz $C$ estar\'a en el subdiferencial) si y solo si para todo v\'ertice el badness del v\'ertice respecto al transporte $\gamma_{ij}^{st}$ cumple que 
-$|b_v-\frac{2\delta}{n}|\leq 1$ 
- 
- 
- } 
+\[ |\widetilde{C_{aa}}|\leq \frac{2\delta}{n} + \left|\sum_{st\in V}\sum_{aj\in U} \gamma_{aj}^{st} + \sum_{ij\in U}\sum_{at\in V} \gamma_{ij}^{at}\right| \leq \frac{2\delta}{n} + 2\beta(\Gamma,\delta)\leq 4\frac{\delta}{n}\leq 1 \]
+so $C\in \partial f(A^*)$ as claimed.
+
 
 Moreover, we know that
 \[\langle C, H^*\rangle = \langle \widetilde{C}, \widetilde{H^*}\rangle = \left\langle -\frac{2\delta}{n}11^t-\sum_{st\in V} W^{st}, 11^t\right\rangle = -2\delta n\] 
@@ -564,47 +562,539 @@ It follows from $(1)$ that the two summands in $C=-\frac{2\delta}{n}H^* +\sum_{s
 by the triangle inequality and $(2)$ the second term is bounded by $2b(\Gamma,\delta)$ and thus the spectral norm equals $2\delta$ since $b(\Gamma,\delta)<\delta$. We conclude that $-C\in \partial g(A^*)$ as claimed.
 \end{proof}
 
+\begin{remark} We believe that a similar argument should explain the very good experimental behavior of the WRNNS in the case of several clusters but we have not yet been able to prove this is the case. A fundamental difficulty is that the dimension of the kernel of the matrix $H^*$ for three or more clusters is much smaller restricting the space of possible transportation plans $\gamma_{ij}^{st}$ which are obviously spectral-norm preserving.
+\end{remark}
+
+
+
+\subsection*{Uniqueness of the minimizer}
+In this brief section we will show that $A^*$ is in fact the unique minimizer of the optimization problem $min_A\Delta (A)$ for appropriate choices of $\delta$.
+We begin by proving a well-known lemma. We could not find a specific reference for it so we include a proof for the reader's convenience.
+
+\begin{lemma}{\label{lemUniqueness}}
+Let f be a convex function defined over a region $D$. Let $\hat{x}$ be a point in it's domain such that the subdifferential of $f$ at $\hat{x}$ is full dimensional and $0$ belongs to it's interior. Then, $\hat{x}$ is the unique minimizer of $f$.
+\end{lemma}
+\begin{proof}
+Let $B_\epsilon(0)$ be a ball of radius $\epsilon$ centered in $0$ and contained in 
+$\partial(f)(\hat{x})$. Let $x \in D \text{ with } x \neq \hat{x}$. Let $Q \in \partial(f)(\hat{x})$. By definition of subdifferential we know that, 
+\[
+f(x) \geq f(\hat{x}) + \left \langle Q,x-\hat{x} \right \rangle.
+\]
+for every $Q \in \partial(f)(\hat{x})$, so taking supremum we obtain that
+\[
+f(x) \geq \sup_{Q \in \partial(f)(\hat{x})} f(\hat{x}) + \left \langle Q,x-\hat{x} \right \rangle..
+\]
+Moreover, since $B_\epsilon(0) \subseteq \partial(f)(\hat{x})$ we obtain that
+
+\[
+ f(x) \geq f(\hat{x})+\sup_{Q \in B_\epsilon(0)} \left \langle Q,x-\hat{x} \right \rangle = f(\hat{x})+ \epsilon\| x-\hat{x} \|.
+\]
+If $x \neq \hat{x}$ then $\epsilon \| x-\hat{x} \|> 0$. As a result $f(x)>f(\hat{x})$ for all $x\in D$ different of $\hat{x}$ as claimed.
+
+\end{proof}
+
+\begin{remark}{\label{remUnicity}}
+If $\widetilde{\Gamma_{ij}}\neq 1$ for all $ij$ then the matrix $C$ we constructed in Theorem~\ref{thm: transport} can be chosen to be an interior point of $\partial f(A^*)$ since it would satisfy all defining inequalities strictly. Therefore, as the subdifferential of $\Delta$ at $A^*$ is equal to the Minkowski sum of the subdifferentials of $g$ and $f$ at $A^*$,$0=C-C$ is automatically an interior point of $\partial(\Delta)(A^*)$ proving uniqueness of the minimizer $A^*$.
+\end{remark}
+
+
+\begin{cor}\label{cor: uniqueness}
+If $\widetilde{\Gamma_{ij}}\neq 1$ for all $ij$ then under the conditions of Theorem \ref{thm: transport}, $A^*$ is the unique minimizer of the optimization problem $min_A\Delta (A)$.
+\end{cor}
+
+In the following section we estimate the probability of perfect recovery of the correct cluster structure by bounding above the probability of failure of the hypothesis of Theorem~\ref{thm: transport}. Our main result is that this probability of failure decreases exponentially in $N$ for a suitably chosen value of $\delta$.
+
+
+\subsection{A bound for recovery probabilities}
+\label{Sec: probabilistic}
+In this section we will prove Theorem~\ref{thm. performance} which gives an upper bound on the probability that the correct $A^*$ is not the unique optimal solution of our optimization problem. Our main tools will be concentration inequalities and in particular the ideas used in the proof of Hoeffding's inequality. Recall that Hoeffding's inequality says that if $X_1,\dots, X_T$ are independent random variables with values in $[c_i,d_i]$ and $\Lambda_T:=\sum_{i=1}^T X_i$ then the following holds for all $t\geq 0$ 
+\[\PP\{\Lambda_T-\EE[\Lambda_T]\geq t\}\leq \exp\left(-\frac{2t^2}{\sum_{i=1}^T (d_i-c_i)^2}\right).\]
+
+
+
+
+\begin{proof} [proof of Theorem~\ref{thm. performance}]Assume $0<\delta< \frac{n}{4}$. By Theorem~\ref{thm: transport}, Corollary~\ref{cor: uniqueness} and the union bound the probability that $A^*$ is not an optimal solution of problem~(\ref{ProbRobusto}) is bounded above by
+
+\begin{equation}\label{Eq: 2Probs}
+\PP\{b(\Gamma,\delta)\geq a(\Gamma,\delta)\}+\PP\left\{b(\Gamma,\delta)\geq \frac{\delta}{n}\right\}.
+\end{equation}
+
+and we will find upper bounds for the individual terms in~(\ref{Eq: 2Probs}). 
+For $t=1,\dots, N$ and $i,j\in [n]$ define the random variable
+\[Z^{(t)}_{ij}:=\begin{cases}
+-1\text{, if $(B_t)_{ij}=1$}\\
++1\text{, if $(B_t)_{ij}=0$}
+\end{cases}\]
+and note that for every $i\neq j$ the equality $\Gamma_{ij} = \sum_{t=1}^N\frac{Z_{ij}^{(t)}}{N}$ holds and moreover
+\[
+\EE[\widetilde{Z^{(t)}_{ij}}]=\begin{cases}
+1-2p_t\text{, if $ij\in C_t$}\\
+2q-1\text{, if $ij\in O$}
+\end{cases}
+\]
+As a result
+\[b(\Gamma,\delta)-a(\Gamma,\delta) = \sum_{i\neq j} \left(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n}\right)= \frac{2\delta n(n-1)}{n} + \sum_{t=1}^N \sum_{i\neq j} \frac{\widetilde{Z^{(t)}_{ij}}}{N}\]
+and the number $M:=\EE\left[\sum_{t=1}^N \sum_{i\neq j} \frac{\widetilde{Z^{(t)}_{ij}}}{N}\right]$ is given by the formula
+\[M=(2q-1)2|O|+\sum_{i=1}^l 2\binom{c_i}{2} (1-2p_i)\]
+If $\alpha := \min (|p_t-\frac{1}{2}|, |q-\frac{1}{2}|)$ then $\EE[M]\leq -2\alpha n(n-1)$ 
+and we can therefore bound the probability in the first term in~(\ref{Eq: 2Probs}) with
+ 
+\[\PP\left\{\frac{2\delta n(n-1)}{n} + \sum_{t=1}^N \sum_{i\neq j} \frac{\widetilde{Z^{(t)}_{ij}}}{N}\geq 0\right\} = \PP\left\{\sum_{t=1}^N \sum_{i\neq j} \frac{\widetilde{Z^{(t)}_{ij}}}{N} - M \geq -2\delta (n-1) - M \right\}\leq\]
+\[\leq \exp\left(-2\frac{(-M-2\delta(n-1))^2}{Nn(n-1)(\frac{2}{N})^2}\right)=\exp\left( -\frac{N}{2}\left(1-\frac{1}{n}\right) \left(\frac{-M}{n-1}-2\delta\right)^2\right) \]
+by using Hoeffding's inequality applied to the $Nn(n-1)$ independent random variables $\frac{\widetilde{Z_{ij}^{(t)}}}{N}$ which have values in $\left[-\frac{1}{N},\frac{1}{N}\right]$. The inequality applies whenever $-\frac{M}{2(n-1)}>\delta>0$. In particular whenever $0<\delta<\alpha n$ we have
+\[\PP\{b(\Gamma,\delta)-a(\Gamma,\delta)\}\leq \exp\left(-\frac{2N(n-1)^3(\alpha n-\delta)^2}{n}\right).\]
+Bounding the second term in~(\ref{Eq: 2Probs}) is more involved. Recall that
+\[b(\Gamma,\delta)=\sum_{i\neq j} \max\left(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n},0\right).\]
+Let $Y_{ij}:=\widetilde{\Gamma_{ij}}+\frac{2\delta}{n}$ and let $X_{ij}:=\max\left(Y_{ij},0\right)$. In order to prove a concentration inequality for the variables $X_{ij}$ we begin by studying their moment generating functions $m_{X_{ij}}(t)$. Note that for every real number $t$ the equality
+\[\exp(tX_{ij})= 1_{\{Y_{ij}\leq 0\}} + 1_{\{Y_{ij}\geq 0\}} \exp tY_{ij}\]
+holds. Now $Y_{ij}=1+\frac{2\delta}{n}-2\frac{n_{ij}}{N}$ where $n_{ij}$ is a binomial random variable with parameters $N$ and $p_{ij}$ given by
+\[
+p_{ij}:=\begin{cases}
+p_t\text{, if $\{i,j\}\subseteq C_t$}\\
+1-q\text{, else}
+\end{cases}
+\]
+
+
+As a result taking expected values on both sides of the expression above we conclude that
+\[ m_{X_{ij}}(t) \leq \PP\{Y_{ij}\leq 0\} + e^{t\left(1+\frac{2\delta}{n}\right)}\EE\left(e^{-\frac{2t}{N}n_{ij}}1_{\{Y_{ij}\geq 0\}}\right).\]
+
+Using the Cauchy-Schwartz inequality and the known formula for the moment generating function of a binomial random variable on the second term it follows that
+\[ m_{X_{ij}}(t)\leq \PP\{Y_{ij}\leq 0\}+ e^{t\left(1+\frac{2\delta}{n}\right)}\EE\left(e^{-\frac{4t}{N}n_{ij}}\right)^{\frac{1}{2}}\PP\{Y_{ij}\geq 0\}^{\frac{1}{2}}=\]
+\[=\PP\{Y_{ij}\leq 0\}+ e^{t\left(1+\frac{2\delta}{n}\right)}\left(e^{-\frac{4t}{N}}p_{ij} + q_{ij}\right)^{\frac{N}{2}}\PP\{Y_{ij}\geq 0\}^{\frac{1}{2}}\]
+where $q_{ij}:=1-p_{ij}$.
+By Hoeffding's inequality on Bernoulli random variables we know that
+\[\PP\{Y_{ij}\geq 0\}\leq \exp\left(-\frac{N}{2}\left(-\frac{2\delta}{n}-(1-2p_{ij})\right)^2 \right)\leq \exp\left(-2N(\alpha-\delta/n)^2\right)\]
+so if $t=aN$ the inequality 
+\[e^{t\left(1+\frac{2\delta}{n}\right)}\exp\left(-N(\alpha-\delta/n)^2\right)\leq 1\] 
+holds whenever $a\leq \frac{(\alpha-\delta/n)^2}{\left(1+\frac{2\delta}{n}\right)}$ and for all such $a$ we have
+\[m_{X_{ij}}(aN)\leq \left(1+ (e^{-4a}p_{ij}+q_{ij})^{\frac{N}{2}}\right)\]
+We define $a(\delta):=\frac{(\alpha-\delta/n)^2}{\left(1+\frac{2\delta}{n}\right)}$ and will use it to prove a moment concentration inequality for $b(\Gamma,\delta)$ which will give us a bound on the second term in~(\ref{Eq: 2Probs}). For every $t>0$ we have
+
+\[\PP\left\{b(\Gamma,\delta)\geq \frac{\delta}{n}\right\}=\PP\left\{\exp\left(t\sum_{i\neq j} X_{ij}\right)\geq e^{t\frac{\delta}{n}}\right\}\leq e^{-t\frac{\delta}{n}}\prod_{i\neq j} \EE[e^{tX_{ij}}]= e^{-t\frac{\delta}{n}}m_{X_{ij}}(t)\]
+Choosing $t=a(\delta)N$ and using the previous inequality we see that
+\[\PP\left\{b(\Gamma,\delta)\geq \frac{\delta}{n}\right\}\leq e^{-N\frac{\delta}{n} a(\delta)}\prod_{i\neq j}\left(1+ (e^{-4a}p_{ij}+q_{ij})^{\frac{N}{2}}\right)\]
+Which decreases exponentially in $N$ for any $0\leq \delta\leq n\alpha$. The rate of decrease of the first term is controlled by the positive factor 
+\[\frac{\delta}{n} a(\delta)= \frac{\delta\left(\alpha-\frac{\delta}{n}\right)^2}{n\left(1+\frac{2\delta}{n}\right)}.\]
+and we let $\delta^*$ be a maximizer of this function in the interval $[0,\min(\alpha n, \frac{n}{4})]$. Equivalently we want to find a maximizer of the function $\frac{\delta}{n}\left(\alpha-\frac{\delta}{n}\right)^2$ which occurs when $\frac{\delta}{n} =\frac{\alpha}{4}$ by elementary calculus. 
+
+
+
+\end{proof}
 
 
 
 
 
 
-%\begin{theorem}\label{thm: transport} Assume there are only two clusters. If $b(\Gamma,\delta)\leq \min(\delta, a(\Gamma,\delta))$ then $A^*$ is a minimizer of the optimization problem $\min_A\Delta(A)$. 
-%\end{theorem}
-%\begin{proof} We will show that there exists a matrix $C_{ij}$ such that $-C_{ij}\in \partial \left(\delta\|2A-11^t\|\right)(A^*)$ for which $\widetilde{\Gamma_{ij}}\leq \widetilde{C_{ij}}$ for $i\neq j$. It will then follow that $0=C-C$ belongs to the subdifferential of $\Delta(A)$ at $A^*$ and thus $A^*$ is a minimizer as claimed.
 
-%Recall that $-C\in \partial \left(\delta\|2A-11^t\|\right)(A^*)$ if and only if it satifies the conditions
-%\[ \langle H^* , C\rangle =-2\delta n\text{ and }\|C\|\leq 2\delta \]
-%where $H^*:=2A^*-11^t$ and $\|\bullet\|$ is the spectral norm. 
-%Both of these conditions are satisfied by setting $C=-\frac{2\delta}{n} H^*$. However this choice of $C$ will not, in general, satisfy the inequalities $\widetilde{\Gamma}_{ij}\leq \widetilde{-\frac{2\delta}{n} H^*}_{ij}=-\frac{2\delta}{n}11^t_{ij}$ for $i\neq j$. 
 
-%We will adjust our candidate for $\widetilde{C}$ by adding to it a transportation matrix $\widetilde{K}$ that will guarantee that all these inequalities are satisfied when $b(\Gamma,\delta)\leq a(\Gamma, \delta)$. Crucially we will choose $\widetilde{K}$ so that $K$ satisfies $KH^*=H^*K=0$ allowing us to control the spectral norm of $C$.
 
-%Since $b(\Gamma,\delta)\leq a(\Gamma,\delta)$ there exists a way to redistribute the quantity $b(\Gamma,\delta)$ by substracting it from the $ij$ for which $-\frac{\delta}{n}\leq \widetilde{\Gamma}_{ij}$  and adding it into those $st$ for which $\widetilde{\Gamma}_{st}\leq -\frac{\delta}{n}$. More specifically, if $b=\widetilde{\Gamma_{ij}}+\frac{2\delta}{n}>0$ then there exists a set $(i_1,j_1),\dots, (i_t,j_t)$ of non-diagonal entries and nonnegative constants $\gamma_{i_s,j_s}$ summing to one 
-%such that $\widetilde{\Gamma}_{i_sj_s}+\frac{2\delta}{n}+ b\gamma_{i_s,j_s}\leq 0$. Define the off-diagonal elements of $\widetilde{C}$ by
-%\[\widetilde{C}:=-\frac{2\delta}{n} 11^t + \sum_{i_s,j_s} b\gamma_{i_s,j_s}(-e_{ij}+e_{i_s,j_s})\]
-%where $e_{ij}$ is the symmetric matrix with one in positions $i,j$ and $j,i$ and zeroes otherwise. More generally, let $B$ be the set of paris $(i,j)$ with $i<j$ such that $\widetilde{\Gamma_{ij}}+\frac{2\delta}{n}>0$. If $b(\Gamma,\delta)\leq a(\Gamma,\delta)$ then for each $ij\in B$ there exist nonnegative constants $\gamma^{(ij)}_{st}$ such that $\sum_{s < t} \gamma^{(ij)}_{st}=1$ and for which the matrix
-%\[\widetilde{C}:=-\frac{2\delta}{n}11^t+\sum_{ij\in B} \sum_{s<t} \left(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n}\right)\gamma_{st}^{(ij)} (-e_{ij}+e_{st})\]  
-%satisfies $\widetilde{\Gamma}_{ab}\leq \widetilde{C}_{ab}$ for all $a\neq b$. We will show that if $b(\Gamma,\delta)\leq 2\delta$ then the matrix $C$ with off-diagonal entries given by
-%\[C_{ab}=-\frac{2\delta}{n}H^*_{ab} + \sum_{ij\in B} \sum_{s<t} \left(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n}\right)\gamma_{st}^{(ij)} \widetilde{(-e_{ij}+e_{st})_{ab}}\]
-%lies in $-\partial \left(\delta\|2A-11^t\|_*\right)(A^*)$ for some choice of diagonal, proving the Theorem. 
-%For a pair of indices $i<j$ let $\epsilon_{ij}=1$ if $ij\in I$ and $\epsilon_{ij}=-1$ if $ij\in O$. Define the matrix $t_{ij}$ by $t_{ij}=\epsilon_{ij} e_{ij}-e_{ii}-e_{jj}$ and note that $t_{ij}$ satisfies the following three properties: 
+
+
+\section{An algorithm for Wasserstein nuclear norm summarization }
+
+
+
+Solving the optimization problems appearing in Theorem~\ref{Thm: tractable} require solving large semidefinite programs which are beyond the  capacity of standard off-the-shelf software even for relatively small graphs (of say $70$ vertices with $N=4$). One possible reason is that off-the-shelf solvers often use interior point methods, which are highly accurate but tend to not scale well. A better alternative, especially well suited WRNNS is to use first order numerical optimization methods such as ADMM.
+
+In this section, we provide an algorithm specially adapted for the Wassesrtein nuclear norm summarization. It is based on a variation of the Alternating Direction Method of Multipliers (ADMM) called Global Variable consensus with regularization. Our algorithm is a specialization of results of Boyd given in \cite{boyd2011distributed}.
+
+
+\subsection{Global Variable consensus with regularization}
+
+
+The general form of Global Variable consensus with regularization is given by 
+
+\begin{equation}\label{GVC}
+\begin{aligned}
+& \text{Minimize   } \sum_{i=1}^n f_i(x_i)+g(z) \\
+&\text{Subject to: } x_i-z = 0, \ \ i=1,..,N. 
+\end{aligned}
+\end{equation}
+
+
+\mv{where the $f_i$ and $g$ are functions from $\RR^m$ to $\RR$ satisfying... }
+
+To solve this optimization problem, ADMM does iterative rounds of minimization of the primal and dual variables. For certain functions, (for instance the $\ell_1$-norm and crucially for us, the nuclear norm) these minimization problems admit analytic closed form expressions. 
+
+
+The general algorithm to solve this optimization problem consists of the following  two steps~ \cite{boyd2011distributed}:
+
+\begin{enumerate}
+\item initialize $x^0_i$, $y^0_i$ for $i=1,..,N$, $\rho>0$ and $z^0$.
+\item Set $ \text{Set } \bar{x}^{k} = \frac{1}{N}\sum_{i=1}^N x_i $ and $\bar{y}^{k} = \frac{1}{N}\sum_{i=1}^N y_i $.
+\item $x_i^{k+1} = \argmin_{x_i} \left( f_i(x_i) + \left \langle y_i^k,x_i-z_k \right \rangle +\frac{\rho}{2}\|x_i-z^k\|_2^2\right ).$
+\item $z^{k+1} = \argmin_z \left (g(z)+\frac{N\rho}{2}\|z^k-\bar{x}^{k+1} -\frac{1}{\rho}\bar{y}^k \|_2^2 \right ).$
+\item $y_i^{k+1} = y_i^k + \rho(x_i^{k+1}-z^{k+1}).$
+\end{enumerate}
+\mv{Where $\epsilon_1,\epsilon_2$, $\rho$ are chosen how?}
+
+
+
+
+This algorithm converges under very general circumstances, which can be easily checked for problem \ref{WRNNS} :\mv{Referencia??}
+
+Stopping criteria are derived using the dual and primal residuals  \cite{boyd2011distributed}.
+For The Global Variable consensus with regularization, the 
+primal residual on the $k-$step is: 
+
+\[
+r^k:=(x_1^k-z^k,x_2^k-z^k,...,x_N^k-z^k)
+\]
+and the dual residual in the $k-$step
+\[
+s^k:= -\rho(z^k-z^{k-1})
+\]
+Given $\varepsilon_1,\varepsilon_2$, the stopping criteria is given by
+\[
+\|r^k\|_2 \leq \varepsilon_1 \text{ and } s^k \leq \varepsilon_2.
+\]
+
+
+
+%las condiciones son que f y g sean propias, cerradas y convexas. mas aun, el lagrangiano no aumentado $L_0$ debe tener un punto de silla. deberiamos incluir una demostracion de esto? mas explicitamente, la condicion es que 
+%existen $(x^*,y^*,z^*)$ no necesariamente unicos tales que $L_0(x^*,z^*,y)\leq L_0(x^*,z^*,y^*) \leq L_0(x,z,y^*).$ donde 
+%$L_0(x,y,z)= f(x)+g(z)+ \langle y, Ax-Bz-C\rangle $ en el problema de optmizacion general $min f(x)+g(z)$ sujeto a $Ax+Bz = c$.
+
+
+
+
+\subsection{Specialization to the Wasserstein nuclear norm summarization}
+
+
+\begin{definition}
+Let $f$ be a convex function, $\rho > 0$. The proximal operator of $f$ at $w$ is defined as:
+
+\[
+prox_{f,\rho}(w) = \argmin_{z} f(z)+ \frac{\rho}{2}\|z-w\|_2^2
+\]
+
+\end{definition}
+
+\mv{No entiendo nada de lo que esta abajo, cuales son matrices y cuales escalares, de que norma estamos hablando??}
+
+\begin{claim}
+if $\|\cdot\|_*$ denotes the nuclear norm, and if $w$ is a matrix with singular value decomposition $USV^t$ then,
+\[
+UP_{\epsilon}V^t = \argmin_x \epsilon\|x\|_* + \frac{1}{2}\|x-w\|_2^2.
+\]
+Where
+\[
+P_\epsilon=\begin{cases}
+x - \epsilon \text{ if } x>\epsilon \\
+x+\epsilon \text{ if }x< -\epsilon\\
+0 \text{ in any other case. }
+\end{cases}
+\]
+and $P_\epsilon$ is applied component-wise.$P_\epsilon$ is usually called the soft-thresholding operator.
+\end{claim}
+
+
+\begin{claim}
+if $\|\cdot\|_1$ denotes the $l_1$ norm, then
+\[
+prox_{\|\cdot\|_1,\rho}(w) = \argmin_x \|x\|_1 + \frac{\rho}{2}\|x-w\|_2^2 = P_{\frac{1}{\rho}}(w).
+\]
+Where $P_{\frac{1}{\rho}}$ is applied component-wise. Moreover, if $c$ is any $n \times n$ matrix, then
+\[
+P_{\frac{1}{\rho}}(w)+c = \argmin_x \|x-c\|_1+\frac{\rho}{2}\|x-w\|_2^2.
+\]
+
+\end{claim}
+
+Let $B_1,..,B_N$ of an $i.i.d$ sample of the random graph $\grG$. Let $n$ be the number of vertices of $\grG$ and $1$ denote the vector [1,..,1] of length $n$. To use the formulation given in \ref{GVC} to solve the problem we need the following change of variables:
+
+
+\begin{itemize}
+\item $C_i = 2B_i-11^t$.
+\item $Z = 2A-11^t$.
+\item $f_i(x_i) = \frac{1}{2}\|x_i-C_i\|_1$.
+\item $g(z)=\|z\|_*$.
+\end{itemize}
+
+Our optimization problem reduces to the one given in \ref{GVC} and an algorithm to solve it is given by:
+
+\begin{enumerate}
+\item $\text{initialize } \rho >0, \  x_i^0=0, \  y_i^0=0, \text{for } i=1,..,N \text{ and } z_0= \frac{1}{N}\sum_{i=1}^N C_i$.
+\item $ \text{Set } \bar{x}^{k} = \frac{1}{N}\sum_{i=1}^N x_i $ and $\bar{y}^{k} = \frac{1}{N}\sum_{i=1}^N y_i $.
+\item $x_i^{k+1}=P_{\frac{1}{2\rho}}(z^k-\frac{1}{\rho}y_i^k-C_i)+C_i$
+\item $z^{k+1} = UP_{\frac{\lambda}{N\rho}}(S)V^t$ with $USV^t = SVD(\bar{x}^{k+1}+\frac{1}{\rho}\bar{y}^k)$.
+\item $y^{k+1} =y_i^k + \rho(x_i^{k+1}-z^{k+1}). $ 
+\item Until the stopping criteria are met.
+\end{enumerate}
+
+
+
+
+\subsection{Numerical simulations}
+\label{Numerics}
+In this Section we test the quality of recovery of Wasserstein robust nuclear norm summarization for community detection on graphs generated by the stochastic block model. To this end, we implemented an algorithm on Julia which creates random graphs that are distributed according to the stochastic block model. The input parameters are the following:
+\begin{enumerate}
+\item $n$ : the number of vertices of the graph.
+\item $k$ : the number of clusters of the graph.
+\item $q$ : the probability of connecting two vertices that do not belong to the same cluster.
+\item $p_i$ for $i=1,..,k$: the probability of connecting two vertices that belong to the cluster $i$.
+\end{enumerate}
+The output of this algorithm is the adjacency matrix of the generated graph. 
+
+We begin testing our algorithm by generating $3$ observations of a random graph \mv{De cuantos v\'ertices? con qu\'e $\alpha$ (ver teorema~\ref{thm. performance} para la definici\'on)} which is distributed according to the stochastic block model and running our algorithm for different values of $\delta$. Success of recovery will be evaluated by using the \textit{error of recovery}  which is given by the formula
+\[\|A^*-\bar{A}\|_1\]
+where $A^*$ is the true adjacency matrix of the underlying cluster structure and $\bar{A}$ is the optimum of the optimization problem.
+We present one such plot in \ref{fig:errorRecovery}. Notice that the true graph structure is exaclty recovered for certain values of $\delta$.
+This is intuitively clear from the Wasserstein robust formulation. If the size of the ball is too small, we won't capture the true distribution of the random graph. If it is too big, we will capture too many distributions and the worst case error will be high.
+Choosing a correct $\delta$ is therefore of the utmost importance. Our simulations suggest that the region where on can choose $\delta$ to obtain perfect recovery grows as more observations are added: see figures on \ref{fig:differentNorms}.
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\textwidth]{./Pictures/ErrorRecovery.PNG}
+\caption{Recovery of the true cluster structure using $3$ observations on a graph with generated with the stochastic block model with $2$ clusters and $50$ vertices.}
+ \label{fig:errorRecovery}
+\end{figure}
+
+As $\delta$ varies, the recovered graph changes as well. Figure   \ref{fig:recupera} Shows the recovered graph for different values of $\delta$. Note that the optimum of our algorithm does not necessarily entries in $\{0,1\}$ (except in the region with perfect recovery) and one might be tempted to round down the entries below certain threshold (say 0.4) and round up those above another threshold (say 0.6). However, it is not clear what to do with entries between both thresholds. 
+
+
+
+
+\begin{figure}[h]
+     \centering
+     \begin{subfigure}[b]{0.37\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{./Pictures/recupera0.png}
+         \caption{Recovery with $\delta=0$}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.37\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{./Pictures/recupera1.png}
+         \caption{Recovery with $\delta=0.1$}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.37\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{./Pictures/recupera2.png}
+         \caption{Recovery with $\delta=0.5$}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.37\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{./Pictures/recupera4.png}
+         \caption{Recovery with $\delta=1.2$}
+     \end{subfigure}
+     	\hfill
+     \begin{subfigure}[b]{0.37\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{./Pictures/recupera5.png}
+         \caption{Recovery with $\delta=1.5$}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.37\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{./Pictures/recupera6.png}
+         \caption{Recovery with $\delta=2$}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.37\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{./Pictures/recupera7.png}
+         \caption{Recovery with $\delta=11$}
+     \end{subfigure}
+      \hfill
+     \begin{subfigure}[b]{0.37\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{./Pictures/recupera8.png}
+         \caption{Recovery with $\delta=14$}
+     \end{subfigure}
+        \caption{Recovered graph from the same observations for different values of $\delta$. }
+        \label{fig:recupera}
+\end{figure}
+
+
+
+Theorem \ref{thm: transport} assures that as long as $p_i > 0.5$ and $q< 0.5$ the probability of perfect recovery converges to $1$. The following experiments corroborate this result:
+We fix $n=50$, $k=2$, and let the first cluster have $15$ vertices and the second one $35$. We let $p =  p_1 = p_2$ vary between $0.5$ and $1$ and $q$ vary between $0$ and $0.5$.  For each pair $(p,q)$, we generate $N$ observations, run our algorithm and measure the error of recovery. We repeat this process $10$ times and store the mean error of recovery in a matrix.
+We present the heat maps of such matrices in Figure~\ref{fig:Variapq} for different values of $N$. 
+
+
+\begin{figure}
+     \centering
+     \begin{subfigure}[b]{0.5\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{./Pictures/Variapq1.PNG}
+         \caption{$N=1$}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.5\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{./Pictures/Variapq3.PNG}
+         \caption{$N=3$}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.5\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{./Pictures/Variapq7.PNG}
+         \caption{$N = 7$}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.5\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{./Pictures/Variapq25.PNG}
+         \caption{$N = 25$}
+     \end{subfigure}
+        \caption{Simulation results for the average error of recovery (over $10$ trials) for different values of $p$ and $q$ with $N$ observations. $\delta = 1.5$ for the first two figures and $0.8$ for the other two. Dark purple indicates 0 error while brighter colors indicate a higher error.}
+        \label{fig:Variapq}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+In theorem \ref{thm: transport}, the use of the spectral norm was crucial. Still, one might ask if other norms (say the $1$-norm, $2$-norm and $\infty$-norm) can recover the underlying cluster structure.
+
+To check this, We fix $n=50$, $k=2$ where the first cluster has $15$ vertices and the second one has $35$. We let $p_1 = p_2 = 0.70$ and $q=0.2$. We compute the error of recovery for different values of $\delta$. For recovery using the nuclear norm, we use the algorithm given in the previous section. For the $1$-norm, $2$-norm and $\infty$-norm we use the \textit{Mosek} implementation on Julia. 
+We also include the error of recovery of the graph obtained by simply averaging the observations, which we call the mean graph.
+We repeat this experiment twice. First with $3$ observations and then with $7$.
+Results are shown in figure \ref{fig:differentNorms}.
+
+
+\begin{figure}
+     \centering
+     \begin{subfigure}[b]{1\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{./Pictures/differentNorms.PNG}
+\caption{$N=3$}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{1\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{./Pictures/differentNorms7.PNG}
+         \caption{$N=7$}
+     \end{subfigure}
+\caption{Error of recovery for different values of $\delta$ using the Wasserstein robust nuclear norm graph summarization and the $l_1$,$l_2$ norms as regularizers. The recovery error of the mean graph is also included.}
+        \label{fig:differentNorms}
+\end{figure}
+
+
+Note that the recovery error of the mean graph decreases as more observations are considered. However it is still far off the true cluster structure even for 7 observations. By contrast, even with 3 observations our nuclear norm method is capable of recovering the true cluster structure in a wide range of $\delta$s. 
+  
+It is important to ask how fast does  the algorithm converge to the true cluster structure as the number of samples $N$ grows. The following figures shows that this convergence occurs very quickly (at least for the stochastic block model), and thus that the Wasserstein summarization algorithm is a potentially useful approach.
+
+\begin{figure}
+     \centering
+     \begin{subfigure}[b]{0.8\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{./Pictures/speedMean.PNG}
+         \caption{Error of recovery using the mean graph.}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.8\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{./Pictures/speedspectral.PNG}
+         \caption{Error of recovery using the Wasserstein robust nuclear norm graph summarization.}
+     \end{subfigure}
+	\caption{Simulation results for the speed of convergence to the true cluster structure of the Wasserstein robust nuclear norm graph summarization versus the mean graph summarization .}
+        \label{fig:speed}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%\section{Some numerical examples using the stochastic block model.}
+%\label{Numerics}
+%\mv{Aca creo que deberia haber ejemplos de tres tipos:
 %\begin{enumerate}
-%\item The equalities $H^*t_{ij}=0=t_{ij}H^*$ hold. If $ij\in O$ this happens only when there are exactly two clusters and this is the only point in the proof where this assumption is used.
-%\item The off-diagonal entries of $\widetilde{t_{ij}}$ are equal to those of $e_{ij}$. In particular the off-diagonal entries of $\widetilde{(-e_{ij}+e_{st})_{ab}}$ are always equal to those of $\widetilde{-t_{ij}+t_{st}}$.
-%\item The inequality $\|-t_{ij}+t_{st}\|\leq 2$ holds for all $ij$ and $st$. This is immediate via direct calculation (the inequality is strict only if $|\{i,j\}\cap\{s,t\}|\geq 1$ and in this case it can take values of $\sqrt{3}$ and $0$).  
+%\item De grafos chiquitos, digamos 20 vertices en los que se vea como cambia el \'optimo en la medida en que el par\'ametro $\delta$ va cambiando.
+%\item En grafos medianos sus gr\'aficas comparativas de performance para diferentes m\'etricas con pocos samples
+%\item En grafos grandes algo de cross-validation? Para ver como escoger el $\delta$? Me imagino que si uno va viendo que tan lejos esta de ser entera la solucion entonces uno puede encontrar un rango para $\delta$ donde da resultados ch\'everes.
 %\end{enumerate}
-%If $C$ denotes the matrix given by
-%\[C:= -\frac{2\delta}{n}H^* + \sum_{ij\in B} \sum_{s<t} \left(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n}\right)\gamma_{st}^{(ij)} (-t_{ij}+t_{st})\]
-%then the following properties hold:
-%\begin{enumerate}
-%\item The off-diagonal entries agree with those in our previous expression so $\widetilde{\Gamma}_{ab}\leq \widetilde{C}_{ab}$ for all $a\neq b$ and thus $C$ is in the subdifferential of Lemma~\ref{lem: subdiff}.
-%\item Since $H^*t_{ij}=0=t_{ij}H^*$ the equality $\langle H^*, C\rangle =\langle H^*,-\frac{2\delta}{n}H^*\rangle = -2\delta n$ holds and moreover
-%\[ \| C\|=\max\left(\left\|-\frac{2\delta}{n}H^*\right\|, \left\|\sum_{ij\in B} \sum_{s<t} \left(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n}\right)\gamma_{st}^{(ij)} (-t_{ij}+t_{st})\right\|\right).\] 
-%\end{enumerate}
-%The operator norm of the first term in the maximum equals $2\delta$ and that of the second term is bounded by $2b(\Gamma,\delta)$ by the triangle inequality and the definition of $b(\Gamma,\delta)$. We conclude that $\|C\|$ is bounded by $2\delta$ because $b(\Gamma,\delta)\leq \delta$. As a result $-C\in \partial\left(\|2A-11^t\|\right)(A^*)$ proving the Theorem.
-%\end{proof}
+
+
+
+
+
+\bibliographystyle{abbrv}
+\bibliography{lit}
+
+\end{document}
+
+
+Our following Lemma gives us a decomposition Theorem for symmetric matrices. This decomposition will be very useful when computing spectral norms in the two-block case.
+Suppose that we have only two blocks $C_1$ and $C_2$ and let $u$ be the vector given by
+\[u_i=\begin{cases}
+1\text{ if $i\in C_1$}
+-1\text{ if $i\in C_2$}
+\end{cases}
+\]
+Define $H^*:=uu^t$ and for $i=1,\dots, n$ let $e_{ii}$ be the $n\times n$ matrix whose only nonzero entry is in position $ii$ and has value $1$ 
+
+
+\begin{lemma} Assume $|C_1|\neq |C_2|$ If $A$ is a symmetric matrix then there exist unique constants $\lambda_1,\dots, \lambda_{n-1}$ and a matrix $K$ such that $KH^*=H^*K=0$ such that
+\[A= \frac{\langle H^*,A\rangle }{n^2} H^* +\sum_{i=1}^{n-1}\lambda_1(e_{i,i}-e_{i+1,i+1})+K.\]
+And in particular the following equality holds  
+\[ \|A\| =\max(A-K,K).\]
+\end{lemma}
+\begin{proof} The $n$ vectors in $v^tH^*$ and $v^t(e_{i,i}-e_{i+1,i+1})$ for $i=1,\dots, n-1$ are linearly independent in $\RR^n$ because the sum of the entries of all but the first one vanish. It follows that $v^tA$ can be expressed uniquely as a linear combination of them 
+
+
+\end{proof}
+
+
+
+\bibliographystyle{abbrv}
+\bibliography{lit}
+
+
+
+\end{document}
+
+
+\section{Conclusions and future work}
+
+In this paper, we presented the general problem of finding deterministic summaries from an independent sample of a random graph $\mathcal{G}$. We then specialized this problem to the case of community detection and showed how the Wasserstein metric allows us to reformulate this problem as a robust optimization problem. We showed that if the Wasserstein distance is induced by the nuclear norm, we can recover the exact cluster structure of random graphs generated with the stochastic block model with overwhelming probability with very few samples. We presented a specific algorithm to solve the \textit{Wasserstein robust nuclear norm summarization problem} and gave substantial simulations that corroborate our theoretical results.
+
+Most importantly, we showed that a well studied problem in machine learning can be recast as a robust optimization problem using the Wasserstein metric. This approach is very promising, as it gives a principled approach to machine learning \mv{quite la puya a deep learning. Nunca digas de esta agua no beber\'e}. For example, see \cite{ColumbiaAlvaro}. This work is a small contribution to the growing body of applications of optimal transport to machine learning.
+
+
+
+We conclude by briefly mentioning three interesting problems that rose in development of  this work. 
+\textbf{Sparse regime in community detection.} In the literature, the problem of finding communities in the stochastic block model when the graph is sparse is well studied. For example, see \cite{krzakala2013spectral}. How does sparsity affect our results? We suspect that our algorithm are not well suited for sparse matrix since our methods are based on splitting the observations in sparse plus low rank matrices, and thus identifiability problems would rise if the observed matrices were sparse to begin with. 
+
+\textbf{Arbitrary distribution of the} $\Gamma_{ij}$. The quantities $\Gamma_{ij}$ presented in \ref{Sec: subdifferential} are random variables whose distribution is given by the properties of the stochastic block model. It would be interesting to study random graphs where the $\Gamma_{ij}$ have an arbitrary distribution. This could lead to an application of our methods to weighted graphs, or to an appealing class of random graphs. 
+
+
+\textbf{Graph summarization in an adversarial setting.} It would be interesting to explore graph summarization on a broader setting. For example, we could consider an adversarial setting, where  and adversary is presented a graph with a certain structure(for example a tree structure) and he generates a sample of graphs by removing or adding edges on the graph with probability $q< 1/2$. Can we recover the original graph given a very small sample? If so, which representable convex function would allow us to properly recover the structure (as is the case of the nuclear norm and the community structure) ? Is it enough that such a function has a rich subdifferential as the nuclear norm so that some version of theorem \ref{thm: transport} applies?
+
+
+
+
 
 %\mv{Como extendemos este razonamiento al caso de tres o m\'as clusters? Debe ser posible utilizar otras matrices de transporte para este caso que vivan en el kernel. Algo interesante es que con tres clusters es necesario que los promedios de una matriz aniquilada por $H^*$ dentro de cada uno de los bloques $C_i\times C_j$ deban ser cero.} 
 
@@ -689,543 +1179,6 @@ $\|C\| \leq 2\delta$.
 \end{proof}
 \ddr{toca revisar que $<h^*,C>$ es igual a $-2\delta n$ o eso es obvio?}
 \mv{Toca revisar. Porfa revisa y me cuenta}
-
-\subsection*{Uniqueness of the minimizer}
-In this brief section we discuss an important corollary: $A^*$ is the unique minimizer of the optimization problem $min_A\Delta (A)$.
-We begin by proving a well-known lemma for which we could not find a specific reference.
-
-\begin{lemma}{\label{lemUniqueness}}
-Let f be a convex function defined over a region $D$. Let $\hat{x}$ be a point in it's domain such that the subdifferential of $f$ at $\hat{x}$ is full dimensional and $0$ belongs to it's interior. Then, $\hat{x}$ is the unique minimizer of $f$.
-\end{lemma}
-\begin{proof}
-Let $B_\epsilon(0)$ be a ball of radius $\epsilon$ centered in $0$ and contained in 
-$\partial(f)(\hat{x})$. Let $x \in D \text{ with } x \neq \hat{x}$. Let $Q \in \partial(f)(\hat{x})$. By the property of the elements of the subdifferential at a point, 
-\[
-f(x) \geq f(\hat{x}) + \left \langle Q,x-\hat{x} \right \rangle.
-\]
-This property holds for every $Q \in \partial(f)(\hat{x})$, so taking supremum we obtain that
-\[
-f(x) \geq \sup_{Q \in \partial(f)(\hat{x})} f(\hat{x}) + \left \langle Q,x-\hat{x} \right \rangle..
-\]
-Since $B_\epsilon(0) \subseteq \partial(f)(\hat{x})$ we obtain that
-
-\[
- f(x) \geq f(\hat{x})+\sup_{Q \in B_\epsilon(0)} \left \langle Q,x-\hat{x} \right \rangle = f(\hat{x})+ \epsilon\| x-\hat{x} \|.
-\]
-As $x \neq \hat{x}$, $\epsilon \| x-\hat{x} \|> 0$. Therefore, $f(x)>f(\hat{x})$ for all $x\in D$ different of $\hat{x}$.
-
-\end{proof}
-
-\begin{remark}{\label{remUnicity}}
-Under the conditions of theorem \ref{thm: transport}, The matrix $C^1$ we constructed satisfies the inequalities given by \ref{lem: subdiff} strictly, so $C^1$ is an interior point of $\partial(f)(A^*)$. It follows that the matrix $C$ constructed in \ref{lemma: transport2} also satisfies these inequalities strictly and thefore it is also an interior point of $\partial(f)(A^*)$.
-\end{remark}
-
-
-
-
-\begin{cor}
-Under the conditions of Theorem \ref{thm: transport}, $A^*$ is the unique minimizer of the optimization problem $min_A\Delta (A)$.
-\end{cor}
-\begin{proof}
-By \ref{remUnicity}, the matrix $C$ constructed in \ref{lemma: transport2} is an interior point of  $\partial(f)(A^*)$. Therefore, as the subdifferential of $\Delta$ at $A^*$ is equal to the Minkowski sum of the subdifferentials of $g$ and $f$ at $A^*$,$0=C-C$ is an interior point of $\partial(\Delta)(A^*)$. It follows by lemma \ref{lemUniqueness} that $A^*$ is the unique minimizer of the optimization problem  $min_A\Delta (A)$.
-
-
-\end{proof}
-
-
-
-Using  Theorem \ref{thm: transport} we now estimate the probabilities of perfect recovery of the correct cluster structure. 
-
-
-
-\subsection{A bound for recovery probabilities}
-\label{Sec: probabilistic}
-In this section we will prove Theorem~\ref{thm. performance} which gives an upper bound on the probability that the correct $A^*$ is not the unique optimal solution of our optimization problem. Our main tools will be concentration inequalities and in particular the ideas used in the proof of Hoeffding's inequality. Recall that Hoeffding's inequality says that if $X_1,\dots, X_T$ are independent random variables with values in $[c_i,d_i]$ and $\Lambda_T:=\sum_{i=1}^T X_i$ then the following holds for all $t\geq 0$ 
-\[\PP\{\Lambda_T-\EE[\Lambda_T]\geq t\}\leq \exp\left(-\frac{2t^2}{\sum_{i=1}^T (d_i-c_i)^2}\right).\]
-
-
-
-
-\begin{proof} [proof of Theorem~\ref{thm. performance}]By Lemma~\ref{lemma: transport2} and the union bound the probability that $A^*$ is not an optimal solution of problem~(\ref{ProbRobusto}) is bounded above by
-
-\begin{equation}\label{Eq: 2Probs}
-\PP\{b(\Gamma,\delta)\geq a(\Gamma,\delta)\}+\PP\{b(\Gamma,\delta)\geq \delta\}.
-\end{equation}
-
-and we will find upper bounds for the individual terms in~(\ref{Eq: 2Probs}). 
-For $t=1,\dots, N$ and $i,j\in [n]$ define 
-\[Z^{(t)}_{ij}:=\begin{cases}
--1\text{, if $(B_t)_{ij}=1$}\\
-+1\text{, if $(B_t)_{ij}=0$}
-\end{cases}\]
-and note that for every $i\neq j$ the equality $\sum_{t=1}^N\frac{Z_{ij}^{(t)}}{N} = \Gamma_{ij}$ holds. As a result
-\[b(\Gamma,\delta)-a(\Gamma,\delta) = \sum_{i\neq j} \left(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n}\right)= \frac{2\delta n(n-1)}{n} + \sum_{t=1}^N \sum_{i\neq j} \frac{\widetilde{Z^{(t)}_{ij}}}{N}\]
-and therefore if $M:=\EE\left[\sum_{t=1}^N \sum_{i\neq j} \frac{\widetilde{Z^{(t)}_{ij}}}{N}\right]$ then the number $M$ is negative and is given by the formula
-\[M=(2q-1)2|O|+\sum_{i=1}^l 2\binom{c_i}{2} (1-2p_i)\leq -2\alpha n(n-1)\]  
-We can therefore bound the probability in the first term with
- 
-\[\PP\left\{\frac{2\delta n(n-1)}{n} + \sum_{t=1}^N \sum_{i\neq j} \frac{\widetilde{Z^{(t)}_{ij}}}{N}\geq 0\right\} = \PP\left\{\sum_{t=1}^N \sum_{i\neq j} \frac{\widetilde{Z^{(t)}_{ij}}}{N} - M \geq -2\delta (n-1) - M \right\}\leq\]
-\[\leq \exp\left(-2\frac{(-M-2\delta(n-1))^2}{Nn(n-1)(\frac{2}{N})^2}\right)=\exp\left( -\frac{N}{2}\left(1-\frac{1}{n}\right) \left(\frac{-M}{n-1}-2\delta\right)^2\right) \]
-where the inequality follows from Hoeffding's inequality applied to the $Nn(n-1)$ independent random variables $\frac{\widetilde{Z_{ij}^{(t)}}}{N}$ which have values in $\left[-\frac{1}{N},\frac{1}{N}\right]$. The inequality applies whenever $-\frac{M}{2(n-1)}>\delta>0$. In particular whenever $0<\delta<\alpha n$ we have
-\[\PP\{b(\Gamma,\delta)-a(\Gamma,\delta)\}\leq \exp\left(-\frac{2N(n-1)^3(\alpha n-\delta)^2}{n}\right).\]
-Bounding the second term is more involved. Recall that
-\[b(\Gamma,\delta)=\sum_{i\neq j} \max\left(\widetilde{\Gamma_{ij}}+\frac{2\delta}{n},0\right).\]
-Let $Y_{ij}:=\widetilde{\Gamma_{ij}}+\frac{2\delta}{n}$ and let $X_{ij}:=\max\left(Y_{ij},0\right)$. In order to prove a concentration inequality for the variables $X_{ij}$ we begin by studying their moment generating functions $m_{X_{ij}}(t)$. Note that for every real number $t$ the equality
-\[\exp(tX_{ij})= 1_{\{Y_{ij}\leq 0\}} + 1_{\{Y_{ij}\geq 0\}} \exp tY_{ij}\]
-holds. Now $Y_{ij}=1+\frac{2\delta}{n}-2\frac{n_{ij}}{N}$ where $n_{ij}$ is a binomial random variable with parameters $N$ and $p_{ij}$ given by
-\[
-p_{ij}:=\begin{cases}
-p_t\text{, if $\{i,j\}\subseteq C_t$}\\
-1-q\text{, else}
-\end{cases}
-\]
-
-
-As a result taking expected values on both sides of the expression above we conclude that
-\[ m_{X_{ij}}(t) \leq \PP\{Y_{ij}\leq 0\} + e^{t\left(1+\frac{2\delta}{n}\right)}\EE\left(e^{-\frac{2t}{N}n_{ij}}1_{\{Y_{ij}\geq 0\}}\right).\]
-
-Using the Cauchy-Schwartz inequality and the known formula for the moment generating function of a binomial random variable it follows that
-\[ m_{X_{ij}}(t)\leq \PP\{Y_{ij}\leq 0\}+ e^{t\left(1+\frac{2\delta}{n}\right)}\EE\left(e^{-\frac{4t}{N}n_{ij}}\right)^{\frac{1}{2}}\PP\{Y_{ij}\geq 0\}^{\frac{1}{2}}=\]
-\[=\PP\{Y_{ij}\leq 0\}+ e^{t\left(1+\frac{2\delta}{n}\right)}\left(e^{-\frac{4t}{N}}p_{ij} + q_{ij}\right)^{\frac{N}{2}}\PP\{Y_{ij}\geq 0\}^{\frac{1}{2}}\]
-where $q_{ij}:=1-p_{ij}$.
-By Hoeffding's inequality on Bernoulli random variables we know that
-\[\PP\{Y_{ij}\geq 0\}\leq \exp\left(-\frac{N}{2}\left(-\frac{2\delta}{n}-(1-2p_{ij})\right)^2 \right)\leq \exp\left(-2N(\alpha-\delta/n)^2\right)\]
-so if $t=aN$ the inequality 
-\[e^{t\left(1+\frac{2\delta}{n}\right)}\exp\left(-N(\alpha-\delta/n)^2\right)\leq 1\] 
-holds whenever $a\leq \frac{(\alpha-\delta/n)^2}{\left(1+\frac{2\delta}{n}\right)}$ and for all such $a$ we have
-\[m_{X_{ij}}(aN)\leq \left(1+ (e^{-4a}p_{ij}+q_{ij})^{\frac{N}{2}}\right)\]
-We define $a(\delta):=\frac{(\alpha-\delta/n)^2}{\left(1+\frac{2\delta}{n}\right)}$ and will use it to prove a moment concentration inequality for $b(\Gamma,\delta)$ which will give us a bound on the second term in~(\ref{Eq: 2Probs}). For every $t>0$ we have
-
-\[\PP\left\{b(\Gamma,\delta)\geq \delta\right\}=\PP\left\{\exp\left(t\sum_{i\neq j} X_{ij}\right)\geq e^{t\delta}\right\}\leq e^{-t\delta}\prod_{i\neq j} \EE[e^{tX_{ij}}]= e^{-t\delta}m_{X_{ij}}(t)\]
-Choosing $t=a(\delta)N$ and using the previous inequality we see that
-\[\PP\left\{b(\Gamma,\delta)\geq \delta\right\}\leq e^{-N\delta a(\delta)}\prod_{i\neq j}\left(1+ (e^{-4a}p_{ij}+q_{ij})^{\frac{N}{2}}\right)\]
-Which decreases exponentially in $N$ for any $0\leq \delta\leq n\alpha$. The rate of decrease of the first term is controlled by the positive factor 
-\[\delta a(\delta)= \frac{\delta\left(\alpha-\frac{\delta}{n}\right)^2}{\left(1+\frac{2\delta}{n}\right)}.\]
-and we let $\delta^*$ be a maximizer of this function.
-\end{proof}
-
-
-
-
-
-
-
-
-
-
-
-\section{An algorithm for Wasserstein nuclear norm summarization }
-
-
-
-Solving the optimization problems appearing in Theorem~\ref{Thm: tractable} require solving large semidefinite programs which are beyond the  capacity of standard off-the-shelf software even for relatively small graphs (of say $70$ vertices with $N=4$). One possible reason is that off-the-shelf solvers often use interior point methods, which are highly accurate but often do not scale well. A better alternative, especially well suited for solving is to use first order numerical optimization methods such as ADMM.
-
-In this section, we provide an algorithm specially adapted for the Wassesrtein nuclear norm summarization. It is based on a variation of the \textbf{Alternating Direction Method of Multipliers} (ADMM) called \textbf{Global Variable consensus with regularization}. Our algorithm is derived using the theory given in \cite{boyd2011distributed}.
-
-
-\subsection{Global Variable consensus with regularization}
-
-
-The general form of Global Variable consensus with regularization is given by 
-
-\begin{equation}\label{GVC}
-\begin{aligned}
-& \text{Minimize   } \sum_{i=1}^n f_i(x_i)+g(z) \\
-&\text{Subject to: } x_i-z = 0, \ \ i=1,..,N. 
-\end{aligned}
-\end{equation}
-
-
-
-To efficiently solve this optimization problem, ADMM does iterative rounds of minimization of the primal and dual variables. For certain functions, (as is the case for the $l_1$ norm and crucially the nuclear norm) these minimizations problems have actual analytical minimizers. 
-
-
-The general algorithm to solve this optimization problem is given in \cite{boyd2011distributed} and consists of the following steps:
-
-\begin{enumerate}
-\item initialize $x^0_i$, $y^0_i$ for $i=1,..,N$, $\rho>0$ and $z^0$.
-\item Set $ \text{Set } \bar{x}^{k} = \frac{1}{N}\sum_{i=1}^N x_i $ and $\bar{y}^{k} = \frac{1}{N}\sum_{i=1}^N y_i $.
-\item $x_i^{k+1} = \argmin_{x_i} \left( f_i(x_i) + \left \langle y_i^k,x_i-z_k \right \rangle) +\frac{\rho}{2}\|x_i-z^k\|_2^2\right ).$
-\item $z^{k+1} = \argmin_z \left (g(z)+\frac{N\rho}{2}\|z^k-\bar{x}^{k+1} -\frac{1}{\rho}\bar{y}^k \|_2^2 \right ).$
-\item $y_i^{k+1} = y_i^k + \rho(x_i^{k+1}-z^{k+1}).$
-\end{enumerate}
-
-
-
-
-
-This algorithm converges under very general circumstances, which can be easily checked for problem \ref{WRNNS} :
-
-Stopping criteria are derived using the dual and primal residuals  \cite{boyd2011distributed}.
-For The Global Variable consensus with regularization, the 
-primal residual on the $k-$step is: 
-
-\[
-r^k:=(x_1^k-z^k,x_2^k-z^k,...,x_N^k-z^k)
-\]
-and the dual residual in the $k-$step
-\[
-s^k:= -\rho(z^k-z^{k-1})
-\]
-Given $\varepsilon_1,\varepsilon_2$, the stopping criteria is given by
-\[
-\|r^k\|_2 \leq \varepsilon_1 \text{ and } s^k \leq \varepsilon_2.
-\]
-
-
-
-%las condiciones son que f y g sean propias, cerradas y convexas. mas aun, el lagrangiano no aumentado $L_0$ debe tener un punto de silla. deberiamos incluir una demostracion de esto? mas explicitamente, la condicion es que 
-%existen $(x^*,y^*,z^*)$ no necesariamente unicos tales que $L_0(x^*,z^*,y)\leq L_0(x^*,z^*,y^*) \leq L_0(x,z,y^*).$ donde 
-%$L_0(x,y,z)= f(x)+g(z)+ \langle y, Ax-Bz-C\rangle $ en el problema de optmizacion general $min f(x)+g(z)$ sujeto a $Ax+Bz = c$.
-
-
-
-
-\subsection{Adapatation to the Wasserstein nuclear norm summarization}
-
-
-\begin{definition}
-Let $f$ be a convex function, $\rho > 0$. The proximal operator of $f$ at $w$ is defined as:
-
-\[
-prox_{f,\rho}(w) = \argmin_{z} f(z)+ \frac{\rho}{2}\|z-w\|_2^2
-\]
-
-\end{definition}
-
-\begin{claim}
-if $\|\cdot\|_*$ denotes the nuclear norm, and if $w$ is a matrix with singular value decomposition $USV^t$ then,
-\[
-UP_{\epsilon}V^t = \argmin_x \epsilon\|x\|_* + \frac{1}{2}\|x-w\|_2^2.
-\]
-Where
-\[
-P_\epsilon=\begin{cases}
-x - \epsilon \text{ if } x>\epsilon \\
-x+\epsilon \text{ if }x< -\epsilon\\
-0 \text{ in any other case. }
-\end{cases}
-\]
-and $P_\epsilon$ is applied component-wise.$P_\epsilon$ is usually called the soft-thresholding operator.
-\end{claim}
-
-
-\begin{claim}
-if $\|\cdot\|_1$ denotes the $l_1$ norm, then
-\[
-prox_{\|\cdot\|_1,\rho}(w) = \argmin_x \|x\|_1 + \frac{\rho}{2}\|x-w\|_2^2 = P_{\frac{1}{\rho}}(w).
-\]
-Where $P_{\frac{1}{\rho}}$ is applied component-wise. Moreover, if $c$ is any $n \times n$ matrix, then
-\[
-P_{\frac{1}{\rho}}(w)+c = \argmin_x \|x-c\|_1+\frac{\rho}{2}\|x-w\|_2^2.
-\]
-
-\end{claim}
-
-Let $B_1,..,B_N$ of an $i.i.d$ sample of the random graph $\grG$. Let $n$ be the number of vertices of $\grG$ and $1$ denote the vector [1,..,1] of length $n$. To use the formulation given in \ref{GVC} to solve the problem we need the following change of variables:
-
-
-\begin{itemize}
-\item $C_i = 2B_i-11^t$.
-\item $Z = 2A-11^t$.
-\item $f_i(x_i) = \frac{1}{2}\|x_i-C_i\|_1$.
-\item $g(z)=\|z\|_*$.
-\end{itemize}
-
-Our optimization problem reduces to the one given in \ref{GVC} and an algorithm to solve it is given by:
-
-\begin{enumerate}
-\item $\text{initialize } \rho >0, \  x_i^0=0, \  y_i^0=0, \text{for } i=1,..,N \text{ and } z_0= \frac{1}{N}\sum_{i=1}^N C_i$.
-\item $ \text{Set } \bar{x}^{k} = \frac{1}{N}\sum_{i=1}^N x_i $ and $\bar{y}^{k} = \frac{1}{N}\sum_{i=1}^N y_i $.
-\item $x_i^{k+1}=P_{\frac{1}{2\rho}}(z^k-\frac{1}{\rho}y_i^k-C_i)+C_i$
-\item $z^{k+1} = UP_{\frac{\lambda}{N\rho}}(S)V^t$ with $USV^t = SVD(\bar{x}^{k+1}+\frac{1}{\rho}\bar{y}^k)$.
-\item $y^{k+1} =y_i^k + \rho(x_i^{k+1}-z^{k+1}). $ 
-\item Until stopping criteria is met.
-\end{enumerate}
-
-
-
-
-\subsection{Numerical simulations}
-\label{Numerics}
-Using the algorithm given in the previous section, we tested the recovery of graphs generated by the stochastic block model. To this end, we implemented an algorithm on Julia that creates random graph that are distributed according to the stochastic block model. The input parameters are the following:
-\begin{enumerate}
-\item $n$ : the number of vertices of the graph.
-\item $k$ : the number of clusters of the graph.
-\item $q$ : the probability of connecting two vertices that do not belong to the same cluster.
-\item $p_i$ for $i=1,..,k$: the probability of connecting two vertices that belong to the cluster $i$.
-\end{enumerate}
-The output of this algorithm is the adjacency matrix of the generated graph. 
-
-We begin by testing our algorithm by generating $3$ observations of a random graph which is distributed according to the stochastic block model and running our algorithm for different values of $\delta$. Success of recovery will be evaluated by using the \textit{error of recovery}  which is given by the formula
-\[\|A^*-\bar{A}\|_1\]
-where $A^*$ is the adjacency matrix of the underlying cluster structure and $\bar{A}$ is the adjacency matrix of the recovered graph.
-We present one such plot in \ref{fig:errorRecovery}. Notice that the true graph structure is recovered for certain values of $\delta$.
-This is intuitively clear from the Wasserstein robust formulation. If the size of the ball is too small, we won't capture the true distribution of the random graph. If it is too big, we will capture too many distributions and the worst case error will be high.
-Choosing a correct $\delta$ is of the utmost importance. 
-
 \begin{remark}
 In practice, $\delta$ could be chosen by using a trial and error methodology, along with a cluster quality metric. One such metric is called the \textit{silhouette}.
 \end{remark}
-
-Fortunately, our simulations suggest that the region were on can choose $\delta$ to obtain perfect recovery grows as more observations are added: see figures on \ref{fig:differentNorms}.
-\begin{figure}[h]
-\centering
-\includegraphics[width=1\textwidth]{./Pictures/ErrorRecovery.PNG}
-\caption{Recovery of the true cluster structure using $3$ observations on a graph with generated with the stochastic block model with $2$ clusters and $50$ vertices.}
- \label{fig:errorRecovery}
-\end{figure}
-
-As $\delta$ varies, the recovered graph changes as well. Figure   \ref{fig:recupera} Shows the recovered graph for different values of $\delta$. Note that a graph recovered by our algorithm has not necessarily entries in $\{0,1\}$ and one might be tempted to round down the entries bellow certain threshold (say 0.4) and round up those above another threshold (say 0.6). However, it is not clear what we should do with entries between both thresholds. 
-
-
-
-
-\begin{figure}[h]
-     \centering
-     \begin{subfigure}[b]{0.37\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{./Pictures/recupera0.png}
-         \caption{Recovery with $\delta=0$}
-     \end{subfigure}
-     \hfill
-     \begin{subfigure}[b]{0.37\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{./Pictures/recupera1.png}
-         \caption{Recovery with $\delta=0.1$}
-     \end{subfigure}
-     \hfill
-     \begin{subfigure}[b]{0.37\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{./Pictures/recupera2.png}
-         \caption{Recovery with $\delta=0.5$}
-     \end{subfigure}
-     \hfill
-     \begin{subfigure}[b]{0.37\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{./Pictures/recupera4.png}
-         \caption{Recovery with $\delta=1.2$}
-     \end{subfigure}
-     	\hfill
-     \begin{subfigure}[b]{0.37\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{./Pictures/recupera5.png}
-         \caption{Recovery with $\delta=1.5$}
-     \end{subfigure}
-     \hfill
-     \begin{subfigure}[b]{0.37\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{./Pictures/recupera6.png}
-         \caption{Recovery with $\delta=2$}
-     \end{subfigure}
-     \hfill
-     \begin{subfigure}[b]{0.37\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{./Pictures/recupera7.png}
-         \caption{Recovery with $\delta=11$}
-     \end{subfigure}
-      \hfill
-     \begin{subfigure}[b]{0.37\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{./Pictures/recupera8.png}
-         \caption{Recovery with $\delta=14$}
-     \end{subfigure}
-        \caption{Recovered graph from the same observations for different values of $\delta$. }
-        \label{fig:recupera}
-\end{figure}
-
-
-
-Theorem \ref{thm: transport} assures that as long as $p_i > 0.5$ and $q< 0.5$ the probability of perfect recovery converges to $1$. The following experiments corroborate this result:
-We fix $n=50$, $k=2$, and let the first cluster have $15$ vertices and the second one $35$. We let $p =  p_1 = p_2$ vary between $0.5$ and $1$ and $q$ vary between $0$ and $0.5$.  For each pair $(p,q)$, we generate $N$ observations, run our algorithm and measure the error of recovery. We repeat this process $10$ times and store the mean error of recovery in a matrix.
-We present the heat maps of such matrices in \ref{fig:Variapq} for different values of $N$. 
-
-
-\begin{figure}
-     \centering
-     \begin{subfigure}[b]{0.5\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{./Pictures/Variapq1.PNG}
-         \caption{$N=1$}
-     \end{subfigure}
-     \hfill
-     \begin{subfigure}[b]{0.5\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{./Pictures/Variapq3.PNG}
-         \caption{$N=3$}
-     \end{subfigure}
-     \hfill
-     \begin{subfigure}[b]{0.5\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{./Pictures/Variapq7.PNG}
-         \caption{$N = 7$}
-     \end{subfigure}
-     \hfill
-     \begin{subfigure}[b]{0.5\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{./Pictures/Variapq25.PNG}
-         \caption{$N = 25$}
-     \end{subfigure}
-        \caption{Simulation results for the average error of recovery (over $10$ trials) for different values of $p$ and $q$ with $N$ observations. $\delta = 1.5$ for the first two figures and $0.8$ for the other two. Dark purple indicates 0 error while brighter colors indicate a higher error.}
-        \label{fig:Variapq}
-\end{figure}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-In theorem \ref{thm: transport}, the use of the spectral norm was crucial. Still, one might ask if other norms (say the $1$-norm, $2$-norm and $\infty$-norm) can recover the underlying cluster structure.
-
-To check this, We fix $n=50$, $k=2$ where the first cluster has $15$ vertices and the second one has $35$. We let $p_1 = p_2 = 0.70$ and $q=0.2$. We compute the error of recovery for different values of $\delta$. For recovery using the nuclear norm, we use the algorithm given in the previous section. For the $1$-norm, $2$-norm and $\infty$-norm we use the \textit{Mosek} implementation on Julia. 
-We also include the error of recovery of the graph obtained by averaging the observations, which we call the mean graph.
-We repeat this experiment twice. First with $3$ observations and then with $7$.
-Results are shown in figure \ref{fig:differentNorms}.
-
-
-\begin{figure}
-     \centering
-     \begin{subfigure}[b]{1\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{./Pictures/differentNorms.PNG}
-\caption{$N=3$}
-     \end{subfigure}
-     \hfill
-     \begin{subfigure}[b]{1\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{./Pictures/differentNorms7.PNG}
-         \caption{$N=7$}
-     \end{subfigure}
-\caption{Error of recovery for different values of $\delta$ using the Wasserstein robust nuclear norm graph summarization and the $l_1$,$l_2$ norms as regularizers. The recovery error of the mean graph is also included.}
-        \label{fig:differentNorms}
-\end{figure}
-
-
-
-
-
-
-
-
-
-
-Notice that the error of recovery of the mean graph decreases as more observations are considered. It is still far off the true cluster structure even for 7 observations, even though with 3 observations we were already able to recover the true cluster structure using the nuclear norm. 
-  
-An interesting question that needs to be addressed is that of the speed of convergence to the true cluster structure as $N$ grows. If our algorithm needed to many observations of the random graph to find the cluster structure, we would simply use the mean of the observations. The following figures shows that this is not the case (at least for the stochastic block model), and thus there is a real benefit by using the Wasserstein summarization algorithm.
-
-\begin{figure}
-     \centering
-     \begin{subfigure}[b]{0.8\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{./Pictures/speedMean.PNG}
-         \caption{Error of recovery using the mean graph.}
-     \end{subfigure}
-     \hfill
-     \begin{subfigure}[b]{0.8\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{./Pictures/speedspectral.PNG}
-         \caption{Error of recovery using the Wasserstein robust nuclear norm graph summarization.}
-     \end{subfigure}
-	\caption{Simulation results for the speed of convergence to the true cluster structure of the Wasserstein robust nuclear norm graph summarization versus the mean graph summarization .}
-        \label{fig:speed}
-\end{figure}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-%\section{Some numerical examples using the stochastic block model.}
-%\label{Numerics}
-%\mv{Aca creo que deberia haber ejemplos de tres tipos:
-%\begin{enumerate}
-%\item De grafos chiquitos, digamos 20 vertices en los que se vea como cambia el \'optimo en la medida en que el par\'ametro $\delta$ va cambiando.
-%\item En grafos medianos sus gr\'aficas comparativas de performance para diferentes m\'etricas con pocos samples
-%\item En grafos grandes algo de cross-validation? Para ver como escoger el $\delta$? Me imagino que si uno va viendo que tan lejos esta de ser entera la solucion entonces uno puede encontrar un rango para $\delta$ donde da resultados ch\'everes.
-%\end{enumerate}
-
-
-
-\section{Conclusions and future work}
-
-In this paper, we presented the general problem of finding deterministic summaries from an independent sample of a random graph $\mathcal{G}$. We then specialized this problem to the case of community detection and showed how the Wasserstein metric allows us to reformulate this problem as a robust optimization problem. We showed that if the Wasserstein distance is induced by the nuclear norm, we can recover the exact cluster structure of random graphs generated with the stochastic block model with overwhelming probability with very few samples. We presented a specific algorithm to solve the \textit{Wasserstein robust nuclear norm summarization problem} and gave substantial simulations that corroborate our theoretical results.
-
-Most importantly, we showed that a well studied problem in machine learning can be recast as a robust optimization problem using the Wasserstein metric. This approach is very promising, as it gives a principled approach to machine learning which oftentimes lacks a theoretical background (such as the trendy deep learning). For example, see \cite{ColumbiaAlvaro}. This work is a small contribution to the growing body of applications of optimal transport to machine learning.
-
-
-
-We conclude by briefly mentioning three interesting problems that rose in development of  this work. 
-\textbf{Sparse regime in community detection.} In the literature, the problem of finding communities in the stochastic block model when the graph is sparse is well studied. For example, see \cite{krzakala2013spectral}. How does sparsity affect our results? We suspect that our algorithm are not well suited for sparse matrix since our methods are based on splitting the observations in sparse plus low rank matrices, and thus identifiability problems would rise if the observed matrices were sparse to begin with. 
-
-\textbf{Arbitrary distribution of the} $\Gamma_{ij}$. The quantities $\Gamma_{ij}$ presented in \ref{Sec: subdifferential} are random variables whose distribution is given by the properties of the stochastic block model. It would be interesting to study random graphs where the $\Gamma_{ij}$ have an arbitrary distribution. This could lead to an application of our methods to weighted graphs, or to an appealing class of random graphs. 
-
-
-\textbf{Graph summarization in an adversarial setting.} It would be interesting to explore graph summarization on a broader setting. For example, we could consider an adversarial setting, where  and adversary is presented a graph with a certain structure(for example a tree structure) and he generates a sample of graphs by removing or adding edges on the graph with probability $q< 1/2$. Can we recover the original graph given a very small sample? If so, which representable convex function would allow us to properly recover the structure (as is the case of the nuclear norm and the community structure) ? Is it enough that such a function has a rich subdifferential as the nuclear norm so that some version of theorem \ref{thm: transport} applies?
-
-
-
-
-
-
-
-
-
-\bibliographystyle{abbrv}
-\bibliography{lit}
-
-\end{document}
-
-
-Our following Lemma gives us a decomposition Theorem for symmetric matrices. This decomposition will be very useful when computing spectral norms in the two-block case.
-Suppose that we have only two blocks $C_1$ and $C_2$ and let $u$ be the vector given by
-\[u_i=\begin{cases}
-1\text{ if $i\in C_1$}
--1\text{ if $i\in C_2$}
-\end{cases}
-\]
-Define $H^*:=uu^t$ and for $i=1,\dots, n$ let $e_{ii}$ be the $n\times n$ matrix whose only nonzero entry is in position $ii$ and has value $1$ 
-
-
-\begin{lemma} Assume $|C_1|\neq |C_2|$ If $A$ is a symmetric matrix then there exist unique constants $\lambda_1,\dots, \lambda_{n-1}$ and a matrix $K$ such that $KH^*=H^*K=0$ such that
-\[A= \frac{\langle H^*,A\rangle }{n^2} H^* +\sum_{i=1}^{n-1}\lambda_1(e_{i,i}-e_{i+1,i+1})+K.\]
-And in particular the following equality holds  
-\[ \|A\| =\max(A-K,K).\]
-\end{lemma}
-\begin{proof} The $n$ vectors in $v^tH^*$ and $v^t(e_{i,i}-e_{i+1,i+1})$ for $i=1,\dots, n-1$ are linearly independent in $\RR^n$ because the sum of the entries of all but the first one vanish. It follows that $v^tA$ can be expressed uniquely as a linear combination of them 
-
-
-\end{proof}
-
-
-
-\bibliographystyle{abbrv}
-\bibliography{lit}
-
-
-
-\end{document}
