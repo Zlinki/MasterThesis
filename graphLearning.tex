@@ -123,7 +123,7 @@ Bogot\'a, Colombia
 Secondary 15B52,52A22} % Random matrices, Random Convex sets and integral geometry
 \keywords{Compressed sensing, truncated moment problems, Kostlan-Shub-Smale polynomials}
 
-\begin{abstract} We study the problem of learning the cluster structure of a random graph $\grG$ from an independent sample. We propose a Wasserstein robust formulation of this optimization problem and prove that it can be reformulated as a tractable convex optimization problem. We give theoretical exact recovery guarantees for this problem when the Wasserstein metric is induced by the nuclear norm and $\grG$ is distributed according to the stochastic block model. Finally we present our Julia implementation of the proposed algorithm and show its numerical performance on synthetic data.
+\begin{abstract} We study the problem of learning the cluster structure of a random graph $\grG$ from an independent sample. We propose a Wasserstein robust formulation of this optimization problem and prove that it leads to a tractable convex optimization problem. We give theoretical exact recovery guarantees for this problem when the Wasserstein metric is induced by the nuclear norm and $\grG$ is distributed according to the stochastic block model. Finally we present our Julia implementation of the proposed algorithm and show its numerical performance on synthetic data.
 \end{abstract} 
 
 \title{Graph clustering and the nuclear Wasserstein metric.}
@@ -215,8 +215,7 @@ Finally we focus on the practical performance of the proposed algorithm. Solving
 \subsection{Relation to previous work.}
 \label{Sec: PreviousWork}
 
-Understanding structural properties of graphs is a problem of high interest since graphs appear naturally in many areas. The problem of finding communities in a graph is one of the most studied tasks in machine learning, with  applications to Biology \cite{cabreros2016detecting, cline2007integration,xu2002clustering}, social data understanding \cite{domingos2001mining,mishra2007clustering,newman2002random} and other general machine learning tasks such as natural language processing \cite{collobert2011natural,ratinov2009design}. One of the reasons of the importance of this problem is that it allows researchers to organize datasets into sets of similar observations, an then apply learning algorithms on each of the sets.  
-Most theoretical results in the community detection problem occur in the context of generative random graph models. Of these the most studied is the stochastic block model~\cite{abbe2017community} which is particularly important since in it communities are defined a priori and thus there is a formally specified underlying true cluster structure with which the output of algorithms can be compared.
+Understanding structural properties of graphs is a problem of high interest since these appear naturally in many areas. The problem of finding communities in a graph is one of the most studied tasks in machine learning, with  applications to Biology \cite{cabreros2016detecting, cline2007integration,xu2002clustering}, social data understanding \cite{domingos2001mining,mishra2007clustering,newman2002random} and other general machine learning tasks such as natural language processing \cite{collobert2011natural,ratinov2009design}. Most theoretical results in the community detection problem occur in the context of generative random graph models. Of these the most studied is the stochastic block model~\cite{abbe2017community} which is particularly important since in it communities are defined a priori and thus there is a formally specified underlying true cluster structure with which the output of algorithms can be compared.
 
 There are three main approaches for the problem of community detection on a (single) graph: 
 
@@ -232,7 +231,7 @@ There are three main approaches for the problem of community detection on a (sin
 The results in this article differ from previous work in two main accounts:
 
 \begin{enumerate}
-\item Our methods apply to the problem of learning from {\it several} samples while, to the best of our knowledge, the above algorithms must be applied apply to a single graph. Practicioners resort to several ``graph combination" methods to transform datasets consisting of several samples into one. Our methods do not require this additional pre-processing step and are able to use the additional information contained in several samples to obtain more accurate recovery (see Section~\ref{Numerics})
+\item Our methods apply to the problem of learning a graph from a set consisting of {\it several} samples while, to the best of our knowledge, the above algorithms must be applied to a single graph. Practicioners resort to several ``graph combination" methods to transform datasets consisting of several samples into one. Our methods do not require this additional pre-processing step and are able to use the additional information contained in several samples to obtain more accurate recovery (see Section~\ref{Numerics})
 
 \item Formulating learning problems as Wasserstein robust optimization problems leads to regularization algorithms in a principled way. Even in the single-sample case this leads to improvements in performance when compared for instance with the sparse+low-rank approach (see Section~\ref{Numerics}).
 \end{enumerate}
@@ -988,6 +987,9 @@ Results are shown in figure \ref{fig:differentNorms}.
 Note that the recovery error of the mean graph decreases as more observations are considered. However it is still far off the true cluster structure even for 7 observations. By contrast, even with 3 observations our nuclear norm method is capable of recovering the true cluster structure in a wide range of $\delta$s. 
   
 It is important to ask how fast does  the algorithm converge to the true cluster structure as the number of samples $N$ grows. The following figures shows that this convergence occurs very quickly (at least for the stochastic block model), and thus that the Wasserstein summarization algorithm is a potentially useful approach.
+
+All Julia code used for building the simulations in this section is available at \mv{link de Daniel en GitHub}.
+
 
 \begin{figure}
      \centering
