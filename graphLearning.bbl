@@ -22,6 +22,12 @@ B.~P. Ames and S.~A. Vavasis.
   problems.
 \newblock {\em Mathematical programming}, 129(1):69--89, 2011.
 
+\bibitem{ColumbiaAlvaro}
+J.~Blanchet, Y.~Kang, and K.~Murthy.
+\newblock Robust wasserstein profile inference and applications to machine
+  learning.
+\newblock {\em arXiv preprint arXiv:1610.05627}, 2016.
+
 \bibitem{bordenave2015non}
 C.~Bordenave, M.~Lelarge, and L.~Massouli{\'e}.
 \newblock Non-backtracking spectrum of random graphs: community detection and
@@ -118,6 +124,12 @@ F.~Krzakala, C.~Moore, E.~Mossel, J.~Neeman, A.~Sly, L.~Zdeborov{\'a}, and
 \newblock Spectral redemption in clustering sparse networks.
 \newblock {\em Proceedings of the National Academy of Sciences},
   110(52):20935--20940, 2013.
+
+\bibitem{LinChenMa}
+Z.~Lin, M.~Chen, and Y.~Ma.
+\newblock The augmented lagrange multiplier method for exact recovery of
+  corrupted low-rank matrices.
+\newblock {\em arXiv preprint arXiv:1009.5055}, 2010.
 
 \bibitem{massoulie2014community}
 L.~Massouli{\'e}.

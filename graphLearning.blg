@@ -3,49 +3,49 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: graphLearning.aux
 The style file: abbrv.bst
 Database file #1: lit.bib
-I was expecting an "="---line 30 of file lit.bib
+I was expecting an "="---line 38 of file lit.bib
  : <<<<<<< 
  :         HEAD
 I'm skipping whatever remains of this entry
-You've used 29 entries,
+You've used 31 entries,
             2118 wiz_defined-function locations,
-            684 strings with 9620 characters,
-and the built_in function-call counts, 12024 in all, are:
-= -- 1227
-> -- 560
+            695 strings with 9986 characters,
+and the built_in function-call counts, 12568 in all, are:
+= -- 1277
+> -- 596
 < -- 11
-+ -- 219
-- -- 190
-* -- 875
-:= -- 1897
-add.period$ -- 95
-call.type$ -- 29
-change.case$ -- 180
++ -- 234
+- -- 202
+* -- 909
+:= -- 1999
+add.period$ -- 101
+call.type$ -- 31
+change.case$ -- 192
 chr.to.int$ -- 0
-cite$ -- 29
-duplicate$ -- 451
-empty$ -- 920
-format.name$ -- 190
-if$ -- 2574
+cite$ -- 31
+duplicate$ -- 471
+empty$ -- 954
+format.name$ -- 202
+if$ -- 2680
 int.to.chr$ -- 0
-int.to.str$ -- 29
-missing$ -- 29
-newline$ -- 148
-num.names$ -- 58
-pop$ -- 181
+int.to.str$ -- 31
+missing$ -- 31
+newline$ -- 158
+num.names$ -- 62
+pop$ -- 193
 preamble$ -- 1
-purify$ -- 151
+purify$ -- 161
 quote$ -- 0
-skip$ -- 344
+skip$ -- 358
 stack$ -- 0
-substring$ -- 890
-swap$ -- 141
+substring$ -- 901
+swap$ -- 143
 text.length$ -- 11
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 116
+type$ -- 124
 warning$ -- 0
-while$ -- 120
-width$ -- 31
-write$ -- 327
+while$ -- 124
+width$ -- 33
+write$ -- 347
 (There was 1 error message)

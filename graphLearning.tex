@@ -74,6 +74,8 @@
 \newcommand{\Osh}{{\mathcal O}}
 \newcommand{\kk}{\kappa}
 \newcommand{\rank}{\operatorname{rank}}
+\newcommand{\prox}{\operatorname{prox}}
+
 \newcommand{\codim}{\operatorname{codim}}
 \newcommand{\conv}{\operatorname{conv}}
 \newcommand{\D}{{\mathcal D}}
@@ -561,7 +563,7 @@ It follows from $(1)$ that the two summands in $C=-\frac{2\delta}{n}H^* +\sum_{s
 by the triangle inequality and $(2)$ the second term is bounded by $2b(\Gamma,\delta)$ and thus the spectral norm equals $2\delta$ since $b(\Gamma,\delta)<\delta$. We conclude that $-C\in \partial g(A^*)$ as claimed.
 \end{proof}
 
-\begin{remark} We believe that a similar argument should explain the very good experimental behavior of the WRNNS in the case of several clusters but we have not yet been able to prove this is the case. A fundamental difficulty is that the dimension of the kernel of the matrix $H^*$ for three or more clusters is much smaller restricting the space of possible transportation plans $\gamma_{ij}^{st}$ which are obviously spectral-norm preserving.
+\begin{remark} We believe that a similar argument should explain the very good experimental behavior of the WRNS in the case of several clusters but we have not yet been able to prove this is the case. A fundamental difficulty is that the dimension of the kernel of the matrix $H^*$ for three or more clusters is much smaller restricting the space of possible transportation plans $\gamma_{ij}^{st}$ which are obviously spectral-norm preserving.
 \end{remark}
 
 
@@ -691,65 +693,54 @@ and we let $\delta^*$ be a maximizer of this function in the interval $[0,\min(\
 
 
 
-\section{An algorithm for Wasserstein nuclear norm summarization }
+\section{A numerical algorithm for Wasserstein nuclear norm summarization }
 
 
 
-Solving the optimization problems appearing in Theorem~\ref{Thm: tractable} require solving large semidefinite programs which are beyond the  capacity of standard off-the-shelf software even for relatively small graphs (of say $70$ vertices with $N=4$). One possible reason is that off-the-shelf solvers often use interior point methods, which are highly accurate but tend to not scale well. A better alternative, especially well suited WRNNS is to use first order numerical optimization methods such as ADMM.
+Solving the optimization problems appearing in Theorem~\ref{Thm: tractable} require solving large semidefinite programs which are beyond the  capacity of standard off-the-shelf software even for relatively small graphs (of say $70$ vertices with $N=4$). One possible reason is that off-the-shelf solvers often use interior point methods, which are highly accurate but tend to not scale well. A better alternative, especially well suited for WRNS is to use first order numerical optimization methods such as ADMM.
 
-In this section, we provide an algorithm specially adapted for the Wassesrtein nuclear norm summarization. It is based on a variation of the Alternating Direction Method of Multipliers (ADMM) called Global Variable consensus with regularization. Our algorithm is a specialization of results of Boyd given in \cite{boyd2011distributed}.
+In this section, we provide an algorithm specially adapted for the Wassesrtein nuclear norm summarization. It is based on a variation of the Alternating Direction Method of Multipliers (ADMM) called Global Variable consensus with regularization. Our algorithm is a specialization of the general ADMM in the same spirit as~\cite{LinChenMa}.
 
 
 \subsection{Global Variable consensus with regularization}
 
 
-The general form of Global Variable consensus with regularization is given by 
+Let $N$ be a positive integer. For $i=1,\dots, N$ let $f_i,g$ be convex real-valued functions in $\RR^m$. The general form of Global Variable consensus with regularization is given by 
+
+
 
 \begin{equation}\label{GVC}
 \begin{aligned}
-& \text{Minimize   } \sum_{i=1}^n f_i(x_i)+g(z) \\
+& \text{Minimize   } \sum_{i=1}^N f_i(x_i)+g(z) \\
 &\text{Subject to: } x_i-z = 0, \ \ i=1,..,N. 
 \end{aligned}
 \end{equation}
 
+with Lagrangian given by
+\[L_\rho(x_1,\dots, x_N,y_1,\dots, y_N,z)= g(z)+\sum_{i=1}^N \left(f_i(x_i) + y_i^t(x_i-z) + \frac{\rho}{2}\|x_i-z\|_2\right)\]
 
-\mv{where the $f_i$ and $g$ are functions from $\RR^m$ to $\RR$ satisfying... }
-
-To solve this optimization problem, ADMM does iterative rounds of minimization of the primal and dual variables. For certain functions, (for instance the $\ell_1$-norm and crucially for us, the nuclear norm) these minimization problems admit analytic closed form expressions. 
-
-
-The general algorithm to solve this optimization problem consists of the following  two steps~ \cite{boyd2011distributed}:
-
+To solve this optimization problem, ADMM does iterative rounds of minimization of the primal and dual variables. For certain functions (for instance the $\ell_1$-norm and crucially for us, the nuclear norm) these minimization problems admit analytic closed form expressions.  The general algorithm (see~\cite[pg. 52]{boyd2011distributed}) to solve this optimization problem begins by initializing $x^0_i$, $y^0_i$ for $i=1,..,N$, $\rho>0$ and $z^0$ arbitrarily and carrying out the following steps for $k\geq 1$ assuming $x_i^k,y_i^k$ and $z^k$ have been defined,
 \begin{enumerate}
-\item initialize $x^0_i$, $y^0_i$ for $i=1,..,N$, $\rho>0$ and $z^0$.
-\item Set $ \text{Set } \bar{x}^{k} = \frac{1}{N}\sum_{i=1}^N x_i $ and $\bar{y}^{k} = \frac{1}{N}\sum_{i=1}^N y_i $.
-\item $x_i^{k+1} = \argmin_{x_i} \left( f_i(x_i) + \left \langle y_i^k,x_i-z_k \right \rangle +\frac{\rho}{2}\|x_i-z^k\|_2^2\right ).$
+\item Set $ \bar{x}^{k} = \frac{1}{N}\sum_{i=1}^N x_i $ and $\bar{y}^{k} = \frac{1}{N}\sum_{i=1}^N y_i $.
+\item For $i=1,\dots, N$ set
+\[x_i^{k+1} = \argmin_{x_i} \left( f_i(x_i) + \left \langle y_i^k,x_i-z^k \right \rangle +\frac{\rho}{2}\|x_i-z^k\|_2^2\right ).\]
+
 \item $z^{k+1} = \argmin_z \left (g(z)+\frac{N\rho}{2}\|z^k-\bar{x}^{k+1} -\frac{1}{\rho}\bar{y}^k \|_2^2 \right ).$
 \item $y_i^{k+1} = y_i^k + \rho(x_i^{k+1}-z^{k+1}).$
 \end{enumerate}
-\mv{Where $\epsilon_1,\epsilon_2$, $\rho$ are chosen how?}
 
+%This algorithm converges under very general circumstances~\cite[Section 3.2]{boyd2011distributed}. For The Global Variable consensus with regularization, t
 
-
-
-This algorithm converges under very general circumstances, which can be easily checked for problem \ref{WRNNS} :\mv{Referencia??}
-
-Stopping criteria are derived using the dual and primal residuals  \cite{boyd2011distributed}.
-For The Global Variable consensus with regularization, the 
-primal residual on the $k-$step is: 
+The primal residual on the $k$-th step is defined as: 
 
 \[
 r^k:=(x_1^k-z^k,x_2^k-z^k,...,x_N^k-z^k)
 \]
-and the dual residual in the $k-$step
+and the dual residual in the $k$-th step as
 \[
 s^k:= -\rho(z^k-z^{k-1})
 \]
-Given $\varepsilon_1,\varepsilon_2$, the stopping criteria is given by
-\[
-\|r^k\|_2 \leq \varepsilon_1 \text{ and } s^k \leq \varepsilon_2.
-\]
-
+We use as stopping criteria that the norms of both residuals are below a given tolerance parameter. This choice leads to a computable upper bound on suboptimality of the $k$-th iterate as shown in~\cite[Section 3.3]{boyd2011distributed}. 
 
 
 %las condiciones son que f y g sean propias, cerradas y convexas. mas aun, el lagrangiano no aumentado $L_0$ debe tener un punto de silla. deberiamos incluir una demostracion de esto? mas explicitamente, la condicion es que 
@@ -761,61 +752,49 @@ Given $\varepsilon_1,\varepsilon_2$, the stopping criteria is given by
 
 \subsection{Specialization to the Wasserstein nuclear norm summarization}
 
-
-\begin{definition}
-Let $f$ be a convex function, $\rho > 0$. The proximal operator of $f$ at $w$ is defined as:
-
+If $f$ is a convex function and $\rho > 0$ then the proximal operator of $f$ at $w$ is defined as:
 \[
-prox_{f,\rho}(w) = \argmin_{z} f(z)+ \frac{\rho}{2}\|z-w\|_2^2
+\prox_{f,\rho}(w) = \argmin_{z} \left(f(z)+ \frac{\rho}{2}\|z-w\|_2^2\right)
 \]
-
-\end{definition}
-
-\mv{No entiendo nada de lo que esta abajo, cuales son matrices y cuales escalares, de que norma estamos hablando??}
-
-\begin{claim}
-if $\|\cdot\|_*$ denotes the nuclear norm, and if $w$ is a matrix with singular value decomposition $USV^t$ then,
-\[
-UP_{\epsilon}V^t = \argmin_x \epsilon\|x\|_* + \frac{1}{2}\|x-w\|_2^2.
-\]
-Where
-\[
-P_\epsilon=\begin{cases}
-x - \epsilon \text{ if } x>\epsilon \\
-x+\epsilon \text{ if }x< -\epsilon\\
-0 \text{ in any other case. }
+Note steps $(3)$ and $(4)$ of ADMM are computations of certain proximal operators. 
+The following Lemma shows that these operations can be computed via closed-form expressions for some functions of interest. To describe them we will use the soft-thresholding operator
+which on numbers $x\in \RR$ is defined by 
+\[ P_{\epsilon}(x)=\begin{cases}
+x-\epsilon\text{, if $x>\epsilon$}\\
+x+\epsilon\text{, if $x<-\epsilon$}\\
+0\text{, otherwise}
 \end{cases}
 \]
-and $P_\epsilon$ is applied component-wise.$P_\epsilon$ is usually called the soft-thresholding operator.
-\end{claim}
+and on vectors or matrices by applying it element-wise.
 
-
-\begin{claim}
-if $\|\cdot\|_1$ denotes the $l_1$ norm, then
+\begin{lemma}\label{lem:prox} The following statements hold~\cite{LinChenMa}:
+\begin{enumerate}
+\item If $\|\cdot\|_*$ denotes the nuclear norm, and if $w$ is a matrix with singular value decomposition $USV^t$ then,
 \[
-prox_{\|\cdot\|_1,\rho}(w) = \argmin_x \|x\|_1 + \frac{\rho}{2}\|x-w\|_2^2 = P_{\frac{1}{\rho}}(w).
+\prox_{\|\cdot\|_*,\frac{1}{\epsilon}}(w)=\argmin_x \left(\epsilon\|x\|_* + \frac{1}{2}\|x-w\|_2^2\right) = UP_{\epsilon}(S)V^t. 
 \]
-Where $P_{\frac{1}{\rho}}$ is applied component-wise. Moreover, if $c$ is any $n \times n$ matrix, then
+\item If $\|\cdot\|_1$ denotes the $l_1$ norm, then
 \[
-P_{\frac{1}{\rho}}(w)+c = \argmin_x \|x-c\|_1+\frac{\rho}{2}\|x-w\|_2^2.
+\prox_{\|\cdot\|_1,\rho}(w) = \argmin_x \left(\|x\|_1 + \frac{\rho}{2}\|x-w\|_2^2\right) = P_{\frac{1}{\rho}}(w).
 \]
+\end{enumerate}
 
-\end{claim}
+\end{lemma}
 
-Let $B_1,..,B_N$ of an $i.i.d$ sample of the random graph $\grG$. Let $n$ be the number of vertices of $\grG$ and $1$ denote the vector [1,..,1] of length $n$. To use the formulation given in \ref{GVC} to solve the problem we need the following change of variables:
+Let $B_1,..,B_N$ of an $i.i.d$ sample of the random graph $\grG$. Let $n$ be the number of vertices of $\grG$ and $1$ denote the vector [1,..,1] of length $n$. To use the formulation given in~(\ref{GVC}) to solve the problem we need the following change of variables:
 
 
 \begin{itemize}
 \item $C_i = 2B_i-11^t$.
 \item $Z = 2A-11^t$.
-\item $f_i(x_i) = \frac{1}{2}\|x_i-C_i\|_1$.
+\item $f_i(x_i) = \frac{1}{2N}\|x_i-C_i\|_1$.
 \item $g(z)=\|z\|_*$.
 \end{itemize}
 
-Our optimization problem reduces to the one given in \ref{GVC} and an algorithm to solve it is given by:
+Our optimization problem reduces to one as in~(\ref{GVC}). Using Lemma~\ref{lem:prox} the specialized ADMM algorithm for WRNS is given by:
 
 \begin{enumerate}
-\item $\text{initialize } \rho >0, \  x_i^0=0, \  y_i^0=0, \text{for } i=1,..,N \text{ and } z_0= \frac{1}{N}\sum_{i=1}^N C_i$.
+\item $\text{initialize } \rho >0, \  x_i^0=0, \  y_i^0=0, \text{for } i=1,..,N \text{ and } z_0= \frac{1}{N}\sum_{i=1}^N C_i$ and for $k\geq 1$ do:
 \item $ \text{Set } \bar{x}^{k} = \frac{1}{N}\sum_{i=1}^N x_i $ and $\bar{y}^{k} = \frac{1}{N}\sum_{i=1}^N y_i $.
 \item $x_i^{k+1}=P_{\frac{1}{2\rho}}(z^k-\frac{1}{\rho}y_i^k-C_i)+C_i$
 \item $z^{k+1} = UP_{\frac{\lambda}{N\rho}}(S)V^t$ with $USV^t = SVD(\bar{x}^{k+1}+\frac{1}{\rho}\bar{y}^k)$.
@@ -828,21 +807,24 @@ Our optimization problem reduces to the one given in \ref{GVC} and an algorithm 
 
 \subsection{Numerical simulations}
 \label{Numerics}
-In this Section we test the quality of recovery of Wasserstein robust nuclear norm summarization for community detection on graphs generated by the stochastic block model. To this end, we implemented an algorithm on Julia which creates random graphs that are distributed according to the stochastic block model. The input parameters are the following:
+In this Section we empirically test the recovery quality of Wasserstein robust nuclear norm summarization for community detection on graphs generated by the stochastic block model. 
+Our Julia~\cite{Julia} implementation of the algorithm is available in~\url{Zlinki}.
+
+For the tests, we first implemented a Julia script which creates random graphs that are distributed according to the stochastic block model. It's input parameters are the following:
 \begin{enumerate}
 \item $n$ : the number of vertices of the graph.
 \item $k$ : the number of clusters of the graph.
 \item $q$ : the probability of connecting two vertices that do not belong to the same cluster.
-\item $p_i$ for $i=1,..,k$: the probability of connecting two vertices that belong to the cluster $i$.
+\item $p_i$ for $i=1,..,k$: the probability of connecting two vertices that belong to cluster $i$.
 \end{enumerate}
 The output of this algorithm is the adjacency matrix of the generated graph. 
 
-We begin testing our algorithm by generating $3$ observations of a random graph \mv{De cuantos v\'ertices? con qu\'e $\alpha$ (ver teorema~\ref{thm. performance} para la definici\'on)} which is distributed according to the stochastic block model and running our algorithm for different values of $\delta$. Success of recovery will be evaluated by using the \textit{error of recovery}  which is given by the formula
+We begin testing our algorithm by generating $3$ observations of a random graph \mv{De cuantos v\'ertices? con qu\'e $\alpha$ (ver teorema~\ref{thm. performance} para la definici\'on)}. We then ran our algorithm for different values of $\delta$. Recovery success is evaluated by using the \textit{recovery error} given by the formula
 \[\|A^*-\bar{A}\|_1\]
 where $A^*$ is the true adjacency matrix of the underlying cluster structure and $\bar{A}$ is the optimum of the optimization problem.
-We present one such plot in \ref{fig:errorRecovery}. Notice that the true graph structure is exaclty recovered for certain values of $\delta$.
+We present one such plot in \ref{fig:errorRecovery}. Notice that the true graph structure is exactly recovered for certain values of $\delta$.
 This is intuitively clear from the Wasserstein robust formulation. If the size of the ball is too small, we won't capture the true distribution of the random graph. If it is too big, we will capture too many distributions and the worst case error will be high.
-Choosing a correct $\delta$ is therefore of the utmost importance. Our simulations suggest that the region where on can choose $\delta$ to obtain perfect recovery grows as more observations are added: see figures on \ref{fig:differentNorms}.
+Choosing a correct $\delta$ is therefore of the utmost importance. Our simulations suggest that the region where one can choose $\delta$ to obtain perfect recovery grows as more observations are added: see figures on \ref{fig:differentNorms}.
 \begin{figure}[h]
 \centering
 \includegraphics[width=1\textwidth]{./Pictures/ErrorRecovery.PNG}
@@ -850,7 +832,7 @@ Choosing a correct $\delta$ is therefore of the utmost importance. Our simulatio
  \label{fig:errorRecovery}
 \end{figure}
 
-As $\delta$ varies, the recovered graph changes as well. Figure   \ref{fig:recupera} Shows the recovered graph for different values of $\delta$. Note that the optimum of our algorithm does not necessarily entries in $\{0,1\}$ (except in the region with perfect recovery) and one might be tempted to round down the entries below certain threshold (say 0.4) and round up those above another threshold (say 0.6). However, it is not clear what to do with entries between both thresholds. 
+As $\delta$ varies, the recovered graph changes as well. Figure~\ref{fig:recupera} shows the recovered graphs for different values of $\delta$. Note that the optimum of our algorithm does not necessarily have entries in $\{0,1\}$ (except in the region with perfect recovery) and one might be tempted to round down the entries below certain threshold (say 0.4) and round up those above another threshold (say 0.6). However, it is not clear what to do with entries between both thresholds. 
 
 
 
@@ -911,7 +893,7 @@ As $\delta$ varies, the recovered graph changes as well. Figure   \ref{fig:recup
 
 
 Theorem \ref{thm: transport} assures that as long as $p_i > 0.5$ and $q< 0.5$ the probability of perfect recovery converges to $1$. The following experiments corroborate this result:
-We fix $n=50$, $k=2$, and let the first cluster have $15$ vertices and the second one $35$. We let $p =  p_1 = p_2$ vary between $0.5$ and $1$ and $q$ vary between $0$ and $0.5$.  For each pair $(p,q)$, we generate $N$ observations, run our algorithm and measure the error of recovery. We repeat this process $10$ times and store the mean error of recovery in a matrix.
+We fix $n=50$, $k=2$, and let the first cluster have $15$ vertices and the second one $35$. We let $p =  p_1 = p_2$ vary between $0.5$ and $1$ and $q$ vary between $0$ and $0.5$.  For each pair $(p,q)$, we generate $N$ observations, run our algorithm and measure the recovery error. We repeat this process $10$ times and store the mean error of recovery in a matrix.
 We present the heat maps of such matrices in Figure~\ref{fig:Variapq} for different values of $N$. 
 
 
@@ -944,24 +926,10 @@ We present the heat maps of such matrices in Figure~\ref{fig:Variapq} for differ
         \label{fig:Variapq}
 \end{figure}
 
+In the proof of theorem \ref{thm: transport}, the use of the spectral norm was crucial. Still, one might ask if other norms (say the $1$-norm, $2$-norm or $\infty$-norm) can also recover the underlying cluster structure.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-In theorem \ref{thm: transport}, the use of the spectral norm was crucial. Still, one might ask if other norms (say the $1$-norm, $2$-norm and $\infty$-norm) can recover the underlying cluster structure.
-
-To check this, We fix $n=50$, $k=2$ where the first cluster has $15$ vertices and the second one has $35$. We let $p_1 = p_2 = 0.70$ and $q=0.2$. We compute the error of recovery for different values of $\delta$. For recovery using the nuclear norm, we use the algorithm given in the previous section. For the $1$-norm, $2$-norm and $\infty$-norm we use the \textit{Mosek} implementation on Julia. 
-We also include the error of recovery of the graph obtained by simply averaging the observations, which we call the mean graph.
+To check this, We fix $n=50$, $k=2$ where the first cluster has $15$ vertices and the second one has $35$. We let $p_1 = p_2 = 0.70$ and $q=0.2$. We compute the error of recovery for different values of $\delta$. For recovery using the nuclear norm, we use the algorithm given in the previous section. For the $1$-norm, $2$-norm and $\infty$-norm we use the \textit{Mosek}~\cite{Mosek} implementation on Julia. 
+We also include the recovery error of the graph obtained by simply averaging the observations, which we call the mean graph.
 We repeat this experiment twice. First with $3$ observations and then with $7$.
 Results are shown in figure \ref{fig:differentNorms}.
 
@@ -986,7 +954,7 @@ Results are shown in figure \ref{fig:differentNorms}.
 
 Note that the recovery error of the mean graph decreases as more observations are considered. However it is still far off the true cluster structure even for 7 observations. By contrast, even with 3 observations our nuclear norm method is capable of recovering the true cluster structure in a wide range of $\delta$s. 
   
-It is important to ask how fast does  the algorithm converge to the true cluster structure as the number of samples $N$ grows. The following figures shows that this convergence occurs very quickly (at least for the stochastic block model), and thus that the Wasserstein summarization algorithm is a potentially useful approach.
+It is important to ask how fast does  the algorithm converge to the true cluster structure as the number of samples $N$ grows. The following figures show that this convergence occurs very quickly (at least for the stochastic block model), and thus that the Wasserstein summarization algorithm is a potentially useful approach.
 
 All Julia code used for building the simulations in this section is available at \mv{link de Daniel en GitHub}.
 
