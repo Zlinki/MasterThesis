@@ -145,7 +145,7 @@ Special cases of this problem arise in cluster detection and in data summarizati
 A possible approach to problem~\ref{Prob} is to use the samples to construct the empirical measure $\hat{\mu}:=\sum_{i=1}^N \frac{1}{N}\delta_{B_i}$ as an approximation of the distribution of $\grG$ and to find a minimizer $A$ of the resulting empirical risk
 \[ \EE_{B\sim \mu}[\|A-B\|_1]=\frac{1}{N}\sum_{i=1}^N \|A-B_i\|_1.\]
 
-This approach is consistent and will lead to an optimal solution as the sample size $N\rightarrow \infty$. However, when the sample size $N$ is not sufficienly large (typicaly one has few samples of very large graphs) for $\hat{\mu}$ to be a good approximation for the distribution of $\grG$ this approach leads to overfitting. To mitigate this problem we propose a robust version of Problem~\ref{Prob}. In the robust version one aims to minimize the worst-case risk when the distribution of $B$ is allowed to vary in a ball $\mathcal{N}_{\delta}(\hat{\mu})$ of radius $\delta>0$ centered at the empirical measure $\hat{\mu}$ in a suitable metric, leading to 
+This approach is consistent and will lead to an optimal solution as the sample size $N\rightarrow \infty$. However, when the sample size $N$ is not sufficiently large (typically one has few samples of very large graphs) for $\hat{\mu}$ to be a good approximation for the distribution of $\grG$ this approach leads to overfitting. To mitigate this problem we propose a robust version of Problem~\ref{Prob}. In the robust version one aims to minimize the worst-case risk when the distribution of $B$ is allowed to vary in a ball $\mathcal{N}_{\delta}(\hat{\mu})$ of radius $\delta>0$ centered at the empirical measure $\hat{\mu}$ in a suitable metric, leading to 
 
 \begin{problem}\label{ProbRobusto} Given adjacency matrices $B_1,\dots, B_N$ of an independent sample of $\grG$ find a symmetric matrix $\overline{A}$ which minimizes the robust worst-case risk 
 \[R_{\delta}(A):=\left(\sup_{\nu\in \mathcal{N}_{\delta}(\hat{\mu})} \EE_{B\sim \grG}[\|A-B\|_1]\right).\] 
@@ -212,6 +212,7 @@ which decreases exponentially with the sample size $N$.
 \end{theorem}
 
 The key point of the proof of Theorem~\ref{thm. performance}, discussed at length in Section~\ref{Clustering}, is that the subdifferential of the regularization term at $A^*$ is sufficiently rich so as to contain enough transportation matrices. This gives a geometric explanation for why the nuclear norm is a good regularizer for graph summarization problems.
+
  
 Finally we focus on the practical performance of the proposed algorithm. Solving the optimization problems appearing in Theorem~\ref{Thm: tractable} typically require solving large semidefinite programs which are beyond the  capacity of standard off-the-shelf software even for relatively small graphs (of say $40$ vertices with $N=4$). One possible reason is that off-the-shelf solvers often use interior point methods, which are highly accurate but often do not scale well. A better alternative, especially well suited for Wasserstein robust nuclear norm summarization is to use first order numerical optimization methods such as the alternating direction method of multipliers (ADMM). In Section~\ref{Numerics} we adapt the ADMM algorithm to our regularized problem and present our open source Julia implementation. This implementation can run the Wasserstein nuclear norm summarization algorithm in graphs of up to 10000 vertices and $N\leq 10$ on a common laptop. 
 
@@ -329,7 +330,7 @@ we therefore conclude that
 Letting $A$ vary in $K$ we prove the Theorem.
 \end{proof}
 
-Our second results gives a simplification of the previous problem which agrees with it when problem \ref{ProbRobusto} has an optima which occurs at a matrix with entries in $\{0,1\}$. The proof is similiar to the proof of \ref{thm: finiteConvex}.
+Our second results gives a simplification of the previous problem which agrees with it when problem \ref{ProbRobusto} has an optima which occurs at a matrix with entries in $\{0,1\}$. The proof is similar to the proof of \ref{thm: finiteConvex}.
 
 
 \begin{proof}[Proof of Theorem~\ref{Thm: tractable}]
@@ -507,7 +508,7 @@ a(\Gamma,\delta) = -\sum_{ij \in U}\left( \widetilde{\Gamma}_{ij}+ \frac{2\delta
 
 If $b(\Gamma,\delta)< a(\Gamma,\delta)$ then we could modify the matrix $\widetilde{C}$ by increasing the entries of $\widetilde{C}$ in $V$ and decreasing those in $U$ by the same amount by adding transportation matrices so as to make the inequality valid in all entries. In the remainder of the proof we show that this process can be carried out while at the same time controlling the spectral norm of $C$.
 
-Since $b(\Gamma,\delta)<a(\Gamma,\delta)$ there exist nonnegative scalars $\gamma_{ij}^{st}$ for $ij\in U$ and $st\in V$ which tell us how much of the amount in entry $ij\in U$ has to be moved to entry $st\in V$. More preciselt, the numbers $\gamma_{ij}^{st}$ satisfy the following inequalities:
+Since $b(\Gamma,\delta)<a(\Gamma,\delta)$ there exist nonnegative scalars $\gamma_{ij}^{st}$ for $ij\in U$ and $st\in V$ which tell us how much of the amount in entry $ij\in U$ has to be moved to entry $st\in V$. More precisely, the numbers $\gamma_{ij}^{st}$ satisfy the following inequalities:
 
 \begin{equation}\label{ineqs1}
 \forall st\in V\left( \widetilde{\Gamma_{st}}  \leq -\frac{2\delta}{n} +\sum_{ij\in U}\gamma_{ij}^{st}\right) \text{ and } \forall st\in U\left( \widetilde{\Gamma_{st}} \leq -\frac{2\delta}{n} -\sum_{ij\in V}\gamma_{st}^{ij}\right).
@@ -1165,5 +1166,4 @@ In practice, $\delta$ could be chosen by using a trial and error methodology, al
         \caption{Simulation results for the average error of recovery (over $10$ trials) for different values of $p$ and $q$ with $N$ observations. $\delta = 1.5$ for the first two figures and $0.8$ for the other two. Dark purple indicates 0 error while brighter colors indicate a higher error.}
         \label{fig:Variapq}
 \end{figure}
-
 
