@@ -135,38 +135,39 @@ Secondary 15B52,52A22} % Random matrices, Random Convex sets and integral geomet
 \section{Introduction}
 
 
-Let $\grG$ be a random graph with $n$ vertices. By a deterministic summary of $\grG$ we mean a (deterministic) graph $H^*$ which, on average, differs from $\grG$ by as few edges as possible. In this article we study the problem of finding deterministic summaries {\it from an independent sample} of $\grG$ of size $N$. More precisely we address the following problem:
+Let $\grG$ be a random undirected graph with $n$ vertices. By a deterministic summary of $\grG$ we mean a (deterministic) graph $H^*$ which, on average, differs from $\grG$ by as few edges as possible. In this article we study the problem of finding deterministic summaries of random graphs {\it from an independent sample} of size $N$. More precisely we address the following problem:
 
-\begin{problem}\label{Prob} Given adjacency matrices $B_1,\dots, B_N$ of an independent sample of $\grG$ find a symmetric matrix $A^*$ in $\argmin_A \EE_{B\sim \grG}[\|A-B\|_1]$. 
+\begin{problem}\label{Prob} Given adjacency matrices $B_1,\dots, B_N$ of an independent sample of $\grG$ of size $N$ find a symmetric matrix $A^*$ in $\argmin_A \EE_{B\sim \grG}[\|A-B\|_1]$. 
 \end{problem}
 
 Special cases of this problem arise in cluster detection and in data summarization, both heavily studied in the literature (see Section~\ref{Sec: PreviousWork} for details).
 
-A possible approach to problem~\ref{Prob} is to use the samples to construct the empirical measure $\hat{\mu}:=\sum_{i=1}^N \frac{1}{N}\delta_{B_i}$ as an approximation of the distribution of $\grG$ and to find a minimizer $A$ of the resulting empirical risk
+A possible approach to Problem~\ref{Prob} is to use the samples to construct the empirical measure $\hat{\mu}:=\sum_{i=1}^N \frac{1}{N}\delta_{B_i}$ as an approximation of the distribution of $\grG$ and to find a minimizer $A$ of the resulting empirical risk
 \[ \EE_{B\sim \mu}[\|A-B\|_1]=\frac{1}{N}\sum_{i=1}^N \|A-B_i\|_1.\]
 
 This approach is consistent and will lead to an optimal solution as the sample size $N\rightarrow \infty$. However, when the sample size $N$ is not sufficiently large (typically one has few samples of very large graphs) for $\hat{\mu}$ to be a good approximation for the distribution of $\grG$ this approach leads to overfitting. To mitigate this problem we propose a robust version of Problem~\ref{Prob}. In the robust version one aims to minimize the worst-case risk when the distribution of $B$ is allowed to vary in a ball $\mathcal{N}_{\delta}(\hat{\mu})$ of radius $\delta>0$ centered at the empirical measure $\hat{\mu}$ in a suitable metric, leading to 
 
-\begin{problem}\label{ProbRobusto} Given adjacency matrices $B_1,\dots, B_N$ of an independent sample of $\grG$ find a symmetric matrix $\overline{A}$ which minimizes the robust worst-case risk 
+\begin{problem}\label{ProbRobusto} Given adjacency matrices $B_1,\dots, B_N$ of an independent sample of $\grG$ find a symmetric matrix $\overline{A}$ which minimizes the robust worst-case risk given by
 \[R_{\delta}(A):=\left(\sup_{\nu\in \mathcal{N}_{\delta}(\hat{\mu})} \EE_{B\sim \grG}[\|A-B\|_1]\right).\] 
 \end{problem}
-The robust worst-case risk is obviously dependent on the chosen metric among probability distributions. In this article we will use the Wasserstein metric $W_{\|\bullet\|}$ induced by a norm $\|\bullet\|$ on the space $K$ of symmetric matrices with entries in $[0,1]$. More precisely, if $\nu_1,\nu_2$ are probability measures on $K$ and $\Pi(\nu_1,\nu_2)$ is the set of random variables $(Z_1,Z_2)$ taking values in $K\times K$  with $Z_i\sim \nu_i$ then the Wasserstein distance between $\nu_1$ and $\nu_2$ is given by 
+The robust worst-case risk is obviously dependent on the chosen metric among probability distributions. In this article we choose a norm $\|\bullet\|$ on the space $K$ of symmetric matrices with entries in $[0,1]$ and use the associated Wasserstein metric $W_{\|\bullet\|}$ as a distance in the space of probability distributions on $K$. More precisely, if $\nu_1,\nu_2$ are probability measures on $K$ and $\Pi(\nu_1,\nu_2)$ is the set of random variables $(Z_1,Z_2)$ taking values in $K\times K$  with $Z_i\sim \nu_i$ then the Wasserstein distance between $\nu_1$ and $\nu_2$ is given by 
 \[ W_{\|\bullet\|}(\nu_1,\nu_2):=\inf_{(Z_1,Z_2)\in \Pi(\nu_1,\nu_2)} \EE[\|Z_1-Z_2\|].\]
 
 The seminal work of Esfahani and Kuhn~\cite{EsfahaniKuhn} shows that robust formulations defined using the Wasserstein metric often lead to tractable convex optimization problems. Our first result is that this is also true for Problem~\ref{ProbRobusto} when the Wasserstein metric is induced by any semidefinitely representable norm.
 
 \begin{theorem}\label{thm: finiteConvex} Let $K$ be the set of $n\times n$ symmetric matrices with entries in $[0,1]$, let $\|\bullet\|$ be a norm on $K$ and let $\delta>0$. Problem~\ref{ProbRobusto} is equivalent to:
 \[\min_{(A,s_1,\dots, s_N,\lambda)\in \mathcal{T}}\left( \lambda\delta +\frac{1}{N}\sum_{i=1}^N s_i \right)\]
-where $\mathcal{T}$ is the set of $(A,\vec{s},\lambda)\in K\times \RR^n\times \RR$  satisfying the inequalities $\lambda\geq 0$ and $\eta_{E, i}(\lambda)\leq s_i$ as $i=1,\dots, N$ and $E$ ranges over the set of all $\{-1,1\}$-symmetric matrices, where
+where $\mathcal{T}$ is the set of $(A,\vec{s},\lambda)\in K\times \RR^n\times \RR$  satisfying the inequalities $\lambda\geq 0$ and $\eta_{E, i}(\lambda)\leq s_i$ with
 \[\eta_{E, i}(\lambda):= \sup_{Y\in K} \left(\langle E, A-Y\rangle -\lambda \|B_i-Y\|\right)\]
+for $i=1,\dots, N$ and $E$ ranging over the set of all symmetric matrices with entries in $\{-1,1\}$.
 \end{theorem}
 
-The reformulation in Theorem~\ref{thm: finiteConvex} transforms the problem into a finite-dimensional convex optimization problem which unfortunately contains  an exponential number of constraints. To address this problem we introduce:
+The reformulation in Theorem~\ref{thm: finiteConvex} transforms Problem~\ref{ProbRobusto} into a finite-dimensional convex optimization problem which unfortunately contains  an exponential number of constraints. To address this problem we introduce:
 \begin{enumerate}
-\item A more tractable simplification which agrees with the original problem whenever the optimal $\overline{A}$ occurs at a matrix with entries in $\{0,1\}$.
-\item A relaxation of $(1)$ which takes the form of a regularized empirical risk minimization problem.
+\item A more tractable relaxation which is exact (i.e. agrees with the original problem) whenever the optimal $\overline{A}$ occurs at a matrix with entries in $\{0,1\}$. This relaxation involves an inequality in the norm $\|\bullet\|_{*}$ dual to $\|\bullet\|$ and a linear (in $N$) number of additional constraints.
+\item A relaxation of $(1)$ which can be written as a regularized empirical risk minimization problem.
 \end{enumerate}
-leading to practical algorithms for graph summarization. More specifically, if $\mathcal{S}^{n\times n}$ denotes the space of real symmetric $n\times n$ matrices we prove the following 
+These two steps lead to practical algorithms for robust graph summarization in any semidefinitely representable metric $\|\bullet\|$. More specifically, if $\mathcal{S}^{n\times n}$ denotes the space of real symmetric $n\times n$ matrices we prove the following 
 
 \begin{theorem}\label{Thm: tractable}If $A$ is a symmetric $\{0,1\}$-matrix and $\delta>0$ then:
 \begin{enumerate}
@@ -189,37 +190,37 @@ where $\mathcal{H}$ is the set of $(\lambda, s_1,\dots, s_N,\Lambda, W)\in \RR\t
 Moreover, if $\|\cdot\|$ is a semidefinitely representable function then both $(1)$ and the minimization of the right hand side of $(2)$ for $A\in K$ are semidefinite programming problems.
 \end{theorem}
 
-Solving the optimization problems in Theorem~\ref{Thm: tractable} leads to a new algorithm for estimating deterministic graph summaries which we call {\it Wasserstein robust graph summarization}. We carried out extensive numerical experiments applying this algorithm to a variety of graphs $G$ distributed according to the stochastic block model and observed that the regularized problem with the Wasserstein metric {\it induced by the spectral norm} was able to recover the correct cluster structure using only very few samples outperforming all others. This leads us to propose the {\it Wasserstein robust nuclear norm summarization problem}, given by
+Solving the optimization problems in Theorem~\ref{Thm: tractable} leads to a new algorithm for estimating deterministic graph summaries which we call {\it Wasserstein robust graph summarization}. We carried out extensive numerical experiments applying this algorithm to a variety of graphs $\grG$ distributed according to the stochastic block model and observed that the regularized problem with the Wasserstein metric {\it induced by the spectral norm} was able to recover the correct cluster structure using only very few samples outperforming all others. This leads us to propose the {\it Wasserstein nuclear norm robust summarization problem}, given by
 
 \begin{equation}\label{WRNNS}
 \min_{A\in K} \left(\frac{1}{N}\sum_{i=1}^N\|A-B_i\|_1+ \delta\|2A-11^t\|_*\right) 
 \end{equation}
 
-where the nuclear norm $\|B\|_*$ of a matrix $B$ is the dual of the spectral norm and equals the sum of its singular values.
+where the nuclear norm $\|B\|_*$ of a matrix $B$ is the dual of the spectral norm (i.e. $\|B\|_*$ is equal to the sum of the singular values of $B$).
 
-A central result of this article is an exact recovery guarantee for this algorithm. 
-More precisely, we show that exact recovery occurs for suitable $\delta>0$ with overwhelming probability on samples distributed according to the stochastic block model, explaining the good practical performance of Wasserstein nuclear norm summarization in cluster detection. In order to describe our exactness guarantee we need to establish notation for the parameters of the stochastic block model. Recall that a random graph $\grG$ has distribution given by the stochastic block model in $n$ vertices if there is a partition of $[n]$ into disjoint subsets $C_1,\dots, C_k$, real numbers $0\leq q<\frac{1}{2}<p_1,\dots, p_k\leq 1$ and edges are added independently with probability $p_{ij}$ of joining vertices $i,j$ given by
+Our next result is an exact recovery guarantee for this optimization problem in the two-cluster case with the nuclear norm, giving theoretical validity to our empirical observations. More precisely, we show that exact recovery occurs for suitable $\delta>0$ with overwhelming probability (i.e. decreasing exponentially in $N$) on independent samples distributed according to the stochastic block model, explaining and proving the good practical performance of Wasserstein nuclear norm summarization in two-cluster detection. In order to describe our exactness guarantee we need to establish notation for the parameters of the stochastic block model with vertex set $[n]$. Suppose we are given a partition of $[n]$ into $\ell$ disjoint subsets $C_1,\dots, C_\ell$ and real numbers $0< q<\frac{1}{2}<p_1,\dots, p_\ell\leq 1$. We say that $\grG$ is distributed according to the stochastic block model with those parameters if edges are independent with probability $p_{ij}$ of joining vertices $i,j\in [n]$ given by
 \[p_{ij}:=\begin{cases}
 p_t\text{, if $\{i,j\}\subseteq C_t$}\\
 q\text{, else.}
 \end{cases}
-\] 
+\]
 Such a random graph $\grG$ has a unique deterministic summary $A^*$ obtained by putting edges only between vertices belonging to the same cluster.
 
-\begin{theorem}\label{thm. performance} Assume $\grG$ is a stochastic block model with $\ell=2$ clusters. Suppose $B_1,\dots, B_N$ are independent and are distributed according to $\grG$. If $\alpha = \min (|p_t-\frac{1}{2}|, |q-\frac{1}{2}|)$, $\delta^*=\frac{n\alpha}{4}$ and $a(\delta):=\frac{\delta\left(\alpha-\frac{\delta}{n}\right)^2}{n\left(1+\frac{2\delta}{n}\right)}$ then the probability that $A^*$ is not the unique minimizer of~(\ref{WRNNS}) is bounded above by
-\[ \exp\left(-\frac{2N(n-1)^3(\alpha n-\delta^*)^2}{n}\right) + e^{-N\left(\delta^* a(\delta^*)\right)}\prod_{i\neq j}\left(1+ (e^{-4a}\widetilde{p_{ij}}+\widetilde{q_{ij}})^{\frac{N}{2}}\right).\] 
-which decreases exponentially with the sample size $N$.
+\begin{theorem}\label{thm. performance} Assume $\grG$ is distributed according to the stochastic block model with $\ell=2$ clusters. Suppose $B_1,\dots, B_N$ are independent and are distributed according to $\grG$. If $\alpha = \min (|p_t-\frac{1}{2}|, |q-\frac{1}{2}|)$, $\delta^*=\frac{n\alpha}{4}$ and $a(\delta):=\frac{\delta\left(\alpha-\frac{\delta}{n}\right)^2}{n\left(1+\frac{2\delta}{n}\right)}$ then the probability that $A^*$ is not the unique minimizer of~(\ref{WRNNS}) is bounded above by
+\[ \exp\left(-\frac{2N(n-1)^3(\alpha n-\delta^*)^2}{n}\right) + e^{-N\left(\delta^* a(\delta^*)\right)}\prod_{i\neq j}\left(1+ (e^{-4a}\widetilde{p_{ij}}+\widetilde{q_{ij}})^{\frac{N}{2}}\right),\] 
+\mv{TODO: Habria que expresar todo en t\'erminos de las variables que se entienden hasta ac\'a, qu\'e son las $\widetilde{q_{ij}}$?}
+a quantity which decreases exponentially with the sample size $N$.
 \end{theorem}
 
 The key point of the proof of Theorem~\ref{thm. performance}, discussed at length in Section~\ref{Clustering}, is that the subdifferential of the regularization term at $A^*$ is sufficiently rich so as to contain enough transportation matrices. This gives a geometric explanation for why the nuclear norm is a good regularizer for graph summarization problems.
 
  
-Finally we focus on the practical performance of the proposed algorithm. Solving the optimization problems appearing in Theorem~\ref{Thm: tractable} typically require solving large semidefinite programs which are beyond the  capacity of standard off-the-shelf software even for relatively small graphs (of say $40$ vertices with $N=4$). One possible reason is that off-the-shelf solvers often use interior point methods, which are highly accurate but often do not scale well. A better alternative, especially well suited for Wasserstein robust nuclear norm summarization is to use first order numerical optimization methods such as the alternating direction method of multipliers (ADMM). In Section~\ref{Numerics} we adapt the ADMM algorithm to our regularized problem and present our open source Julia implementation. This implementation can run the Wasserstein nuclear norm summarization algorithm in graphs of up to 10000 vertices and $N\leq 10$ on a common laptop. 
+Finally we focus on the practical problems of carrying out {\it Wasserstein nuclear norm summarization}. Solving the optimization problem~(\ref{WRNNS}) typically requires solving large semidefinite programs which are beyond the  capacity of standard off-the-shelf software even for relatively small graphs (of say $40$ vertices with $N=4$). One possible reason is that most off-the-shelf solvers use interior point methods, which are highly accurate but often do not scale well. A better alternative, especially well suited for Wasserstein robust nuclear norm summarization is to use first order numerical optimization methods such as the alternating direction method of multipliers (ADMM). In Section~\ref{Numerics} we adapt the ADMM algorithm to our regularized problem and present our open source Julia implementation. This implementation can run the Wasserstein nuclear norm summarization algorithm in graphs of up to 10000 vertices and $N\leq 10$ on a common laptop. 
 
 \subsection{Relation to previous work.}
 \label{Sec: PreviousWork}
 
-Understanding structural properties of graphs is a problem of high interest since these appear naturally in many areas. The problem of finding communities in a graph is one of the most studied tasks in machine learning, with  applications to Biology \cite{cabreros2016detecting, cline2007integration,xu2002clustering}, social data understanding \cite{domingos2001mining,mishra2007clustering,newman2002random} and other general machine learning tasks such as natural language processing \cite{collobert2011natural,ratinov2009design}. Most theoretical results in the community detection problem occur in the context of generative random graph models. Of these the most studied is the stochastic block model~\cite{abbe2017community} which is particularly important since in it communities are defined a priori and thus there is a formally specified underlying true cluster structure with which the output of algorithms can be compared.
+Understanding structural properties of graphs is a problem of high interest since these appear naturally in many areas. The problem of finding communities in a graph is one of the most studied tasks in machine learning, with  applications to Biology \cite{cabreros2016detecting, cline2007integration,xu2002clustering}, social data understanding \cite{domingos2001mining,mishra2007clustering,newman2002random} and other general machine learning tasks such as natural language processing \cite{collobert2011natural,ratinov2009design}. Most theoretical results in the community detection problem occur in the context of generative random graph models. Of these the most studied is the stochastic block model~\cite{abbe2017community} which is particularly important since in it, communities are defined a priori and thus there is a formally specified underlying true cluster structure with which the output of algorithms can be compared.
 
 There are three main approaches for the problem of community detection on a (single) graph: 
 
@@ -815,29 +816,27 @@ Our Julia~\cite{Julia} implementation of the algorithm is available in~\url{http
 For the tests, we first implemented a Julia script which creates random graphs that are distributed according to the stochastic block model. It's input parameters are the following:
 \begin{enumerate}
 \item $n$ : the number of vertices of the graph.
-\item $k$ : the number of clusters of the graph.
+\item $k$ : the number of clusters of the graph.\mv{Faltan los tama\~nos de los clusters}
 \item $q$ : the probability of connecting two vertices that do not belong to the same cluster.
 \item $p_i$ for $i=1,..,k$: the probability of connecting two vertices that belong to cluster $i$.
 \end{enumerate}
-The output of this algorithm is the adjacency matrix of the generated graph. 
-
-We begin testing our algorithm by generating $3$ observations of a random graph with $50$ vertices, $3$ clusters of size $8,17,25$, with $p_1=p_2=p_3=0.65$ and $q=0.2$ For such graphs, $\alpha = 1.875$ (see Theorem ~\ref{thm. performance}). We then ran our algorithm for different values of $\delta$. Recovery success is evaluated by using the \textit{recovery error} given by the formula
-\[\|A^*-\bar{A}\|_1\]
+The output of this algorithm is the adjacency matrix of a sample of the resulting random graph. 
+We first tested our algorithm by generating $3$ independent observations of a random graph with $50$ vertices and $3$ clusters of sizes $8,17,25$, with $p_1=p_2=p_3=0.65$ and $q=0.2$ For such graphs, $\alpha = 1.875$ (see Theorem ~\ref{thm. performance}). We then ran our algorithm for different values of $\delta$. Recovery success is evaluated by using the \textit{recovery error} given by the formula $\|A^*-\bar{A}\|_1$
 where $A^*$ is the true adjacency matrix of the underlying cluster structure and $\bar{A}$ is the optimum of the optimization problem.
-We present one such plot in \ref{fig:errorRecovery}. Notice that the true graph structure is exactly recovered for certain values of $\delta$.
-This is intuitively clear from the Wasserstein robust formulation. If the size of the ball is too small, we won't capture the true distribution of the random graph. If it is too big, we will capture too many distributions and the worst case error will be high.
-Choosing a correct $\delta$ is therefore of the utmost importance. Our simulations suggest that the region where one can choose $\delta$ to obtain perfect recovery grows as more observations are added: see figures on \ref{fig:differentNorms}.
+We present one such plot in Figure~\ref{fig:errorRecovery}. Note that the true graph structure is exactly recovered for certain values of $\delta$.
+The shape of the error is what is to be expected from the Wasserstein robust formulation. If the size of the ball is too small, we won't capture the true distribution of the random graph. If it is too big, we will capture too many distributions and the worst case error will be high.
+Choosing a correct $\delta$ is therefore of the utmost importance. Our simulations suggest that the region where one can choose $\delta$ to obtain perfect recovery grows as more observations are added: see Figure~ \ref{fig:differentNorms}.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{./Pictures/ErrorRecoveryOK.PNG}
-\caption{\small{Recovery of the true cluster structure using $3$ observations on a graph with generated with the stochastic block model with $3$ clusters and $50$ vertices. Each cluster has $8,17$ and $25$ vertices respectively. The probability to connect two edges inside a cluster is set to $p=0.65$ for all clusters. The probability to connect two edges not in the same cluster is $q=0.2$. Notice how perfect recovery (i.e recovery with error $0$) is achieved for some values of $\delta$. }}
+\caption{\small{Recovery of the true cluster structure using $3$ observations on a graph generated with the stochastic block model with $3$ clusters and $50$ vertices. Each cluster has $8,17$ and $25$ vertices respectively. The probability to connect two vertices inside a cluster is set to $p=0.65$ for all clusters. The probability to connect two vertices not in the same cluster is $q=0.2$. Notice how perfect recovery (i.e recovery with error $0$) is achieved for some values of $\delta$. }}
  \label{fig:errorRecovery}
 \end{figure}
 
 
 
 
-Theorem \ref{thm: transport} assures that as long as $p_i > 0.5$ and $q< 0.5$ the probability of perfect recovery converges to $1$. The following experiments corroborate this result:
+Theorem \ref{thm: transport} assures that as long as $p_i > 0.5$ and $q< 0.5$ the probability of perfect recovery converges to $1$ as the number of samples increases. The following experiments corroborate this result:
 We fix $n=50$, $k=2$, and let the first cluster have $15$ vertices and the second one $35$. We let $p =  p_1 = p_2$ vary between $0.5$ and $1$ and $q$ vary between $0$ and $0.5$.  For each pair $(p,q)$, we generate $N$ observations, run our algorithm and measure the recovery error. We repeat this process $10$ times and store the mean error of recovery in a matrix.
 We present the heat maps of such matrices in Figure~\ref{fig:Variapq} for different values of $N$. 
 
@@ -856,10 +855,10 @@ We present the heat maps of such matrices in Figure~\ref{fig:Variapq} for differ
 
 In the proof of theorem \ref{thm: transport}, the use of the spectral norm was crucial. Still, one might ask if other norms (say the $1$-norm, $2$-norm or $\infty$-norm) can also recover the underlying cluster structure.
 
-To check this, We fix $n=50$, $k=2$ where the first cluster has $15$ vertices and the second one has $35$. We let $p_1 = p_2 = 0.70$ and $q=0.2$. We compute the error of recovery for different values of $\delta$. For recovery using the nuclear norm, we use the algorithm given in the previous section. For the $1$-norm, $2$-norm and $\infty$-norm we use the \textit{Mosek}~\cite{Mosek} implementation on Julia. 
+To check whether this is the case, we fix $n=50$, $k=2$ where the first cluster has $15$ vertices and the second one has $35$. We let $p_1 = p_2 = 0.70$ and $q=0.2$. We compute the recovery error for different values of $\delta$. For recovery using the nuclear norm, we use the ADMM algorithm given in the previous section. For the $1$-norm, $2$-norm and $\infty$-norm we use a \textit{Mosek}~\cite{Mosek} implementation on Julia. 
 We also include the recovery error of the graph obtained by simply averaging the observations, which we call the mean graph.
 We repeat this experiment twice. First with $3$ observations and then with $7$.
-Results are shown in figure \ref{fig:differentNorms}.
+Results are shown in figure \ref{fig:differentNorms}, where we can clearly see the primacy of our nuclear norm approach.
 
 
 \begin{figure}[H]
@@ -875,14 +874,15 @@ Results are shown in figure \ref{fig:differentNorms}.
          \includegraphics[width=\textwidth]{./Pictures/differentNorms7.PNG}
          \caption{$N=7$}
      \end{subfigure}
-\caption{Error of recovery for different values of $\delta$ using the Wasserstein robust nuclear norm graph summarization and the $l_1$,$l_2$ norms as regularizers. The recovery error of the mean graph is also included.}
+\caption{Recovery Error for different values of $\delta$ using the Wasserstein norm graph summarization associated to the nuclear norm, $l_1$ and $l_2$ norms as regularizers. The recovery error of the mean graph is also included.
+\mv{Aca quiero aclarar algo: Cual fue el regularizador y cual la norma usada para Wasserstein? (uno es dual del otro). Creo que deberiamos llamarlas segun la norma que se us\'o como regularizador, es decir los letreros de la gr\'afica estan mal, o al menos el que dice spectral}}
         \label{fig:differentNorms}
 \end{figure}
 
 
-Note that the recovery error of the mean graph decreases as more observations are considered. However it is still far off the true cluster structure even for 7 observations. By contrast, even with 3 observations our nuclear norm method is capable of recovering the true cluster structure in a wide range of $\delta$s. 
+%Note that the recovery error of the mean graph decreases as more observations are considered. However it is still far off the true cluster structure even for 7 observations. By contrast, even with 3 observations our nuclear norm method is capable of recovering the true cluster structure in a wide range of $\delta$s. 
   
-It is important to ask how fast does  the algorithm converge to the true cluster structure as the number of samples $N$ grows. The following figures show that this convergence occurs very quickly (at least for the stochastic block model), and thus that the Wasserstein summarization algorithm is a potentially useful approach.
+It is important to ask how fast does  the algorithm converge to the true cluster structure as the number of samples $N$ grows. The following figures show that this convergence occurs very quickly for the appropriate value of $\delta$ (at least for the stochastic block model), and thus that the Wasserstein summarization algorithm is a potentially useful approach.
 
 \begin{figure}[H]
      \centering
@@ -902,7 +902,7 @@ It is important to ask how fast does  the algorithm converge to the true cluster
 \end{figure}
 
 
-As $\delta$ varies, the recovered graph changes as well. Figure~\ref{fig:recupera} shows the recovered graphs for different values of $\delta$. Note that the optimum of our algorithm does not necessarily have entries in $\{0,1\}$ (except in the region with perfect recovery) and one might be tempted to round down the entries below certain threshold (say $0.4$) and round up those above another threshold (say $0.6$). However, it is not clear what to do with entries between both thresholds. 
+Finally, to better understand the dependency on $\delta$, we made a simulation studying how the optima of Wasserstein robust summarization with radius $\delta$ changes. Figure~\ref{fig:recupera} shows the recovered graphs for different values of $\delta$. The optimum of our algorithm does not necessarily have entries in $\{0,1\}$ (except in the region with perfect recovery) and one might be tempted to round down the entries below certain threshold (say $0.4$, drawn in green) and round up those above another threshold (say $0.6$, drawn in grey). However, it is not clear what to do with entries lying between both thresholds (drawn in orange). 
 
 \begin{figure}[H]
      \centering
